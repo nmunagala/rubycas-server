@@ -6,11 +6,6 @@ body {
     text-align: center; /* hack for IE */
 }
 
-label {
-  font-weight: bold;
-  font-size: 9px;
-}
-
 input {
   font-weight: normal;
   font-size: 12px;
@@ -19,13 +14,6 @@ input {
 input.button {
   /*font-weight: bold;*/
   font-size: 10px;
-}
-
-#login-box {
-  margin: 0 auto;
-  width: 350px;
-  top: 130px;
-  position: relative;
 }
 
 #headline-container {
@@ -49,16 +37,6 @@ input.button {
 #login-form-container {
   vertical-align: top;
 }
-
-#username,
-#password {
-  width: 10em;
-}
-
-#login-form {
-  padding: 20px;
-}
-
 
 #form-layout {
   position: relative;

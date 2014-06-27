@@ -371,7 +371,7 @@ module CASServer
       # action for the form, otherwise the server will try to guess this for you.
       if params.has_key? 'onlyLoginForm'
         if @env['HTTP_HOST']
-          guessed_login_uri = "http#{@env['HTTPS'] && @env['HTTPS'] == 'on' ? 's' : ''}://#{@env['REQUEST_URI']}#{self / '/login'}"
+          guessed_login_uri = "http#{@env['HTTPS'] && @env['HTTPS'] == 'on' ? 's' : ''}://#{@env['REQUEST_URI']}/login}"
         else
           guessed_login_uri = nil
         end
@@ -379,7 +379,7 @@ module CASServer
         @form_action = params['submitToURI'] || guessed_login_uri
 
         if @form_action
-          render :login_form
+          render @template_engine, :login
         else
           status 500
           render t.error.invalid_submit_to_uri
@@ -482,9 +482,11 @@ module CASServer
               }
             end
           end
-        else
+        else      
+          @form_action = "https://cas.navionics.com/cas/login"
           $LOG.warn("Invalid credentials given for user '#{@username}'")
           @message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
+          $LOG.warn("Rendering....#{@template_engine},  #{:login}")
           status 401
         end
       rescue CASServer::AuthenticatorError => e
