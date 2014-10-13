@@ -28,9 +28,9 @@
 # high-performance scenarios you may want to look into deploying using Mongrel
 # or Passenger.
 
-server: webrick
-port: 443
-ssl_cert: /path/to/your/ssl.pem
+#server: webrick
+#port: 443
+#ssl_cert: /path/to/your/ssl.pem
 
 # If your private key is in a separate file from the cert
 
@@ -99,6 +99,7 @@ ssl_cert: /path/to/your/ssl.pem
 #   i.e. `mysqladmin -u root create casserver`)
 
 database:
+  pool: 1
   adapter: mysql2
   database: navionics_dev
   username: root
@@ -118,6 +119,7 @@ database:
 #  username: root
 #  password:
 #  host: localhost
+
 
 #
 # Instead of MySQL you can use SQLite3, PostgreSQL, MSSQL, or anything else
@@ -300,6 +302,19 @@ database:
 # rather than their username. If you prefer to do this, then just
 # omit the auth_user and auth_password values in the above example.
 #
+authenticator:
+  class: CASServer::Authenticators::SQLEncrypted
+  database:
+    adapter: mysql2
+    database: navionics_dev
+    username: root
+    password:
+    server: localhost
+  user_table: users
+  username_column: email
+  password: encrypted_password
+  encrypt_function: 'user.encrypted_password == Digest::SHA1.hexdigest("--#{user.salt}--#{@password}--")'
+  extra_attributes: token, username
 #
 # === LDAP Authentication ======================================================
 #
@@ -464,9 +479,9 @@ infoline:
 # You may want to change the file to something like /var/log/casserver.log
 # Set the level to DEBUG if you want more detailed logging.
 
-log:
-  file: /var/log/casserver.log
-  level: INFO
+#log:
+#  file: /var/log/casserver.log
+#  level: INFO
 
 
 # If you want full database logging, uncomment this next section.
