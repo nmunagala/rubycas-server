@@ -99,8 +99,8 @@ ssl_cert: /path/to/your/ssl.pem
 #   i.e. `mysqladmin -u root create casserver`)
 
 database:
-  adapter: mysql
-  database: casserver
+  adapter: mysql2
+  database: navionics_dev
   username: root
   password:
   host: localhost
