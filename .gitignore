@@ -18,3 +18,4 @@ resources/dev
 .vagrant
 Vagrantfile
 Gemfile.lock
+.idea/*
