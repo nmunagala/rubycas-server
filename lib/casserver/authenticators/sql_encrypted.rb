@@ -76,34 +76,25 @@ def create_user(credentials)
   read_standard_credentials(credentials)
   raise_if_not_configured
 
-  username_column = @options[:username_column] || "username"
-  encrypt_function = @options[:encrypt_function] || 'user.encrypted_password == Digest::SHA256.hexdigest("#{user.encryption_salt}::#{@password}")'
+  salt = Digest::SHA1.hexdigest("--#{Time.now.utc.to_s}--#{credentials[:password]}--")
+  encrypted_pwd = Digest::SHA1.hexdigest("--#{salt}--#{credentials[:password]}--")
 
   #log_connection_pool_size
   $LOG.info(credentials[:nickname])
   $LOG.info(credentials[:email])
-  $LOG.info(credentials[:password])
+  $LOG.info(encrypted_pwd)
 
-  results = user_model.create({:nickname => credentials[:nickname], :email => credentials[:username], :encrypted_password => credentials[:password]})
+  user_model.connection_pool.checkin(user_model.connection)
+  results = user_model.create!({:nickname => credentials[:nickname], :email => credentials[:email], :encrypted_password => encrypted_pwd})
+
+  log_msg = "#{self.class}: [#{user_model}] "
+  log_msg += "Connection pool size: #{user_model.connection_pool.connections.length}"
+  log_msg += "/#{user_model.connection_pool.instance_variable_get(:@size)}"
+  $LOG.info log_msg
 
   $LOG.info("User created")
-  user_model.connection_pool.checkin(user_model.connection)
 
-  if results.size > 0
-    $LOG.warn("Multiple matches found for user '#{@username}'") if results.size > 1
-    user = results.first
-    unless @options[:extra_attributes].blank?
-      if results.size > 1
-        $LOG.warn("#{self.class}: Unable to extract extra_attributes because multiple matches were found for #{@username.inspect}")
-      else
-        extract_extra(user)
-        log_extra
-      end
-    end
-    return eval(encrypt_function)
-  else
-    return false
-  end
+  return results.size > 0
 end
 
 end

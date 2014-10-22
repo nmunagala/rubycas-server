@@ -936,8 +936,6 @@ module CASServer
    
           $LOG.info("before inserting user")
 
-          $LOG.info(auth)
-
           credentials_are_valid = auth.create_user({
             :nickname => @nickname,
             :email => @email,
@@ -990,7 +988,7 @@ module CASServer
           end
         else
           @form_action = "https://ec2-54-73-0-50.eu-west-1.compute.amazonaws.com/cas/signup"
-          $LOG.warn("Impossibile to create accoount for user '#{@username}'")
+          $LOG.warn("Impossibile to create account for user '#{@username}'")
           @message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
           $LOG.warn("Rendering....#{@template_engine},  #{:signup}")
           status 401
