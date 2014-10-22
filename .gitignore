@@ -19,3 +19,4 @@ resources/dev
 Vagrantfile
 Gemfile.lock
 .idea/*
+config.yml
