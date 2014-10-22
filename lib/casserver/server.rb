@@ -886,34 +886,40 @@ module CASServer
     post "#{uri_path}/signup" do
       Utils::log_controller_action(self.class, params)
 
+      $LOG.info("POST signup")
       # 2.2.1 (optional)
       @service = clean_service_url(params['service'])
+      $LOG.info("@service=#{@service}")
 
       # 2.2.2 (required)
-      @username = params['username']
+      @nickname = params['nickname']
+      @email = params['email']
       @password = params['password']
       @lt = params['lt']
+      $LOG.info("@nickname #{@nickname}, @email #{@email}, @password #{@password}")
 
       # Remove leading and trailing widespace from username.
-      @username.strip! if @username
+      @email.strip! if @email
 
-      if @username && settings.config[:downcase_username]
-        $LOG.debug("Converting username #{@username.inspect} to lowercase because 'downcase_username' option is enabled.")
-        @username.downcase!
+      if @email && settings.config[:downcase_username]
+        $LOG.debug("Converting username #{@email.inspect} to lowercase because 'downcase_username' option is enabled.")
+        @email.downcase!
       end
 
-      if error = validate_login_ticket(@lt)
-        @message = {:type => 'mistake', :message => error}
+#      if error = validate_login_ticket(@lt)
+#        @message = {:type => 'mistake', :message => error}
         # generate another login ticket to allow for re-submitting the form
-        @lt = generate_login_ticket.ticket
-        status 500
-        return render @template_engine, :signup
-      end
+#        @lt = generate_login_ticket.ticket
+#        status 500
+#        return render @template_engine, :signup
+#      end
+
+#      $LOG.info("ERROR: #{error}")
 
       # generate another login ticket to allow for re-submitting the form after a post
-      @lt = generate_login_ticket.ticket
+ #     @lt = generate_login_ticket.ticket
 
-      $LOG.debug("Logging in with username: #{@username}, lt: #{@lt}, service: #{@service}, auth: #{settings.auth.inspect}")
+  #    $LOG.debug("Logging in with username: #{@username}, lt: #{@lt}, service: #{@service}, auth: #{settings.auth.inspect}")
 
       credentials_are_valid = false
       extra_attributes = {}
@@ -927,16 +933,23 @@ module CASServer
           # pass the authenticator index to the configuration hash in case the authenticator needs to know
           # it splace in the authenticator queue
           auth.configure(auth_config.merge('auth_index' => auth_index))
+   
+          $LOG.info("before inserting user")
 
-          credentials_are_valid = Users.create({
-            :username => @username,
+          $LOG.info(auth)
+
+          credentials_are_valid = auth.create_user({
+            :nickname => @nickname,
+            :email => @email,
             :password => @password,
             :service => @service,
             :request => @env
-                                               })
+          })
+          $LOG.info("after inserting user")
+
           if credentials_are_valid
             @authenticated = true
-            @authenticated_username = @username
+            @authenticated_username = @email
             extra_attributes.merge!(auth.extra_attributes) unless auth.extra_attributes.blank?
             successful_authenticator = auth
             break
@@ -946,7 +959,7 @@ module CASServer
         end
 
         if credentials_are_valid
-          $LOG.info("Credentials for username '#{@username}' successfully created.")
+          $LOG.info("Account for username '#{@username}' successfully created.")
           $LOG.debug("Authenticator provided additional user attributes: #{extra_attributes.inspect}") unless extra_attributes.blank?
 
           # 3.6 (ticket-granting cookie)
@@ -976,8 +989,8 @@ module CASServer
             end
           end
         else
-          @form_action = "https://cas.navionics.com/cas/login"
-          $LOG.warn("Invalid credentials given for user '#{@username}'")
+          @form_action = "https://ec2-54-73-0-50.eu-west-1.compute.amazonaws.com/cas/signup"
+          $LOG.warn("Impossibile to create accoount for user '#{@username}'")
           @message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
           $LOG.warn("Rendering....#{@template_engine},  #{:signup}")
           status 401
