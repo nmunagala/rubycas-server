@@ -20,7 +20,7 @@ class CASServer::Authenticators::SQLEncrypted < CASServer::Authenticators::SQL
   module EncryptedPassword
     def self.included(mod)
       raise "#{self} should be inclued in an ActiveRecord class!" unless mod.respond_to?(:before_save)
-      mod.before_save :generate_encryption_salt
+      #mod.before_save :generate_encryption_salt
     end
 
     def encrypt(str)
@@ -33,8 +33,7 @@ class CASServer::Authenticators::SQLEncrypted < CASServer::Authenticators::SQL
     end
 
     def generate_encryption_salt
-      self.encryption_salt = Digest::SHA1.hexdigest(Crypt::ISAAC.new.rand(2**31).to_s) unless
-        encryption_salt
+      self.encryption_salt = Digest::SHA1.hexdigest(Crypt::ISAAC.new.rand(2**31).to_s) unless encryption_salt
     end
   end
 
@@ -84,8 +83,9 @@ def create_user(credentials)
   $LOG.info(credentials[:email])
   $LOG.info(encrypted_pwd)
 
+  log_connection_pool_size
   user_model.connection_pool.checkin(user_model.connection)
-  results = user_model.create!({:nickname => credentials[:nickname], :email => credentials[:email], :encrypted_password => encrypted_pwd})
+  results = user_model.create({:nickname => credentials[:nickname], :email => credentials[:email], :encrypted_password => encrypted_pwd})
 
   log_msg = "#{self.class}: [#{user_model}] "
   log_msg += "Connection pool size: #{user_model.connection_pool.connections.length}"
