@@ -78,21 +78,9 @@ def create_user(credentials)
   salt = Digest::SHA1.hexdigest("--#{Time.now.utc.to_s}--#{credentials[:password]}--")
   encrypted_pwd = Digest::SHA1.hexdigest("--#{salt}--#{credentials[:password]}--")
 
-  #log_connection_pool_size
-  $LOG.info(credentials[:nickname])
-  $LOG.info(credentials[:email])
-  $LOG.info(encrypted_pwd)
-
   log_connection_pool_size
   user_model.connection_pool.checkin(user_model.connection)
   results = user_model.create({:nickname => credentials[:nickname], :email => credentials[:email], :encrypted_password => encrypted_pwd})
-
-  log_msg = "#{self.class}: [#{user_model}] "
-  log_msg += "Connection pool size: #{user_model.connection_pool.connections.length}"
-  log_msg += "/#{user_model.connection_pool.instance_variable_get(:@size)}"
-  $LOG.info log_msg
-
-  $LOG.info("User created")
 
   return results.size > 0
 end
