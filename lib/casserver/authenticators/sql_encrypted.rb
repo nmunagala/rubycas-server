@@ -82,7 +82,7 @@ def create_user(credentials)
   user_model.connection_pool.checkin(user_model.connection)
   results = user_model.create({:nickname => credentials[:nickname], :email => credentials[:email], :encrypted_password => encrypted_pwd})
 
-  return results.size > 0
+  return results.nil? ? false : results.attributes['id'] > 0
 end
 
 end

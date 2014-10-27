@@ -957,26 +957,26 @@ module CASServer
         end
 
         if credentials_are_valid
-          $LOG.info("Account for username '#{@username}' successfully created.")
+          $LOG.info("Account for username '#{@email}' successfully created.")
           $LOG.debug("Authenticator provided additional user attributes: #{extra_attributes.inspect}") unless extra_attributes.blank?
 
           # 3.6 (ticket-granting cookie)
-          tgt = generate_ticket_granting_ticket(@username, extra_attributes)
+          tgt = generate_ticket_granting_ticket(@email, extra_attributes)
           response.set_cookie('tgt', tgt.to_s)
           @lt = generate_login_ticket.ticket
 
-          $LOG.debug("Ticket granting cookie '#{tgt.inspect}' granted to #{@username.inspect}")
+          $LOG.debug("Ticket granting cookie '#{tgt.inspect}' granted to #{@email.inspect}")
 
           if @service.blank?
-            $LOG.info("Successfully authenticated user '#{@username}' at '#{tgt.client_hostname}'. No service param was given, so we will not redirect.")
+            $LOG.info("Successfully authenticated user '#{@email}' at '#{tgt.client_hostname}'. No service param was given, so we will not redirect.")
             @message = {:type => 'confirmation', :message => t.notice.success_logged_in}
           else
-            @st = generate_service_ticket(@service, @username, tgt)
+            @st = generate_service_ticket(@service, @email, tgt)
 
             begin
               service_with_ticket = service_uri_with_ticket(@service, @st)
 
-              $LOG.info("Redirecting authenticated user '#{@username}' at '#{@st.client_hostname}' to service '#{@service}'")
+              $LOG.info("Redirecting authenticated user '#{@email}' at '#{@st.client_hostname}' to service '#{@service}'")
               redirect service_with_ticket, 303 # response code 303 means "See Other" (see Appendix B in CAS Protocol spec)
             rescue URI::InvalidURIError
               $LOG.error("The service '#{@service}' is not a valid URI!")
@@ -988,7 +988,7 @@ module CASServer
           end
         else
           @form_action = "https://ec2-54-73-0-50.eu-west-1.compute.amazonaws.com/cas/signup"
-          $LOG.warn("Impossibile to create account for user '#{@username}'")
+          $LOG.warn("Impossibile to create account for user '#{@email}'")
           @message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
           $LOG.warn("Rendering....#{@template_engine},  #{:signup}")
           status 401
