@@ -71,22 +71,31 @@ class CASServer::Authenticators::SQLEncrypted < CASServer::Authenticators::SQL
     end
   end
 
-def create_user(credentials)
-  read_standard_credentials(credentials)
-  raise_if_not_configured
+  def raise_if_user_not_configured(credentials)
+    @nickname = credentials[:nickname]
+    @email = credentials[:username]
+    @email2 = credentials[:username2]
+    @password = credentials[:password]
+    raise CASServer::AuthenticatorError.new(
+              "Please fill in all the fields!"
+    )  if @nickname.nil? or @email.nil? or @email2.nil? or @password.nil?
+  end
 
-  salt = Digest::SHA1.hexdigest("--#{Time.now.utc.to_s}--#{credentials[:password]}--")
-  encrypted_pwd = Digest::SHA1.hexdigest("--#{salt}--#{credentials[:password]}--")
-  token = encrypt("--#{Time.now.utc.to_s}--#{credentials[:password]}--")
-  token_expires_at = nil
+  def create_user(credentials)
+    raise_if_user_not_configured(credentials)
 
-  log_connection_pool_size
-  user_model.connection_pool.checkin(user_model.connection)
-  results = user_model.create({:nickname => credentials[:nickname], :email => credentials[:email],
+    salt = Digest::SHA1.hexdigest("--#{Time.now.utc.to_s}--#{credentials[:password]}--")
+    encrypted_pwd = Digest::SHA1.hexdigest("--#{salt}--#{credentials[:password]}--")
+    token = encrypt("--#{Time.now.utc.to_s}--#{credentials[:password]}--")
+    token_expires_at = nil
+
+    log_connection_pool_size
+    user_model.connection_pool.checkin(user_model.connection)
+    results = user_model.create({:nickname => credentials[:nickname], :email => credentials[:username],
                                :encrypted_password => encrypted_pwd, :salt => salt,
                                :token => token, :token_expires_at => token_expires_at})
 
-  return results.nil? ? false : results.attributes['id'] > 0
-end
+    return results.nil? ? false : results.attributes['id'] > 0
+  end
 
 end
