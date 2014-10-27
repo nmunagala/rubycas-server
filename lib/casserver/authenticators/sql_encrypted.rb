@@ -77,10 +77,14 @@ def create_user(credentials)
 
   salt = Digest::SHA1.hexdigest("--#{Time.now.utc.to_s}--#{credentials[:password]}--")
   encrypted_pwd = Digest::SHA1.hexdigest("--#{salt}--#{credentials[:password]}--")
+  token = encrypt("--#{Time.now.utc.to_s}--#{credentials[:password]}--")
+  token_expires_at = nil
 
   log_connection_pool_size
   user_model.connection_pool.checkin(user_model.connection)
-  results = user_model.create({:nickname => credentials[:nickname], :email => credentials[:email], :encrypted_password => encrypted_pwd})
+  results = user_model.create({:nickname => credentials[:nickname], :email => credentials[:email],
+                               :encrypted_password => encrypted_pwd, :salt => salt,
+                               :token => token, :token_expires_at => token_expires_at})
 
   return results.nil? ? false : results.attributes['id'] > 0
 end
