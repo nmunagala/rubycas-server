@@ -9,6 +9,7 @@ error:
   invalid_target_service: "El servicio de destino proporcionado por su navegador parece inválido. Por favor contacte al administrador."
   unable_to_authenticate: "El cliente y el servidor no pueden negociar su autentificación. Por favor intente luego."
   no_service_parameter_given: "El servidor no puede atender este pedido porque no se especificó el servicio de destino."
+  empty_fields: "Please fill in all the fields!"
 
 notice:
   logged_in_as: "Actualmente está logueado como '%1'. Si este no es usted, por favor ingrese sus datos debajo." 
