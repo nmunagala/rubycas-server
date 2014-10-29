@@ -84,12 +84,18 @@ class CASServer::Authenticators::SQLEncrypted < CASServer::Authenticators::SQL
     @email = credentials[:username]
     @email2 = credentials[:username2]
     @password = credentials[:password]
-    raise CASServer::AuthenticatorError.new( t.error.empty_fields
-    )  if @nickname.empty? or @email.empty? or @email2.empty? or @password.empty?
+    raise CASServer::AuthenticatorError.new( t.error.empty_fields ) if @nickname.empty? or @email.empty? or @email2.empty? or @password.empty?
+  end
+
+  def raise_if_user_already_exists(email)
+    results = user_model.find(:first, :conditions => ["email = ?", email])
+    raise CASServer::AuthenticatorError.new( t.error.user_already_exists ) if results.attributes['id'] > 0
   end
 
   def create_user(credentials)
     raise_if_user_not_configured(credentials)
+    raise_if_user_already_exists(credentials[:username])
+
     salt = generate_hash("--#{Time.now.utc.to_s}--#{credentials[:password]}--")
     encrypted_pwd =  encrypt(salt, credentials[:password])
     token = encrypt(Time.now.utc.to_s, credentials[:password])
@@ -97,6 +103,7 @@ class CASServer::Authenticators::SQLEncrypted < CASServer::Authenticators::SQL
 
     log_connection_pool_size
     user_model.connection_pool.checkin(user_model.connection)
+
     results = user_model.create({:nickname => credentials[:nickname], :email => credentials[:username],
                                :encrypted_password => encrypted_pwd, :salt => salt,
                                :token => token, :token_expires_at => token_expires_at})
