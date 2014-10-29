@@ -86,7 +86,7 @@ class CASServer::Authenticators::SQLEncrypted < CASServer::Authenticators::SQL
     @password = credentials[:password]
     raise CASServer::AuthenticatorError.new(
               "Please fill in all the fields!"
-    )  if @nickname.nil? or @email.nil? or @email2.nil? or @password.nil?
+    )  if @nickname.empty? or @email.empty? or @email2.empty? or @password.empty?
   end
 
   def create_user(credentials)
