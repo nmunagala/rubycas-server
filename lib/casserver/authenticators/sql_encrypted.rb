@@ -71,6 +71,14 @@ class CASServer::Authenticators::SQLEncrypted < CASServer::Authenticators::SQL
     end
   end
 
+  def encrypt(string1, string2)
+    generate_hash("--#{string1}--#{string2}--")
+  end
+
+  def generate_hash(string)
+    Digest::SHA1.hexdigest(string)
+  end
+
   def raise_if_user_not_configured(credentials)
     @nickname = credentials[:nickname]
     @email = credentials[:username]
@@ -83,10 +91,9 @@ class CASServer::Authenticators::SQLEncrypted < CASServer::Authenticators::SQL
 
   def create_user(credentials)
     raise_if_user_not_configured(credentials)
-
-    salt = Digest::SHA1.hexdigest("--#{Time.now.utc.to_s}--#{credentials[:password]}--")
-    encrypted_pwd = Digest::SHA1.hexdigest("--#{salt}--#{credentials[:password]}--")
-    token = encrypt("--#{Time.now.utc.to_s}--#{credentials[:password]}--")
+    salt = generate_hash("--#{Time.now.utc.to_s}--#{credentials[:password]}--")
+    encrypted_pwd =  encrypt(salt, credentials[:password])
+    token = encrypt(Time.now.utc.to_s, credentials[:password])
     token_expires_at = nil
 
     log_connection_pool_size
