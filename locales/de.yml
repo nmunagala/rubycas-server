@@ -11,6 +11,7 @@ error:
   no_service_parameter_given: "Der Server kann diese Gateway-Anfrage nicht erfüllen, da keine Service-Parameter übergeben wurden."
   empty_fields: "Please fill in all the fields!"
   user_already_exists: "Email already exists"
+  email_diff: "Inserted emails are different"
 
 notice:
   logged_in_as: "Sie sind derzeit angemeldet als '%1'. Sollten dies nicht Sie sein, melden Sie sich bitte unten an."

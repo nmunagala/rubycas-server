@@ -11,6 +11,7 @@ error:
   no_service_parameter_given: " Il server non supporta questa richiesta gateway perché non é stato fornito nessun parametro di servizio"
   empty_fields: "Please fill in all the fields!"
   user_already_exists: "Email already exists"
+  email_diff: "Inserted emails are different"
 
 notice:
   logged_in_as: "Accesso effettuato come '%1'. Se l'utente è errato esegua un nuovo accesso."
