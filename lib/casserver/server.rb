@@ -938,7 +938,7 @@ module CASServer
 
           credentials_are_valid = auth.create_user({
             :nickname => @nickname,
-            :email => @email,
+            :username => @username,
             :password => @password,
             :service => @service,
             :request => @env
@@ -947,7 +947,7 @@ module CASServer
 
           if credentials_are_valid
             @authenticated = true
-            @authenticated_username = @email
+            @authenticated_username = @username
             extra_attributes.merge!(auth.extra_attributes) unless auth.extra_attributes.blank?
             successful_authenticator = auth
             break
