@@ -11,7 +11,7 @@ module CASServer
     else
       CONFIG_FILE = "/etc/rubycas-server/config.yml"
     end
-
+    
     include CASServer::CAS # CAS protocol helpers
 
     # Use :public_folder for Sinatra >= 1.3, and :public for older versions.
@@ -292,7 +292,6 @@ module CASServer
     # under http://www.ja-sig.org/products/cas/overview/protocol/index.html
 
     # 2.1 :: Login
-
     # 2.1.1
     get "#{uri_path}/login" do
       CASServer::Utils::log_controller_action(self.class, params)
@@ -1003,5 +1002,74 @@ module CASServer
 
       render @template_engine, :signup
     end
+    
+post "#{uri_path}/rest_login" do
+  Utils::log_controller_action(self.class, params)
+  status 404
+  return unless request.user_agent == "NavionicsMobile server user_agent"
+
+  @username = params['username']
+  @password = params['password']
+
+  # Remove leading and trailing widespace from username.
+  @username.strip! if @username
+
+  if @username && settings.config[:downcase_username]
+    $LOG.debug("Converting username #{@username.inspect} to lowercase because 'downcase_username' option is enabled.")
+    @username.downcase!
+  end
+
+  $LOG.debug("Logging in with username: #{@username}, service: #{@service}, auth: #{settings.auth.inspect}")
+
+  credentials_are_valid = false
+  extra_attributes = {}
+  successful_authenticator = nil
+  status 200
+  message = "error authentication"
+  begin
+    auth_index = 0
+    settings.auth.each do |auth_class|
+      auth = auth_class.new
+
+      auth_config = settings.config[:authenticator][auth_index]
+      auth.configure(auth_config.merge('auth_index' => auth_index))
+
+      credentials_are_valid = auth.validate(
+      :username => @username,
+      :password => @password,
+      :service => @service,
+      :request => @env
+      )
+      if credentials_are_valid
+        @authenticated = true
+        @authenticated_username = @username
+        extra_attributes.merge!(auth.extra_attributes) unless auth.extra_attributes.blank?
+        successful_authenticator = auth
+        break
+      end
+
+      auth_index += 1
+    end
+
+    if credentials_are_valid
+      $LOG.info("Credentials for username '#{@username}' successfully validated using #{successful_authenticator.class.name}.")
+
+      $LOG.debug("Authenticator provided additional user attributes: #{extra_attributes.inspect}") unless extra_attributes.blank?
+      message =  "{\"Username\" : \"#{@username}\", \"Password\" : \"#{@password}\", \"extra_attributes\" : #{extra_attributes.to_json}}"
+    else
+      $LOG.warn("Invalid credentials given for user '#{@username}'")
+      message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
+      $LOG.warn("Rendering....#{@template_engine},  #{:login}")
+      status 401
+    end
+  rescue CASServer::AuthenticatorError => e
+    $LOG.error(e)
+    status 401
+  end
+
+  message
+end
+
+    # 2.2
    end
 end
