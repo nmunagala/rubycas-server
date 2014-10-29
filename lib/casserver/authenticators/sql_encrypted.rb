@@ -84,8 +84,7 @@ class CASServer::Authenticators::SQLEncrypted < CASServer::Authenticators::SQL
     @email = credentials[:username]
     @email2 = credentials[:username2]
     @password = credentials[:password]
-    raise CASServer::AuthenticatorError.new(
-              "Please fill in all the fields!"
+    raise CASServer::AuthenticatorError.new( t.error.empty_fields
     )  if @nickname.empty? or @email.empty? or @email2.empty? or @password.empty?
   end
 

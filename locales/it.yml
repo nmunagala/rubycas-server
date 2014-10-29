@@ -9,6 +9,7 @@ error:
   invalid_target_service: "Il servizio di destinazione del browser non risulta valido. Contatti l'amministratore di sistema per assistenza."
   unable_to_authenticate: "il client ed il server non sono in gradi di negoziare l'autenticazione. Provi ad accedere più tardi."
   no_service_parameter_given: " Il server non supporta questa richiesta gateway perché non é stato fornito nessun parametro di servizio"
+  empty_fields: "Tutti i campi della registrazione sono obbligatori"
 
 notice:
   logged_in_as: "Accesso effettuato come '%1'. Se l'utente è errato esegua un nuovo accesso."

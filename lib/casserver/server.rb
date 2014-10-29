@@ -893,16 +893,16 @@ module CASServer
 
       # 2.2.2 (required)
       @nickname = params['nickname']
-      @email = params['email']
+      @username = params['username']
+      @username2 = params['username2']
       @password = params['password']
       @lt = params['lt']
-      $LOG.info("@nickname #{@nickname}, @email #{@email}, @password #{@password}")
 
       # Remove leading and trailing widespace from username.
       @email.strip! if @email
 
       if @email && settings.config[:downcase_username]
-        $LOG.debug("Converting username #{@email.inspect} to lowercase because 'downcase_username' option is enabled.")
+        $LOG.debug("Converting username #{@username.inspect} to lowercase because 'downcase_username' option is enabled.")
         @email.downcase!
       end
 
@@ -939,6 +939,7 @@ module CASServer
           credentials_are_valid = auth.create_user({
             :nickname => @nickname,
             :username => @username,
+            :username2 => @username2,
             :password => @password,
             :service => @service,
             :request => @env

@@ -9,6 +9,7 @@ error:
   invalid_target_service: "Le service cible que votre navigateur a fourni semble incorrect. Veuillez contacter votre administrateur système pour assistance."
   unable_to_authenticate: "Le client et le serveur ne peuvent négocier l'identification. Veuillez réessayer ultérieurement."
   no_service_parameter_given: "Le serveur ne peut pas répondre à cette demande (aucun paramètre de service n'a été donné)."
+  empty_fields: "Please fill in all the fields!"
 
 notice:
   logged_in_as: "Vous êtes actuellement connecté en tant que '%1'. Si ce n'est pas vous, veuillez vous connecter ci-dessous."
