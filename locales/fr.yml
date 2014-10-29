@@ -10,6 +10,7 @@ error:
   unable_to_authenticate: "Le client et le serveur ne peuvent négocier l'identification. Veuillez réessayer ultérieurement."
   no_service_parameter_given: "Le serveur ne peut pas répondre à cette demande (aucun paramètre de service n'a été donné)."
   empty_fields: "Please fill in all the fields!"
+  user_already_exists: "Email already exists"
 
 notice:
   logged_in_as: "Vous êtes actuellement connecté en tant que '%1'. Si ce n'est pas vous, veuillez vous connecter ci-dessous."
