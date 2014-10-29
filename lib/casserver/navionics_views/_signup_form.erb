@@ -5,8 +5,8 @@
       <form method="post" action="<%= @form_action || "signup" %>" id="signup-form"
         onsubmit="submitbutton = document.getElementById('signup-submit'); submitbutton.value='<%= t.notice.please_wait %>'; submitbutton.disabled=true; return true;">
         <input type="text" id="nickname" name="nickname" placeholder="Nickname" size="64" tabindex="1" accesskey="u" />
-        <input type="text" id="email" name="email" placeholder="Email" size="64" tabindex="2" accesskey="u" />
-        <input type="text" id="email2" name="email2" placeholder="Confirm email" size="64" tabindex="3" accesskey="p" autocomplete="off" />
+        <input type="text" id="username" name="username" placeholder="Email" size="64" tabindex="2" accesskey="u" />
+        <input type="text" id="username2" name="username2" placeholder="Confirm email" size="64" tabindex="3" accesskey="p" autocomplete="off" />
         <input type="password" id="password" name="password" placeholder="Password" size="64" tabindex="4" accesskey="p" autocomplete="off" />
         <input type="checkbox" name="show_pwd" value="show_pwd" onclick="showPassword('txtPassword','Password');">Show password<br>
         <div id="signup-submit">
