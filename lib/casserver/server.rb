@@ -1003,5 +1003,42 @@ module CASServer
 
       render @template_engine, :signup
     end
-   end
+
+    get "#{uri_path}/forgot_pwd" do
+      CASServer::Utils::log_controller_action(self.class, params)
+
+      # make sure there's no caching
+      headers['Pragma'] = 'no-cache'
+      headers['Cache-Control'] = 'no-store'
+      headers['Expires'] = (Time.now - 1.year).rfc2822
+
+      # optional params
+      @service = clean_service_url(params['service'])
+      @renew = params['renew']
+      @gateway = params['gateway'] == 'true' || params['gateway'] == '1'
+
+      if tgc = request.cookies['tgt']
+        tgt, tgt_error = validate_ticket_granting_ticket(tgc)
+      end
+
+      if tgt and !tgt_error
+        @authenticated = true
+        @authenticated_username = tgt.username
+        @message = {:type => 'notice',
+                    :message => t.notice.logged_in_as(tgt.username)}
+      elsif tgt_error
+        $LOG.debug("Ticket granting cookie could not be validated: #{tgt_error}")
+      elsif !tgt
+        $LOG.debug("No ticket granting ticket detected.")
+      end
+
+
+      render @template_engine, :forgot_pwd
+    end
+
+    post "#{uri_path}/forgot_pwd" do
+      CASServer::Utils::log_controller_action(self.class, params)
+      #todo: process forgot password request
+    end
+  end
 end

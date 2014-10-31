@@ -21,6 +21,8 @@ label:
   username: "Username"
   password: "Password"
   central_login_title: "Central Login"
+  forgot_password: "Forgot password"
 
 button:
   login: "LOGIN"
+  send_instructions: "Send instruction"

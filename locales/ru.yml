@@ -21,6 +21,8 @@ label:
   username: "Логин"
   password: "Пароль"
   central_login_title: "Центральный вход"
+  forgot_password: "Забыл пароль"
 
 button:
   login: "Войти"
+  send_instructions: "Отправить инструкции"
