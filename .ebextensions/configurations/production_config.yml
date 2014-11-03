@@ -5,19 +5,19 @@ bind_address: 0.0.0.0
 database:
   pool: 10
   adapter: mysql2
-  database: navionics_production
-  username: root
-  password: an12345678
-  host: productiondbus-vpc2.cak6uco0ge8w.us-east-1.rds.amazonaws.com
+  database: navionics_beta
+  username: cas
+  password: cas
+  host: 54.247.177.219
   reconnect: true
 authenticator:
   class: CASServer::Authenticators::SQLEncrypted
   database:
     adapter: mysql2
-    database: navionics_production
-    username: root
-    password: an12345678
-    host: productiondbus-vpc2.cak6uco0ge8w.us-east-1.rds.amazonaws.com
+    database: navionics_beta
+    username: cas
+    password: cas
+    host: 54.247.177.219
   user_table: users
   username_column: email
   password: encrypted_password
