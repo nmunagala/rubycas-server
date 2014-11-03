@@ -897,6 +897,7 @@ module CASServer
           raise_if_user_not_configured(credentials)
           raise_if_username_different(credentials)
           raise_if_user_already_exists(auth, credentials[:username])
+          raise_if_nickname_already_exists(auth, credentials[:nickname])
           credentials_are_valid = auth.create_user(credentials)
 
           if credentials_are_valid
