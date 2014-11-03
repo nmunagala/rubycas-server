@@ -95,11 +95,20 @@ class CASServer::Authenticators::SQLEncrypted < CASServer::Authenticators::SQL
     return results.nil? ? false : results.attributes['id'] > 0
   end
 
-  def find_user(email)
+  def find_user_by_email(email)
     log_connection_pool_size
     user_model.connection_pool.checkin(user_model.connection)
 
     results = user_model.find(:first, :conditions => ["email = ?", email])
+
+    return results.nil? ? false : results.attributes['id'] > 0
+  end
+
+  def find_user_by_nickname(nickname)
+    log_connection_pool_size
+    user_model.connection_pool.checkin(user_model.connection)
+
+    results = user_model.find(:first, :conditions => ["nickname = ?", nickname])
 
     return results.nil? ? false : results.attributes['id'] > 0
   end

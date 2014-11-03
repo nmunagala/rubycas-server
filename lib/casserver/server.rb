@@ -846,8 +846,13 @@ module CASServer
     end
 
     def raise_if_user_already_exists(auth, email)
-      results = auth.find_user(email)
-      raise CASServer::AuthenticatorError.new( t.error.user_already_exists ) if !results.nil? && results
+      results = auth.find_user_by_email(email)
+      raise CASServer::AuthenticatorError.new( t.error.user_already_exists ) if results
+    end
+
+    def raise_if_nickname_already_exists(auth, nickname)
+      results = auth.find_user_by_nickname(nickname)
+      raise CASServer::AuthenticatorError.new( t.error.nickname_already_exists ) if results
     end
 
     def signup(params)
