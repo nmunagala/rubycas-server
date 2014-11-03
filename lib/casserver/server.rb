@@ -1,6 +1,7 @@
 require 'casserver/utils'
 require 'casserver/cas'
 require 'casserver/base'
+require 'casserver/registration/registration_server'
 
 module CASServer
   class Server < CASServer::Base
@@ -734,59 +735,12 @@ module CASServer
       render :builder, :proxy
     end
 
-
-
-    # Helpers
-
-    def response_status_from_error(error)
-      case error.code.to_s
-      when /^INVALID_/, 'BAD_PGT'
-        422
-      when 'INTERNAL_ERROR'
-        500
-      else
-        500
-      end
-    end
-
-    def serialize_extra_attribute(builder, key, value)
-      if value.kind_of?(String)
-        builder.tag! key, value
-      elsif value.kind_of?(Numeric)
-        builder.tag! key, value.to_s
-      else
-        builder.tag! key do
-          builder.cdata! value.to_yaml
-        end
-      end
-    end
-
-    def compile_template(engine, data, options, views)
-      super engine, data, options, @custom_views || views
-    rescue Errno::ENOENT
-      raise unless @custom_views
-      super engine, data, options, views
-    end
-
-    def ip_allowed?(ip)
-      require 'ipaddr'
-
-      allowed_ips = Array(settings.config[:allowed_service_ips])
-
-      allowed_ips.empty? || allowed_ips.any? { |i| IPAddr.new(i) === ip }
-    end
-
-    helpers do
-      def authenticated?
-        @authenticated
-      end
-
-      def authenticated_username
-        @authenticated_username
-      end
-    end
-
     get "#{uri_path}/signup" do
+      Utils::log_controller_action(self.class, params)
+
+      # 2.2.1 (optional)
+      @service = clean_service_url(params['service'])
+
       CASServer::Utils::log_controller_action(self.class, params)
 
       # make sure there's no caching
@@ -798,26 +752,6 @@ module CASServer
       @service = clean_service_url(params['service'])
       @renew = params['renew']
       @gateway = params['gateway'] == 'true' || params['gateway'] == '1'
-
-      if tgc = request.cookies['tgt']
-        tgt, tgt_error = validate_ticket_granting_ticket(tgc)
-      end
-
-      if tgt and !tgt_error
-        @authenticated = true
-        @authenticated_username = tgt.username
-        @message = {:type => 'notice',
-          :message => t.notice.logged_in_as(tgt.username)}
-      elsif tgt_error
-        $LOG.debug("Ticket granting cookie could not be validated: #{tgt_error}")
-      elsif !tgt
-        $LOG.debug("No ticket granting ticket detected.")
-      end
-
-      if params['redirection_loop_intercepted']
-        @message = {:type => 'mistake',
-          :message => t.error.unable_to_authenticate}
-      end
 
       begin
         if @service
@@ -833,19 +767,19 @@ module CASServer
             $LOG.info("Redirecting unauthenticated gateway request to service '#{@service}'.")
             redirect @service, 303
           else
-            $LOG.info("Proceeding with CAS login for service #{@service.inspect}.")
+            $LOG.info("Proceeding with CAS signup for service #{@service.inspect}.")
           end
         elsif @gateway
           $LOG.error("This is a gateway request but no service parameter was given!")
           @message = {:type => 'mistake',
-            :message => t.error.no_service_parameter_given}
+                      :message => t.error.no_service_parameter_given}
         else
           $LOG.info("Proceeding with CAS login without a target service.")
         end
       rescue URI::InvalidURIError
         $LOG.error("The service '#{@service}' is not a valid URI!")
         @message = {:type => 'mistake',
-          :message => t.error.invalid_target_service}
+                    :message => t.error.invalid_target_service}
       end
 
       lt = generate_login_ticket
@@ -879,17 +813,44 @@ module CASServer
       else
         render @template_engine, :signup
       end
+
     end
 
-    # 2.2
     post "#{uri_path}/signup" do
       Utils::log_controller_action(self.class, params)
 
-      $LOG.info("POST signup")
       # 2.2.1 (optional)
       @service = clean_service_url(params['service'])
-      $LOG.info("@service=#{@service}")
+      signup(params)
 
+      #CASServer::RegistrationServer.signup(params)
+    end
+
+    # Helpers
+    def is_empty?(text)
+      text.nil? || text.blank?
+    end
+
+    def raise_if_user_not_configured(credentials)
+      @nickname = credentials[:nickname]
+      @email = credentials[:username]
+      @email2 = credentials[:username2]
+      @password = credentials[:password]
+      raise CASServer::AuthenticatorError.new( t.error.empty_fields ) if is_empty? @nickname or is_empty? @email or is_empty? @email2 or is_empty? @password
+    end
+
+    def raise_if_username_different(credentials)
+      email = credentials[:username]
+      email2 = credentials[:username2]
+      raise CASServer::AuthenticatorError.new( t.error.email_diff ) if email != email2
+    end
+
+    def raise_if_user_already_exists(auth, email)
+      results = auth.find_user(email)
+      raise CASServer::AuthenticatorError.new( t.error.user_already_exists ) if !results.nil? && results
+    end
+
+    def signup(params)
       # 2.2.2 (required)
       @nickname = params['nickname']
       @username = params['username']
@@ -905,24 +866,19 @@ module CASServer
         @email.downcase!
       end
 
-#      if error = validate_login_ticket(@lt)
-#        @message = {:type => 'mistake', :message => error}
-        # generate another login ticket to allow for re-submitting the form
-#        @lt = generate_login_ticket.ticket
-#        status 500
-#        return render @template_engine, :signup
-#      end
-
-#      $LOG.info("ERROR: #{error}")
-
-      # generate another login ticket to allow for re-submitting the form after a post
- #     @lt = generate_login_ticket.ticket
-
-  #    $LOG.debug("Logging in with username: #{@username}, lt: #{@lt}, service: #{@service}, auth: #{settings.auth.inspect}")
+      credentials = {
+          :nickname => @nickname,
+          :username => @username,
+          :username2 => @username2,
+          :password => @password,
+          :service => @service,
+          :request => @env
+      }
 
       credentials_are_valid = false
       extra_attributes = {}
       successful_authenticator = nil
+
       begin
         auth_index = 0
         settings.auth.each do |auth_class|
@@ -932,18 +888,11 @@ module CASServer
           # pass the authenticator index to the configuration hash in case the authenticator needs to know
           # it splace in the authenticator queue
           auth.configure(auth_config.merge('auth_index' => auth_index))
-   
-          $LOG.info("before inserting user")
 
-          credentials_are_valid = auth.create_user({
-            :nickname => @nickname,
-            :username => @username,
-            :username2 => @username2,
-            :password => @password,
-            :service => @service,
-            :request => @env
-          })
-          $LOG.info("after inserting user")
+          raise_if_user_not_configured(credentials)
+          raise_if_username_different(credentials)
+          raise_if_user_already_exists(auth, credentials[:username])
+          credentials_are_valid = auth.create_user(credentials)
 
           if credentials_are_valid
             @authenticated = true
@@ -1003,7 +952,7 @@ module CASServer
 
       render @template_engine, :signup
     end
-    
+
 post "#{uri_path}/rest_login" do
   Utils::log_controller_action(self.class, params)
   status 404
@@ -1071,6 +1020,52 @@ post "#{uri_path}/rest_login" do
   message
 end
 
-    # 2.2
-   end
+    def response_status_from_error(error)
+      case error.code.to_s
+      when /^INVALID_/, 'BAD_PGT'
+        422
+      when 'INTERNAL_ERROR'
+        500
+      else
+        500
+      end
+    end
+
+    def serialize_extra_attribute(builder, key, value)
+      if value.kind_of?(String)
+        builder.tag! key, value
+      elsif value.kind_of?(Numeric)
+        builder.tag! key, value.to_s
+      else
+        builder.tag! key do
+          builder.cdata! value.to_yaml
+        end
+      end
+    end
+
+    def compile_template(engine, data, options, views)
+      super engine, data, options, @custom_views || views
+    rescue Errno::ENOENT
+      raise unless @custom_views
+      super engine, data, options, views
+    end
+
+    def ip_allowed?(ip)
+      require 'ipaddr'
+
+      allowed_ips = Array(settings.config[:allowed_service_ips])
+
+      allowed_ips.empty? || allowed_ips.any? { |i| IPAddr.new(i) === ip }
+    end
+
+    helpers do
+      def authenticated?
+        @authenticated
+      end
+
+      def authenticated_username
+        @authenticated_username
+      end
+    end
+  end
 end
