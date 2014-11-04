@@ -484,7 +484,7 @@ module CASServer
             end
           end
         else      
-          @form_action = "https://cas.navionics.com/cas/login"
+          @form_action = "/cas/login"
           $LOG.warn("Invalid credentials given for user '#{@username}'")
           @message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
           $LOG.warn("Rendering....#{@template_engine},  #{:login}")
@@ -937,7 +937,7 @@ module CASServer
             end
           end
         else
-          @form_action = "https://ec2-54-73-0-50.eu-west-1.compute.amazonaws.com/cas/signup"
+          @form_action = "/cas/signup"
           $LOG.warn("Impossibile to create account for user '#{@username}'")
           @message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
           $LOG.warn("Rendering....#{@template_engine},  #{:signup}")
