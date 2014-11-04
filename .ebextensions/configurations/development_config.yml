@@ -1,0 +1,34 @@
+server: passenger
+port: 80
+uri_path: "/cas"
+bind_address: 0.0.0.0
+database:
+  pool: 10
+  adapter: mysql2
+  database: navionics_beta
+  username: cas
+  password: cas
+  host: 54.247.177.219
+  reconnect: true
+authenticator:
+  class: CASServer::Authenticators::SQLEncrypted
+  database:
+    adapter: mysql2
+    database: navionics_beta
+    username: cas
+    password: cas
+    host: 54.247.177.219
+  user_table: users
+  username_column: email
+  password: encrypted_password
+  encrypt_function: user.encrypted_password == Digest::SHA1.hexdigest("--#{user.salt}--#{@password}--")
+  extra_attributes: token, nickname
+theme: navionics
+organization: Navionics
+infoline:
+custom_views: lib/casserver/navionics_views
+log:
+  file: "/var/log/casserver.log"
+  level: INFO
+db_log:
+  file: "/var/log/casserver_db.log"

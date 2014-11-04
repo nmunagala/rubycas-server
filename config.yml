@@ -1,3 +1,4 @@
+
 # IMPORTANT NOTE ABOUT YAML CONFIGURATION FILES
 # ---> Be sure to use spaces instead of tabs for indentation. YAML is
 #      white-space sensitive!
@@ -314,7 +315,7 @@ authenticator:
   username_column: email
   password: encrypted_password
   encrypt_function: 'user.encrypted_password == Digest::SHA1.hexdigest("--#{user.salt}--#{@password}--")'
-  extra_attributes: token, username
+  extra_attributes: token, nickname
 #
 # === LDAP Authentication ======================================================
 #
