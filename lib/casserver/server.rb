@@ -954,6 +954,29 @@ module CASServer
       render @template_engine, :signup
     end
 
+    # 2.2
+    post "#{uri_path}/user_attributes" do
+      Utils::log_controller_action(self.class, params)
+
+      begin
+        tgt = TicketGrantingTicket.find_by_ticket(params['tgt'])
+        user_attributes = {
+            :email => tgt.username,
+        }
+        tgt.extra_attributes.each do |col|
+          user_attributes[col[0].to_sym] = col[1]
+        end
+
+        content_type :json
+        user_attributes.to_json
+      rescue CASServer::AuthenticatorError => e
+        $LOG.error(e)
+        @message = {:type => 'mistake', :message => e.to_s}
+        status 401
+      end
+
+    end
+
     def response_status_from_error(error)
       case error.code.to_s
       when /^INVALID_/, 'BAD_PGT'
