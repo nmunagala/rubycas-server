@@ -12,7 +12,7 @@ module CASServer
     else
       CONFIG_FILE = "/etc/rubycas-server/config.yml"
     end
-    
+
     include CASServer::CAS # CAS protocol helpers
 
     # Use :public_folder for Sinatra >= 1.3, and :public for older versions.
@@ -426,6 +426,7 @@ module CASServer
       credentials_are_valid = false
       extra_attributes = {}
       successful_authenticator = nil
+      token = nil
       begin
         auth_index = 0
         settings.auth.each do |auth_class|
@@ -446,6 +447,7 @@ module CASServer
             @authenticated = true
             @authenticated_username = @username
             extra_attributes.merge!(auth.extra_attributes) unless auth.extra_attributes.blank?
+	    token = auth.create_token(@username, @password)
             successful_authenticator = auth
             break
           end
@@ -460,6 +462,10 @@ module CASServer
           # 3.6 (ticket-granting cookie)
           tgt = generate_ticket_granting_ticket(@username, extra_attributes)
           response.set_cookie('tgt', tgt.to_s)
+          response.set_cookie("remember_token", :value => token,
+		    :domain => "navionics.com",
+                    :path => "/",
+                    :expires => (Time.now + 1209600))
 
           $LOG.debug("Ticket granting cookie '#{tgt.inspect}' granted to #{@username.inspect}")
 
@@ -482,7 +488,7 @@ module CASServer
               }
             end
           end
-        else      
+        else
           @form_action = "/cas/login"
           $LOG.warn("Invalid credentials given for user '#{@username}'")
           @message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
@@ -883,7 +889,7 @@ module CASServer
       credentials_are_valid = false
       extra_attributes = {}
       successful_authenticator = nil
-
+      token = nil
       begin
         auth_index = 0
         settings.auth.each do |auth_class|
@@ -905,6 +911,7 @@ module CASServer
             @authenticated_username = @username
             extra_attributes.merge!(auth.extra_attributes) unless auth.extra_attributes.blank?
             successful_authenticator = auth
+            token = auth.create_token(@username, @password)
             break
           end
 
@@ -918,6 +925,10 @@ module CASServer
           # 3.6 (ticket-granting cookie)
           tgt = generate_ticket_granting_ticket(@username, extra_attributes)
           response.set_cookie('tgt', tgt.to_s)
+          response.set_cookie("remember_token", :value => token,
+                    :domain => "navionics.com",
+                    :path => "/",
+                    :expires => (Time.now + 1209600))
           @lt = generate_login_ticket.ticket
 
           $LOG.debug("Ticket granting cookie '#{tgt.inspect}' granted to #{@username.inspect}")
