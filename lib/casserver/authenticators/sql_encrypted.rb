@@ -79,19 +79,6 @@ class CASServer::Authenticators::SQLEncrypted < CASServer::Authenticators::SQL
     Digest::SHA1.hexdigest(string)
   end
 
-  def create_token(email, password)
-    log_connection_pool_size
-    user_model.connection_pool.checkin(user_model.connection)
-    results = user_model.find(:first, :conditions => ["email = ?", email])
-    id = results['id']
-    token = encrypt(Time.now.utc.to_s, password)
-    token_expires_at = (Time.now + 1209600)
-    result = user_model.update(id, token: token)
-    result = user_model.update(id, token_expires_at: token_expires_at)
-	   $LOG.warn("#{result.inspect} : token = #{token} : usermail=#{email} : id=#{id}")
-    return result.nil? ? false : token
-  end
-
   def create_user(credentials)
     salt = generate_hash("--#{Time.now.utc.to_s}--#{credentials[:password]}--")
     encrypted_pwd =  encrypt(salt, credentials[:password])
