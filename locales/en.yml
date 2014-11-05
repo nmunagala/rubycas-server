@@ -10,6 +10,9 @@ error:
   unable_to_authenticate: "The client and server are unable to negotiate authentication. Please try logging in again later."
   no_service_parameter_given: "The server cannot fulfill this gateway request because no service parameter was given."
   empty_fields: "Please fill in all the fields!"
+  user_already_exists: "Email already exists"
+  nickname_already_exists: "Nickname already exists"
+  email_diff: "Inserted emails are different"
 
 notice:
   logged_in_as: "You are currently logged in as '%1'. If this is not you, please log in below."

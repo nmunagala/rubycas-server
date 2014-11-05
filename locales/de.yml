@@ -9,6 +9,10 @@ error:
   invalid_target_service: "Das Ziel-Service, welches Ihr Browsers geliefert hat, scheint ungültig zu sein. Bitte wenden Sie sich an Ihren Systemadministrator, um Hilfe zu erhalten."
   unable_to_authenticate: "Client und Server sind nicht in der Lage eine Authentifizierung auszuhandeln. Bitte versuchen Sie, sich zu einem späteren Zeitpunkt erneut anzumelden."
   no_service_parameter_given: "Der Server kann diese Gateway-Anfrage nicht erfüllen, da keine Service-Parameter übergeben wurden."
+  empty_fields: "Please fill in all the fields!"
+  user_already_exists: "Email already exists"
+  nickname_already_exists: "Nickname already exists"
+  email_diff: "Inserted emails are different"
 
 notice:
   logged_in_as: "Sie sind derzeit angemeldet als '%1'. Sollten dies nicht Sie sein, melden Sie sich bitte unten an."

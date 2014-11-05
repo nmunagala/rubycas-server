@@ -16,3 +16,5 @@ CASServer::Authenticators.autoload :SQLEncrypted, 'casserver/authenticators/sql_
 CASServer::Authenticators.autoload :ActiveResource, 'casserver/authenticators/active_resource.rb'
 
 require 'casserver/server'
+require 'casserver/registration/registration_server'
+
