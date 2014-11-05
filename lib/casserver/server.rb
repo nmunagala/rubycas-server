@@ -2,8 +2,6 @@ require 'casserver/utils'
 require 'casserver/cas'
 require 'casserver/base'
 require 'casserver/registration/registration_server'
-require 'sinatra'
-require 'sinatra/cross_origin'
 
 module CASServer
   class Server < CASServer::Base
@@ -136,10 +134,6 @@ module CASServer
       end
 
       config.merge! HashWithIndifferentAccess.new(YAML.load(config_file))
-      set :server, config[:server] || 'webrick'
-      set :allow_origin, :any
-      set :allow_methods, [:get, :post, :options]
-      set :allow_credentials, true
     end
 
     def self.handler_options
@@ -278,10 +272,12 @@ module CASServer
       init_logger!
       init_database!
       init_authenticators!
-      enable :cross_origin	
     end
 
     before do
+      headers 'Access-Control-Allow-Origin' => '*'
+      headers 'Access-Control-Allow-Headers' => 'Authorization,Accepts,Content-Type,X-CSRF-Token,X-Requested-With'
+      headers 'Access-Control-Allow-Methods' => 'GET,POST,PUT,DELETE,OPTIONS'
       content_type :html, 'charset' => 'utf-8'
       @theme = settings.config[:theme]
       @organization = settings.config[:organization]
