@@ -5,10 +5,6 @@ require 'casserver/registration/registration_server'
 require 'sinatra'
 require 'sinatra/cross_origin'
 
-configure do
-  enable :cross_origin
-end
-
 module CASServer
   class Server < CASServer::Base
     if ENV['CONFIG_FILE']
@@ -279,6 +275,7 @@ module CASServer
       init_logger!
       init_database!
       init_authenticators!
+      enable :cross_origin	
     end
 
     before do
