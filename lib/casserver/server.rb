@@ -137,6 +137,9 @@ module CASServer
 
       config.merge! HashWithIndifferentAccess.new(YAML.load(config_file))
       set :server, config[:server] || 'webrick'
+      set :allow_origin, :any
+      set :allow_methods, [:get, :post, :options]
+      set :allow_credentials, true
     end
 
     def self.handler_options
