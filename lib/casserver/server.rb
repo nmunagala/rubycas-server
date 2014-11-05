@@ -2,6 +2,12 @@ require 'casserver/utils'
 require 'casserver/cas'
 require 'casserver/base'
 require 'casserver/registration/registration_server'
+require 'sinatra'
+require 'sinatra/cross_origin'
+
+configure do
+  enable :cross_origin
+end
 
 module CASServer
   class Server < CASServer::Base
