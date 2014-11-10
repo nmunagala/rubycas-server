@@ -851,6 +851,23 @@ module CASServer
       raise CASServer::AuthenticatorError.new( t.error.user_already_exists ) if !results.nil? && results
     end
 
+    def raise_if_username_not_valid(email)
+      EMAIL_REGEX = /\A\s*([-a-z0-9+._]{1,64})@((?:[-a-z0-9]+\.)+[a-z]{2,})\s*\z/i
+
+      raise CASServer::AuthenticatorError.new( t.error.username_not_valid ) if !(email =~ EMAIL_REGEX)
+    end
+
+    def raise_if_password_not_valid(pwd)
+      INVALID_CHARS_REGEX = /^[^&?\/\\ ]+$/
+      raise CASServer::AuthenticatorError.new( t.error.pwd_too_short ) if pwd.length< 6
+      raise CASServer::AuthenticatorError.new( t.error.pwd_not_valid ) if pwd =~ INVALID_CHARS_REGEX
+    end
+
+    def raise_if_nickname_not_valid(nick)
+      INVALID_CHARS_REGEX = /^[^&?\/c ]+$/
+      raise CASServer::AuthenticatorError.new( t.error.nick_not_valid ) if nick =~ INVALID_CHARS_REGEX
+    end
+
     def signup(params)
       # 2.2.2 (required)
       @nickname = params['nickname']
@@ -893,6 +910,9 @@ module CASServer
           raise_if_user_not_configured(credentials)
           raise_if_username_different(credentials)
           raise_if_user_already_exists(auth, credentials[:username])
+          raise_if_username_not_valid(credentials[:username])
+          raise_if_password_not_valid(credentials[:password])
+          raise_if_nickname_not_valid(credentials[:nickname])
           credentials_are_valid = auth.create_user(credentials)
 
           if credentials_are_valid

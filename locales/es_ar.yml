@@ -12,6 +12,10 @@ error:
   empty_fields: "Please fill in all the fields!"
   user_already_exists: "Email already exists"
   email_diff: "Inserted emails are different"
+  username_not_valid: "Inserted password contains invalid characters"
+  nickname_not_valid: "Inserted nickname contains invalid characters"
+  pwd_not_valid: "Inserted password contains invalid characters"
+  pwd_too_short: "Inserted password is too short"
 
 notice:
   logged_in_as: "Actualmente está logueado como '%1'. Si este no es usted, por favor ingrese sus datos debajo." 
