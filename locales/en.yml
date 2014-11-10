@@ -13,6 +13,10 @@ error:
   user_already_exists: "Email already exists"
   nickname_already_exists: "Nickname already exists"
   email_diff: "Inserted emails are different"
+  username_not_valid: "Inserted password contains invalid characters"
+  nickname_not_valid: "Inserted nickname contains invalid characters"
+  pwd_not_valid: "Inserted password contains invalid characters"
+  pwd_too_short: "Inserted password is too short"
 
 notice:
   logged_in_as: "You are currently logged in as '%1'. If this is not you, please log in below."
