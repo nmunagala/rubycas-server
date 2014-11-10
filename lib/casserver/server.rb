@@ -134,7 +134,6 @@ module CASServer
       end
 
       config.merge! HashWithIndifferentAccess.new(YAML.load(config_file))
-      set :server, config[:server] || 'webrick'
     end
 
     def self.handler_options
@@ -276,6 +275,9 @@ module CASServer
     end
 
     before do
+      headers 'Access-Control-Allow-Origin' => '*'
+      headers 'Access-Control-Allow-Headers' => 'Authorization,Accepts,Content-Type,X-CSRF-Token,X-Requested-With'
+      headers 'Access-Control-Allow-Methods' => 'GET,POST,PUT,DELETE,OPTIONS'
       content_type :html, 'charset' => 'utf-8'
       @theme = settings.config[:theme]
       @organization = settings.config[:organization]
@@ -483,7 +485,7 @@ module CASServer
             end
           end
         else      
-          @form_action = "https://cas.navionics.com/cas/login"
+          @form_action = "/cas/login"
           $LOG.warn("Invalid credentials given for user '#{@username}'")
           @message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
           $LOG.warn("Rendering....#{@template_engine},  #{:login}")
@@ -855,6 +857,23 @@ module CASServer
       raise CASServer::AuthenticatorError.new( t.error.nickname_already_exists ) if results
     end
 
+    def raise_if_username_not_valid(email)
+      EMAIL_REGEX = /\A\s*([-a-z0-9+._]{1,64})@((?:[-a-z0-9]+\.)+[a-z]{2,})\s*\z/i
+
+      raise CASServer::AuthenticatorError.new( t.error.username_not_valid ) if !(email =~ EMAIL_REGEX)
+    end
+
+    def raise_if_password_not_valid(pwd)
+      INVALID_CHARS_REGEX = /^[^&?\/\\ ]+$/
+      raise CASServer::AuthenticatorError.new( t.error.pwd_too_short ) if pwd.length< 6
+      raise CASServer::AuthenticatorError.new( t.error.pwd_not_valid ) if pwd =~ INVALID_CHARS_REGEX
+    end
+
+    def raise_if_nickname_not_valid(nick)
+      INVALID_CHARS_REGEX = /^[^&?\/c ]+$/
+      raise CASServer::AuthenticatorError.new( t.error.nick_not_valid ) if nick =~ INVALID_CHARS_REGEX
+    end
+
     def signup(params)
       # 2.2.2 (required)
       @nickname = params['nickname']
@@ -898,6 +917,10 @@ module CASServer
           raise_if_username_different(credentials)
           raise_if_user_already_exists(auth, credentials[:username])
           raise_if_nickname_already_exists(auth, credentials[:nickname])
+          raise_if_nickname_already_exists(auth, credentials[:nickname])
+          raise_if_username_not_valid(credentials[:username])
+          raise_if_password_not_valid(credentials[:password])
+          raise_if_nickname_not_valid(credentials[:nickname])
           credentials_are_valid = auth.create_user(credentials)
 
           if credentials_are_valid
@@ -942,7 +965,7 @@ module CASServer
             end
           end
         else
-          @form_action = "https://ec2-54-73-0-50.eu-west-1.compute.amazonaws.com/cas/signup"
+          @form_action = "/cas/signup"
           $LOG.warn("Impossibile to create account for user '#{@username}'")
           @message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
           $LOG.warn("Rendering....#{@template_engine},  #{:signup}")
@@ -957,6 +980,28 @@ module CASServer
       end
 
       render @template_engine, :signup
+    end
+
+ post "#{uri_path}/user_attributes" do
+      Utils::log_controller_action(self.class, params)
+
+      begin
+        tgt = TicketGrantingTicket.find_by_ticket(params['tgt'])
+        user_attributes = {
+            :email => tgt.username,
+        }
+        tgt.extra_attributes.each do |col|
+          user_attributes[col[0].to_sym] = col[1]
+        end
+
+        content_type :json
+        user_attributes.to_json
+      rescue CASServer::AuthenticatorError => e
+        $LOG.error(e)
+        @message = {:type => 'mistake', :message => e.to_s}
+        status 401
+      end
+
     end
 
 post "#{uri_path}/rest_login" do
