@@ -867,7 +867,7 @@ module CASServer
     end
 
     def raise_if_nickname_not_valid(nick)
-      raise CASServer::AuthenticatorError.new( t.error.nick_not_valid ) if nick =~ "?& \/"
+      raise CASServer::AuthenticatorError.new( t.error.nick_not_valid ) if nick.include? "?& \/"
     end
 
     def signup(params)
