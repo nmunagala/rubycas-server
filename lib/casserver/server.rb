@@ -863,11 +863,11 @@ module CASServer
 
     def raise_if_password_not_valid(pwd)
       raise CASServer::AuthenticatorError.new( t.error.pwd_too_short ) if pwd.length< 6
-      raise CASServer::AuthenticatorError.new( t.error.pwd_not_valid ) if pwd =~ /^[^&?\/\\ ]+$/
+      raise CASServer::AuthenticatorError.new( t.error.pwd_not_valid ) if pwd.include? "?& \/"
     end
 
     def raise_if_nickname_not_valid(nick)
-      raise CASServer::AuthenticatorError.new( t.error.nick_not_valid ) if nick =~ /^[^&?\/c ]+$/
+      raise CASServer::AuthenticatorError.new( t.error.nick_not_valid ) if nick =~ "?& \/"
     end
 
     def signup(params)
