@@ -858,20 +858,16 @@ module CASServer
     end
 
     def raise_if_username_not_valid(email)
-      EMAIL_REGEX = /\A\s*([-a-z0-9+._]{1,64})@((?:[-a-z0-9]+\.)+[a-z]{2,})\s*\z/i
-
-      raise CASServer::AuthenticatorError.new( t.error.username_not_valid ) if !(email =~ EMAIL_REGEX)
+      raise CASServer::AuthenticatorError.new( t.error.username_not_valid ) if !(email =~ /\A\s*([-a-z0-9+._]{1,64})@((?:[-a-z0-9]+\.)+[a-z]{2,})\s*\z/i)
     end
 
     def raise_if_password_not_valid(pwd)
-      INVALID_CHARS_REGEX = /^[^&?\/\\ ]+$/
       raise CASServer::AuthenticatorError.new( t.error.pwd_too_short ) if pwd.length< 6
-      raise CASServer::AuthenticatorError.new( t.error.pwd_not_valid ) if pwd =~ INVALID_CHARS_REGEX
+      raise CASServer::AuthenticatorError.new( t.error.pwd_not_valid ) if pwd =~ /^[^&?\/\\ ]+$/
     end
 
     def raise_if_nickname_not_valid(nick)
-      INVALID_CHARS_REGEX = /^[^&?\/c ]+$/
-      raise CASServer::AuthenticatorError.new( t.error.nick_not_valid ) if nick =~ INVALID_CHARS_REGEX
+      raise CASServer::AuthenticatorError.new( t.error.nick_not_valid ) if nick =~ /^[^&?\/c ]+$/
     end
 
     def signup(params)
