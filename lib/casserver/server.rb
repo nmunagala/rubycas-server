@@ -1036,9 +1036,16 @@ module CASServer
       render @template_engine, :forgot_pwd
     end
 
-    post "#{uri_path}/forgot_pwd" do
-      CASServer::Utils::log_controller_action(self.class, params)
+    post("#{uri_path}/forgot_pwd") do
+      Utils::log_controller_action(self.class, params)
       #todo: process forgot password request
+
+      # 2.2.1 (optional)
+      @service = clean_service_url(params['service'])
+
+      # 2.2.2 (required)
+      @email = params['email']
+      @lt = params['lt']
     end
   end
 end
