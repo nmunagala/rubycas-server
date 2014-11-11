@@ -838,36 +838,52 @@ module CASServer
       @email = credentials[:username]
       @email2 = credentials[:username2]
       @password = credentials[:password]
-      raise CASServer::AuthenticatorError.new( t.error.empty_fields ) if is_empty? @nickname or is_empty? @email or is_empty? @email2 or is_empty? @password
+      @nickname_error = {:type => 'mistake', :message => t.error.email_diff} if is_empty? @nickname
+      @username_error = {:type => 'mistake', :message => t.error.email_diff} if is_empty? @email
+      @username2_error = {:type => 'mistake', :message => t.error.email_diff} if is_empty? @email2
+      @password_error = {:type => 'mistake', :message => t.error.email_diff} if is_empty? @password
     end
 
     def raise_if_username_different(credentials)
       email = credentials[:username]
       email2 = credentials[:username2]
-      raise CASServer::AuthenticatorError.new( t.error.email_diff ) if email != email2
+      @username_error = {:type => 'mistake', :message => t.error.email_diff} if email != email2
+
+      #raise CASServer::AuthenticatorError.new( t.error.email_diff )
     end
 
     def raise_if_user_already_exists(auth, email)
       results = auth.find_user_by_email(email)
-      raise CASServer::AuthenticatorError.new( t.error.user_already_exists ) if results
+      @username_error = {:type => 'mistake', :message => t.error.user_already_exists} if results
+
+      #raise CASServer::AuthenticatorError.new( t.error.user_already_exists ) if results
     end
 
     def raise_if_nickname_already_exists(auth, nickname)
       results = auth.find_user_by_nickname(nickname)
-      raise CASServer::AuthenticatorError.new( t.error.nickname_already_exists ) if results
+      @nickname_error = {:type => 'mistake', :message => t.error.nickname_already_exists} if results
+
+      #raise CASServer::AuthenticatorError.new( t.error.nickname_already_exists ) if results
     end
 
     def raise_if_username_not_valid(email)
-      raise CASServer::AuthenticatorError.new( t.error.username_not_valid ) if !(email =~ /\A\s*([-a-z0-9+._]{1,64})@((?:[-a-z0-9]+\.)+[a-z]{2,})\s*\z/i)
+      @email_error = {:type => 'mistake', :message => t.error.username_not_valid} if !(email =~ /\A\s*([-a-z0-9+._]{1,64})@((?:[-a-z0-9]+\.)+[a-z]{2,})\s*\z/i)
+
+      #raise CASServer::AuthenticatorError.new( t.error.username_not_valid ) if !(email =~ /\A\s*([-a-z0-9+._]{1,64})@((?:[-a-z0-9]+\.)+[a-z]{2,})\s*\z/i)
     end
 
     def raise_if_password_not_valid(pwd)
-      raise CASServer::AuthenticatorError.new( t.error.pwd_too_short ) if pwd.length< 6
-      raise CASServer::AuthenticatorError.new( t.error.pwd_not_valid ) if pwd.include? "?& \/"
+      @password_error = {:type => 'mistake', :message => t.error.pwd_too_short} if pwd.length < 6
+      @password_error = {:type => 'mistake', :message => t.error.pwd_not_valid} if pwd.include? "?& \/"
+
+      #raise CASServer::AuthenticatorError.new( t.error.pwd_too_short ) if pwd.length< 6
+      #raise CASServer::AuthenticatorError.new( t.error.pwd_not_valid ) if pwd.include? "?& \/"
     end
 
     def raise_if_nickname_not_valid(nick)
-      raise CASServer::AuthenticatorError.new( t.error.nick_not_valid ) if nick.include? "?& \/"
+      @nickname_error = {:type => 'mistake', :message => t.error.nick_not_valid} if nick.include? "?& \/"
+
+      #raise CASServer::AuthenticatorError.new( t.error.nick_not_valid ) if nick.include? "?& \/"
     end
 
     def signup(params)
@@ -909,14 +925,16 @@ module CASServer
           # it splace in the authenticator queue
           auth.configure(auth_config.merge('auth_index' => auth_index))
 
-          raise_if_user_not_configured(credentials)
-          raise_if_username_different(credentials)
-          raise_if_user_already_exists(auth, credentials[:username])
-          raise_if_nickname_already_exists(auth, credentials[:nickname])
-          raise_if_nickname_already_exists(auth, credentials[:nickname])
-          raise_if_username_not_valid(credentials[:username])
-          raise_if_password_not_valid(credentials[:password])
-          raise_if_nickname_not_valid(credentials[:nickname])
+          if raise_if_user_not_configured(credentials) |
+              raise_if_username_different(credentials) |
+              raise_if_user_already_exists(auth, credentials[:username]) |
+              raise_if_nickname_already_exists(auth, credentials[:nickname]) |
+              raise_if_nickname_already_exists(auth, credentials[:nickname]) |
+              raise_if_username_not_valid(credentials[:username]) |
+              raise_if_password_not_valid(credentials[:password]) |
+              raise_if_nickname_not_valid(credentials[:nickname])
+            raise CASServer::AuthenticatorError.new( "Error while validating register form fields" )
+          end
           credentials_are_valid = auth.create_user(credentials)
 
           if credentials_are_valid
@@ -971,7 +989,6 @@ module CASServer
         $LOG.error(e)
         # generate another login ticket to allow for re-submitting the form
         @lt = generate_login_ticket.ticket
-        @message = {:type => 'mistake', :message => e.to_s}
         status 401
       end
 

@@ -1,10 +1,8 @@
 <%# coding: UTF-8 -%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js"></script>
   <% if @message %>
-    <div class="messagebox <%= escape_html @message[:type] %>">
-      <%= escape_html @message[:message] %>
-    </div>
-  <% end %>
+    @username2_error = {:type => 'mistake', :message => t.error.email_diff}
+<% end %>
   <div id="login-main-content">
     <%= erb(:_signup_form, :layout => false) %>
   </div>

@@ -5,9 +5,29 @@
       <form method="post" action="<%= @form_action || "signup" %>" id="signup-form"
         onsubmit="submitbutton = document.getElementById('signup-submit'); submitbutton.value='<%= t.notice.please_wait %>'; submitbutton.disabled=true; return true;">
         <input type="text" id="nickname" name="nickname" placeholder="Nickname" size="64" tabindex="1" accesskey="u" />
+        <% if @nickname_error %>
+          <div id="nickname_error">
+            <%= escape_html @nickname_error[:message] %>
+          </div>
+        <% end %>
         <input type="text" id="username" name="username" placeholder="Email" size="64" tabindex="2" accesskey="u" />
+        <% if @username_error %>
+          <div id="username_error">
+            <%= escape_html @username_error[:message] %>
+          </div>
+        <% end %>
         <input type="text" id="username2" name="username2" placeholder="Confirm email" size="64" tabindex="3" accesskey="p" autocomplete="off" />
+        <% if @username2_error %>
+          <div id="username2_error">
+            <%= escape_html @username2_error[:message] %>
+          </div>
+        <% end %>
         <input type="password" id="password" name="password" placeholder="Password" size="64" tabindex="4" accesskey="p" autocomplete="off" />
+        <% if @password_error %>
+          <div id="password_error">
+            <%= escape_html @password_error[:message] %>
+          </div>
+        <% end %>
         <input type="checkbox" name="show_pwd" value="show_pwd" onclick="showPassword('txtPassword','Password');">Show password<br>
         <div id="signup-submit">
           <input type="hidden" id="lt" name="lt" value="<%= escape_html @lt %>" />
