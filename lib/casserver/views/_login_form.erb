@@ -1,7 +1,7 @@
  <div class="login-box-wrapper">
 <%# coding: UTF-8 -%>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js"></script>
-<form method="post" action="<%= @form_action || "login" %>" id="login-form"
+<form method="post" action="login" id="login-form"
       onsubmit="submitbutton = document.getElementById('login-submit'); submitbutton.value='<%= t.notice.please_wait %>'; submitbutton.disabled=true; return true;">
  
       <div id="username-container">

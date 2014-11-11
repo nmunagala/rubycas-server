@@ -470,14 +470,9 @@ module CASServer
             @message = {:type => 'confirmation', :message => t.notice.success_logged_in}
           else
             @st = generate_service_ticket(@service, @username, tgt)
-
             begin
               service_uri = URI.parse(@service)
-              $LOG.info("service_with_ticket #{service_uri}")s
-              http = Net::HTTP.new(service_uri)
-              request = Net::HTTP::Post.new(service_uri.request_uri)
-              request.set_form_data({"tgt" => tgt})
-              response = http.request(request)
+              res = Net::HTTP.post_form(service_uri, 'tgt' => tgt)
             rescue URI::InvalidURIError
               $LOG.error("The service '#{@service}' is not a valid URI!")
               @message = {
