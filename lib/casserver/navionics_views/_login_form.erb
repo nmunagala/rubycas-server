@@ -5,7 +5,7 @@
     <%# coding: UTF-8 -%>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js"></script>
     <div class="box login-user-box">
-      <form method="post" action="<%= @form_action || "login" %>" id="login-form"
+      <form method="post" action="login" id="login-form"
         onsubmit="submitbutton = document.getElementById('login-submit'); submitbutton.value='<%= t.notice.please_wait %>'; submitbutton.disabled=true; return true;"> 
         <input type="text" id="username" name="username" placeholder="Email" size="64" tabindex="1" accesskey="u" />
         <input type="password" id="password" name="password" placeholder="Password" size="64" tabindex="2" accesskey="p" autocomplete="off" />
