@@ -475,8 +475,7 @@ module CASServer
               service_with_ticket = service_uri_with_ticket(@service, @st)
 
               $LOG.info("Redirecting authenticated user '#{@username}' at '#{@st.client_hostname}' to service '#{@service}'")
-              post service_with_ticket, :data =>tgt.to_json, :accept => :json
-              #redirect service_with_ticket, 303 # response code 303 means "See Other" (see Appendix B in CAS Protocol spec)
+              Net::HTTP::Post.new(service_with_ticket)
             rescue URI::InvalidURIError
               $LOG.error("The service '#{@service}' is not a valid URI!")
               @message = {
@@ -486,7 +485,6 @@ module CASServer
             end
           end
         else      
-          @form_action = "/cas/login"
           $LOG.warn("Invalid credentials given for user '#{@username}'")
           @message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
           $LOG.warn("Rendering....#{@template_engine},  #{:login}")
@@ -980,7 +978,7 @@ module CASServer
             end
           end
         else
-          @form_action = "/cas/signup"
+          @form_action = "#{request.host}/cas/signup"
           $LOG.warn("Impossibile to create account for user '#{@username}'")
           @message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
           $LOG.warn("Rendering....#{@template_engine},  #{:signup}")
