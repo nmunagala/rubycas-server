@@ -4,6 +4,7 @@ gem "sinatra", "~> 1.4.4"
 gem "sinatra-r18n", "~> 1.1.9"
 gem "activerecord-mysql-adapter"
 gem "mysql2"
+gem "rest-client"
 
 # Gems for authenticators
 group :ldap do
