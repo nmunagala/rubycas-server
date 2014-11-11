@@ -2,7 +2,6 @@ require 'casserver/utils'
 require 'casserver/cas'
 require 'casserver/base'
 require 'casserver/registration/registration_server'
-require 'rest-client'
 
 module CASServer
   class Server < CASServer::Base
@@ -476,7 +475,7 @@ module CASServer
               service_with_ticket = service_uri_with_ticket(@service, @st)
 
               $LOG.info("Redirecting authenticated user '#{@username}' at '#{@st.client_hostname}' to service '#{@service}'")
-              RestClient.post service_with_ticket, :data =>tgt.to_json, :accept => :json
+              post service_with_ticket, :data =>tgt.to_json, :accept => :json
               #redirect service_with_ticket, 303 # response code 303 means "See Other" (see Appendix B in CAS Protocol spec)
             rescue URI::InvalidURIError
               $LOG.error("The service '#{@service}' is not a valid URI!")
