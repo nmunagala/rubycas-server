@@ -472,10 +472,12 @@ module CASServer
             @st = generate_service_ticket(@service, @username, tgt)
 
             begin
-              service_with_ticket = service_uri_with_ticket(@service, @st)
-
-              $LOG.info("Redirecting authenticated user '#{@username}' at '#{@st.client_hostname}' to service '#{@service}'")
-              Net::HTTP::Post.new(service_with_ticket)
+              service_uri = URI.parse(@service)
+              $LOG.info("service_with_ticket #{service_uri}")s
+              http = Net::HTTP.new(service_uri)
+              request = Net::HTTP::Post.new(service_uri.request_uri)
+              request.set_form_data({"tgt" => tgt})
+              response = http.request(request)
             rescue URI::InvalidURIError
               $LOG.error("The service '#{@service}' is not a valid URI!")
               @message = {
