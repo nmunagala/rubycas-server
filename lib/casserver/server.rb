@@ -461,7 +461,10 @@ module CASServer
 
           # 3.6 (ticket-granting cookie)
           tgt = generate_ticket_granting_ticket(@username, extra_attributes)
-          response.set_cookie('tgt', tgt.to_s)
+          response.set_cookie("tgt", :value => tgt.to_s,
+                              :domain => "navionics.com",
+                              :path => "/",
+                              :expires => (Time.now + 1209600))
 
           $LOG.debug("Ticket granting cookie '#{tgt.inspect}' granted to #{@username.inspect}")
 
