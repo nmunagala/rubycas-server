@@ -1071,6 +1071,54 @@ post "#{uri_path}/rest_login" do
   message
 end
 
+    get "#{uri_path}/rest_logout" do
+      CASServer::Utils::log_controller_action(self.class, params)
+
+      # The behaviour here is somewhat non-standard. Rather than showing just a blank
+      # "logout" page, we take the user back to the login page with a "you have been logged out"
+      # message, allowing for an opportunity to immediately log back in. This makes it
+      # easier for the user to log out and log in as someone else.
+      @service = clean_service_url(params['service'] || params['destination'])
+      @continue_url = params['url']
+
+      @gateway = params['gateway'] == 'true' || params['gateway'] == '1'
+
+      tgt = CASServer::Model::TicketGrantingTicket.find_by_ticket(request.cookies['tgt'])
+
+      response.delete_cookie 'tgt'
+
+      if tgt
+        CASServer::Model::TicketGrantingTicket.transaction do
+          $LOG.debug("Deleting Service/Proxy Tickets for '#{tgt}' for user '#{tgt.username}'")
+          tgt.granted_service_tickets.each do |st|
+            send_logout_notification_for_service_ticket(st) if config[:enable_single_sign_out]
+            # TODO: Maybe we should do some special handling if send_logout_notification_for_service_ticket fails?
+            #       (the above method returns false if the POST results in a non-200 HTTP response).
+            $LOG.debug "Deleting #{st.class.name.demodulize} #{st.ticket.inspect} for service #{st.service}."
+            st.destroy
+          end
+
+          pgts = CASServer::Model::ProxyGrantingTicket.find(:all,
+                                                            :conditions => [CASServer::Model::ServiceTicket.quoted_table_name+".username = ?", tgt.username],
+                                                            :include => :service_ticket)
+          pgts.each do |pgt|
+            $LOG.debug("Deleting Proxy-Granting Ticket '#{pgt}' for user '#{pgt.service_ticket.username}'")
+            pgt.destroy
+          end
+
+          $LOG.debug("Deleting #{tgt.class.name.demodulize} '#{tgt}' for user '#{tgt.username}'")
+          tgt.destroy
+        end
+
+        $LOG.info("User '#{tgt.username}' logged out.")
+      else
+        $LOG.warn("User tried to log out without a valid ticket-granting ticket.")
+      end
+
+      content_type :json
+      "{status: true}".to_json
+    end
+
     def response_status_from_error(error)
       case error.code.to_s
       when /^INVALID_/, 'BAD_PGT'
