@@ -1115,8 +1115,9 @@ end
         $LOG.warn("User tried to log out without a valid ticket-granting ticket.")
       end
 
+      str = {:status => true}
       content_type :json
-      "{status: true}".to_json
+      str.to_json
     end
 
     def response_status_from_error(error)
