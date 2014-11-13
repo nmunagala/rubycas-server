@@ -1,11 +1,8 @@
 require 'casserver/utils'
 require 'casserver/cas'
 require 'casserver/base'
-<<<<<<< HEAD
 require 'casserver/registration/registration_server'
-=======
 require 'pony'
->>>>>>> forgot_password
 
 module CASServer
   class Server < CASServer::Base
