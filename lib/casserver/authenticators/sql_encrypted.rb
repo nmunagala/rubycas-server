@@ -48,7 +48,8 @@ class CASServer::Authenticators::SQLEncrypted < CASServer::Authenticators::SQL
     raise_if_not_configured
 
     username_column = @options[:username_column] || "username"
-    encrypt_function = @options[:encrypt_function] || 'user.encrypted_password == Digest::SHA256.hexdigest("#{user.encryption_salt}::#{@password}")'
+    encrypt_function = @options[:encrypt_function] || 'user.encrypted_password == Digest::SHA1.hexdigest("--#{user
+.salt}--#{@password}--")'
 
     log_connection_pool_size
     results = user_model.find(:all, :conditions => ["#{username_column} = ?", @username])
@@ -111,5 +112,46 @@ class CASServer::Authenticators::SQLEncrypted < CASServer::Authenticators::SQL
     results = user_model.find(:first, :conditions => ["nickname = ?", nickname])
 
     return results.nil? ? false : results.attributes['id'] > 0
+
   end
+
+  def existing_user(credentials)
+    read_standard_credentials(credentials)
+    raise_if_not_configured
+    username_column = @options[:username_column] || "username"
+    result = user_model.find(:first, :conditions => ["#{username_column} = ?", @username])
+  end
+
+  def update_user_password(credentials)
+    read_standard_credentials(credentials)
+    raise_if_not_configured
+
+    salt = Digest::SHA1.hexdigest("--#{Time.now.utc.to_s}--#{@password}--")
+    encrypted_pwd = Digest::SHA1.hexdigest("--#{salt}--#{@password}--")
+
+    username_column = @options[:username_column] || "username"
+    log_connection_pool_size
+    results = user_model.find(:all, :conditions => ["#{username_column} = ?", @username])
+    user_model.connection_pool.checkin(user_model.connection)
+
+    if results.size > 0
+      $LOG.warn("Multiple matches found for user '#{@username}'") if results.size > 1
+      user = results.first
+      unless @options[:extra_attributes].blank?
+        if results.size > 1
+          $LOG.warn("#{self.class}: Unable to extract extra_attributes because multiple matches were found for #{@username.inspect}")
+        else
+          extract_extra(user)
+          log_extra
+        end
+      end
+      user.encrypted_password = encrypted_pwd
+      user.salt = salt
+      return user.save()
+    else
+      return false
+    end
+
+  end
+
 end

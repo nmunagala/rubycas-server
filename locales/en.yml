@@ -20,6 +20,7 @@ error:
   nickname_not_valid: "Nickname should not contain '&', '?', '/', '\', ' '"
   pwd_not_valid: "Password should not contain '&', '?', '/', '\', ' '"
   pwd_too_short: "Password is too short (minimum is 6 characters)"
+  no_user_found: "No user found with this email"
 
 notice:
   logged_in_as: "You are currently logged in as '%1'. If this is not you, please log in below."
@@ -27,11 +28,19 @@ notice:
   success_logged_out: "You have successfully logged out."
   success_logged_in: "You have successfully logged in."
   please_wait: "Please wait..."
+  instructions_sent: "Instructions sent to email"
+  reset_pwd_success: "Password successfully changed"
 
 label:
   username: "Username"
   password: "Password"
   central_login_title: "Central Login"
+  forgot_password: "Forgot password"
 
 button:
   login: "LOGIN"
+  send_instructions: "Send instruction"
+  save: "Save"
+
+email:
+  reset_password: "Reset password request"

@@ -9,6 +9,7 @@ error:
   invalid_target_service: "Сервис, указанный вашим браузером, неверен. Свяжитесь с вашим системным администратором."
   unable_to_authenticate: "Клиент и сервер не могут провести проверку прав. Попробуйте войти позже."
   no_service_parameter_given: "Этот сервер не может выполнить этот запрос, поскольку не были указаны праметры сервиса."
+  no_user_found: "No user found with this email"
 
 notice:
   logged_in_as: "Вы авторизированы как '%s'."
@@ -16,11 +17,18 @@ notice:
   success_logged_out: "Вы успешно вышли."
   success_logged_in: "Вы успешно вошли."
   please_wait: "Подождите..."
+  instructions_sent: "Инструкции высланы на email"
 
 label:
   username: "Логин"
   password: "Пароль"
   central_login_title: "Центральный вход"
+  forgot_password: "Забыл пароль"
 
 button:
   login: "Войти"
+  send_instructions: "Отправить инструкции"
+  save: "Save"
+
+email:
+  reset_password: "Reset password request"

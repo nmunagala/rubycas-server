@@ -1,0 +1,25 @@
+<div class="login-box-wrapper">
+<%# coding: UTF-8 -%>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js"></script>
+  <form method="post" action="<%= @form_action || "reset_pwd" %>" id="forgot-pwd--form"
+        onsubmit="submitbutton = document.getElementById('reset-pwd--submit'); submitbutton.value='<%= t.notice
+        .please_wait %>'; submitbutton.disabled=true; return true;">
+
+    <div id="new-password-container">
+      <input type="password" id="password" name="password"
+             size="64" tabindex="1" accesskey="p"/>
+    </div>
+
+    <div id="confirm-password-container">
+      <input type="password" id="password_confirm" name="password_confirm"
+             size="64" tabindex="1" accesskey="c"/>
+    </div>
+
+    <div id="submit-container">
+      <input type="hidden" id="lt" name="lt" value="<%= escape_html @lt %>"/>
+      <input type="hidden" id="service" name="service" value="<%= escape_html @service %>"/>
+      <input type="submit" class="btn-green" accesskey="s" value="<%= t.button.save %>"
+             tabindex="4" id="reset-pwd--submit"/>
+    </div>
+  </form>
+</div>

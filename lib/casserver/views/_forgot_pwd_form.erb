@@ -1,0 +1,19 @@
+ <div class="login-box-wrapper">
+<%# coding: UTF-8 -%>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js"></script>
+<form method="post" action="<%= @form_action || "forgot_pwd" %>" id="forgot-pwd--form"
+      onsubmit="submitbutton = document.getElementById('forgot-pwd--submit'); submitbutton.value='<%= t.notice.please_wait %>'; submitbutton.disabled=true; return true;">
+ 
+      <div id="email-container">
+        <input type="email" id="username" name="username"
+               size="64" tabindex="1" accesskey="e" />
+      </div>
+ 
+      <div id="submit-container">
+        <input type="hidden" id="lt" name="lt" value="<%= escape_html @lt %>" />
+        <input type="hidden" id="service" name="service" value="<%= escape_html @service %>" />
+        <input type="submit" class="btn-green" accesskey="s" value="<%= t.button.send_instructions %>"
+               tabindex="4" id="forgot-pwd-submit" />
+</div>
+</form>
+</div>

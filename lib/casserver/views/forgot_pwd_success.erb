@@ -24,12 +24,10 @@
     <td id="logo-container">
       <img id="logo" src="<%= escape_html @uri_path %>/themes/<%= @theme %>/logo.png" />
     </td>
-    <td id="login-form-container">
-      <%= erb(:_login_form, :layout => false) %>
-    </td>
+
+    <td><a href="/"><%= t.label.central_login_title %></a></td>
+
   </tr>
 
-  <tr>
-    <td><a href="/forgot_pwd"><%= t.label.forgot_password %></a></td>
-  </tr>
+
 </table>
