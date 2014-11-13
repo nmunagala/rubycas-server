@@ -48,7 +48,8 @@ class CASServer::Authenticators::SQLEncrypted < CASServer::Authenticators::SQL
     raise_if_not_configured
 
     username_column = @options[:username_column] || "username"
-    encrypt_function = @options[:encrypt_function] || 'user.encrypted_password == Digest::SHA256.hexdigest("#{user.encryption_salt}::#{@password}")'
+    encrypt_function = @options[:encrypt_function] || 'user.encrypted_password == Digest::SHA1.hexdigest("--#{user
+.salt}--#{@password}--")'
 
     log_connection_pool_size
     results = user_model.find(:all, :conditions => ["#{username_column} = ?", @username])
@@ -95,9 +96,11 @@ end
   def update_user_password(credentials)
     read_standard_credentials(credentials)
     raise_if_not_configured
-    username_column = @options[:username_column] || "username"
-    encrypt_function = @options[:encrypt_function] || 'user.encrypted_password = Digest::SHA256.hexdigest("#{user.salt}::#{@password}")'
 
+    salt = Digest::SHA1.hexdigest("--#{Time.now.utc.to_s}--#{@password}--")
+    encrypted_pwd = Digest::SHA1.hexdigest("--#{salt}--#{@password}--")
+
+    username_column = @options[:username_column] || "username"
     log_connection_pool_size
     results = user_model.find(:all, :conditions => ["#{username_column} = ?", @username])
     user_model.connection_pool.checkin(user_model.connection)
@@ -113,7 +116,9 @@ end
           log_extra
         end
       end
-      return eval(encrypt_function)
+      user.encrypted_password = encrypted_pwd
+      user.salt = salt
+      return user.save()
     else
       return false
     end
