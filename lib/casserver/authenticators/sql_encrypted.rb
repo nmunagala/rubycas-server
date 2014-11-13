@@ -96,7 +96,7 @@ end
     read_standard_credentials(credentials)
     raise_if_not_configured
     username_column = @options[:username_column] || "username"
-    encrypt_function = @options[:encrypt_function] || 'user.encrypted_password = Digest::SHA256.hexdigest("#{user.encryption_salt}::#{@password}")'
+    encrypt_function = @options[:encrypt_function] || 'user.encrypted_password = Digest::SHA256.hexdigest("#{user.salt}::#{@password}")'
 
     log_connection_pool_size
     results = user_model.find(:all, :conditions => ["#{username_column} = ?", @username])

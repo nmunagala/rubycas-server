@@ -1104,6 +1104,7 @@ module CASServer
         status 500
         return render @template_engine, :forgot_pwd
       end
+      @form_action = "/passwords/#{@ticket}"
       render @template_engine, :passwords
     end
 
@@ -1118,7 +1119,6 @@ module CASServer
       @password_confirm = params[:password_confirm]
       error = false
       @rpt = get_reset_password_ticket(@ticket)
-      puts @rpt.inspect
       unless @rpt
         error = t.error.invalid_reset_password_ticket
         $LOG.warn "Invalid reset password ticket '#{@ticket}'"
