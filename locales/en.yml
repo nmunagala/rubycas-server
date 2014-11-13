@@ -9,6 +9,7 @@ error:
   invalid_target_service: "The target service your browser supplied appears to be invalid. Please contact your system administrator for help."
   unable_to_authenticate: "The client and server are unable to negotiate authentication. Please try logging in again later."
   no_service_parameter_given: "The server cannot fulfill this gateway request because no service parameter was given."
+  no_user_found: "No user found with this email"
 
 notice:
   logged_in_as: "You are currently logged in as '%1'. If this is not you, please log in below."
@@ -16,6 +17,8 @@ notice:
   success_logged_out: "You have successfully logged out."
   success_logged_in: "You have successfully logged in."
   please_wait: "Please wait..."
+  instructions_sent: "Instructions sent to email"
+  reset_pwd_success: "Password successfully changed"
 
 label:
   username: "Username"
@@ -26,3 +29,7 @@ label:
 button:
   login: "LOGIN"
   send_instructions: "Send instruction"
+  save: "Save"
+
+email:
+  reset_password: "Reset password request"

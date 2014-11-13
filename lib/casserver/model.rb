@@ -75,6 +75,18 @@ module CASServer::Model
       :foreign_key => :granted_by_pgt_id
   end
 
+  class ResetPasswordTicket < ActiveRecord::Base
+    include Consumable
+    include Ticket
+
+    if ActiveRecord::VERSION::STRING >= '3.2'
+      self.table_name = 'casserver_rpt'
+    else
+      set_table_name 'casserver_rpt'
+    end
+
+  end
+
   class Error
     attr_reader :code, :message
 

@@ -115,6 +115,41 @@ module CASServer::CAS
     end
   end
 
+  def generate_reset_password_ticket(username)
+    rpt = ResetPasswordTicket.new
+    rpt.ticket = "RP-" + String.random
+    rpt.username = username
+    rpt.client_hostname = @env['HTTP_X_FORWARDED_FOR'] || @env['REMOTE_HOST'] || @env['REMOTE_ADDR']
+    rpt.save!
+    $LOG.debug("Generated reset password ticket '#{rpt.ticket}' for user" +
+                   " '#{rpt.username}' at '#{rpt.client_hostname}'")
+    rpt
+  end
+
+  def get_reset_password_ticket(ticket)
+    result = (rpt = ResetPasswordTicket.find_by_ticket(ticket)) ? rpt : false
+  end
+
+  def validate_reset_password_ticket(rpt)
+    $LOG.debug("Validating reset password ticket '#{rpt.ticket}'")
+
+    error = false
+    if rpt.nil?
+      error = t.error.no_reset_password_ticket
+      $LOG.warn "Missing reset password ticket."
+    elsif rpt.consumed?
+      error = t.error.reset_password_ticket_already_used
+      $LOG.warn "Reset password ticket '#{rpt.ticket}' previously used up"
+    elsif Time.now - rpt.created_on < settings.config[:maximum_unused_reset_password_ticket_lifetime]
+      $LOG.info "Reset password ticket '#{rpt.ticket}' successfully validated"
+    else
+      error = t.error.reset_password_timeout
+      $LOG.warn "Expired reset password ticket '#{rpt.ticket}'"
+    end
+
+    error
+  end
+
   def validate_login_ticket(ticket)
     $LOG.debug("Validating login ticket '#{ticket}'")
 

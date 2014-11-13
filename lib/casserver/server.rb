@@ -1,6 +1,7 @@
 require 'casserver/utils'
 require 'casserver/cas'
 require 'casserver/base'
+require 'pony'
 
 module CASServer
   class Server < CASServer::Base
@@ -1036,7 +1037,7 @@ module CASServer
       render @template_engine, :forgot_pwd
     end
 
-    post("#{uri_path}/forgot_pwd") do
+    post "#{uri_path}/forgot_pwd" do
       Utils::log_controller_action(self.class, params)
       #todo: process forgot password request
 
@@ -1044,8 +1045,134 @@ module CASServer
       @service = clean_service_url(params['service'])
 
       # 2.2.2 (required)
-      @email = params['email']
+      @email = params['username']
       @lt = params['lt']
+
+      @email.strip! if @email
+
+      if @email && settings.config[:downcase_username]
+        $LOG.debug("Converting username #{@email.inspect} to lowercase because 'downcase_username' option is enabled.")
+        @email.downcase!
+      end
+
+      user = false
+      @existing_user = false
+      # begin
+        auth_index = 0
+        settings.auth.each do |auth_class|
+          auth = auth_class.new
+
+          auth_config = settings.config[:authenticator][auth_index]
+          # pass the authenticator index to the configuration hash in case the authenticator needs to know
+          # it splace in the authenticator queue
+          auth.configure(auth_config.merge('auth_index' => auth_index))
+
+          user = auth.existing_user(
+              :username => @email,
+          )
+          if user
+            @existing_user = user
+            break
+          end
+
+          auth_index += 1
+        end
+
+        if @existing_user
+          rpt = generate_reset_password_ticket(@email)
+          Pony.mail :to => @email,
+                    :from => 'me@example.com',
+                    :subject => t.email.reset_password,
+                    :body => erb(:reset_pwd_email)
+
+          @message = {:type => 'confirmation', :message => t.notice.instructions_sent}
+          return render @template_engine, :forgot_pwd
+        end
+      @message = {:type => 'error', :message => t.error.no_user_found}
+      render @template_engine, :forgot_pwd
     end
+
+    get "#{uri_path}/passwords/:rpt" do
+      @ticket = params[:rpt]
+      error = false
+      if !@rpt = get_reset_password_ticket(@ticket)
+        error = t.error.invalid_reset_password_ticket
+        $LOG.warn "Invalid reset password ticket '#{@rpt.ticket}'"
+      end
+      if error || error = validate_reset_password_ticket(@rpt)
+        @message = {:type => 'mistake', :message => error}
+        status 500
+        return render @template_engine, :forgot_pwd
+      end
+      render @template_engine, :passwords
+    end
+
+    post "#{uri_path}/passwords/:rpt" do
+      Utils::log_controller_action(self.class, params)
+
+      # 2.2.1 (optional)
+      @service = clean_service_url(params['service'])
+
+      @ticket = params[:rpt]
+      @password = params[:password]
+      @password_confirm = params[:password_confirm]
+      error = false
+      @rpt = get_reset_password_ticket(@ticket)
+      puts @rpt.inspect
+      unless @rpt
+        error = t.error.invalid_reset_password_ticket
+        $LOG.warn "Invalid reset password ticket '#{@ticket}'"
+      end
+
+      if !@password || !@password_confirm
+        error = t.error.password_not_set
+      end
+
+      if @password != @password_confirm
+        error = t.error.password_not_confirmed
+      end
+
+      if error || error = validate_reset_password_ticket(@rpt)
+        @message = {:type => 'mistake', :message => error}
+        status 500
+        return render @template_engine, :forgot_pwd
+      end
+
+      auth_index = 0
+      @updated = false
+      settings.auth.each do |auth_class|
+        auth = auth_class.new
+
+        auth_config = settings.config[:authenticator][auth_index]
+        # pass the authenticator index to the configuration hash in case the authenticator needs to know
+        # it splace in the authenticator queue
+        auth.configure(auth_config.merge('auth_index' => auth_index))
+
+        updated = auth.update_user_password(
+            :username => @rpt.username,
+            :password => @password,
+            :service => @service,
+            :request => @env
+        )
+
+        if updated
+          @updated = updated
+          break
+        end
+
+        auth_index += 1
+      end
+
+      unless @updated
+        @message = {:type => 'mistake', :message => t.error.no_user_found}
+        status 500
+        return render @template_engine, :forgot_pwd
+      end
+
+      @message = {:type => 'notice', :message => t.notice.reset_pwd_success}
+      render @template_engine, :forgot_pwd_success
+    end
+
   end
+
 end
