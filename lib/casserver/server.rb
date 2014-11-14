@@ -923,7 +923,7 @@ module CASServer
           # it splace in the authenticator queue
           auth.configure(auth_config.merge('auth_index' => auth_index))
 
-          if raise_if_user_not_configured(credentials) || raise_other_erros(auth, credentials)
+          if raise_if_user_not_configured(credentials) || raise_other_errors(auth, credentials)
             raise CASServer::AuthenticatorError.new( "Error while validating register form fields" )
           end
           credentials_are_valid = auth.create_user(credentials)
