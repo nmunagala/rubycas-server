@@ -32,6 +32,7 @@ label:
   username: "Nome utente"
   password: "Password"
   central_login_title: "Accesso centralizzato"
+  forgot_password: "Forgot password"
   show_password: "Mostra password"
 
 button:
