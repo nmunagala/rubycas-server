@@ -11,7 +11,7 @@ error:
   no_service_parameter_given: "Der Server kann diese Gateway-Anfrage nicht erfüllen, da keine Service-Parameter übergeben wurden."
   username_blank: "Email address can't be blank"
   nickname_blank: "Nickname can't be blank"
-  email_conf_blank: "Email confirmation can't be blank can't be blank"
+  email_conf_blank: "Email confirmation can't be blank"
   pwd_blank: "Password can't be blank"
   user_already_exists: "Email address has already been taken"
   nickname_already_exists: "Nickname has already been taken"
@@ -32,6 +32,7 @@ label:
   username: "Benutzername"
   password: "Passwort"
   central_login_title: "Zentrales Login"
+  show_password: "Show password"
 
 button:
   login: "ANMELDEN"

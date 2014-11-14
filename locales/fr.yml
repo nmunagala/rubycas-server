@@ -11,7 +11,7 @@ error:
   no_service_parameter_given: "Le serveur ne peut pas répondre à cette demande (aucun paramètre de service n'a été donné)."
   username_blank: "Email address can't be blank"
   nickname_blank: "Nickname can't be blank"
-  email_conf_blank: "Email confirmation can't be blank can't be blank"
+  email_conf_blank: "Email confirmation can't be blank"
   pwd_blank: "Password can't be blank"
   user_already_exists: "Email address has already been taken"
   nickname_already_exists: "Nickname has already been taken"
@@ -32,6 +32,7 @@ label:
   username: "Identifiant"
   password: "Mot de passe"
   central_login_title: "Service Central d'Identification."
+  show_password: "Show password"
 
 button:
   login: "SE CONNECTER"
