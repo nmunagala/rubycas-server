@@ -874,6 +874,16 @@ module CASServer
       @nickname_error = {:type => 'mistake', :message => t.error.nick_not_valid} if nick.include? "?& \/"
     end
 
+    def raise_other_errors(auth, credentials)
+      raise_if_user_already_exists(auth, credentials[:username])
+      raise_if_nickname_already_exists(auth, credentials[:nickname])
+      raise_if_nickname_already_exists(auth, credentials[:nickname])
+      raise_if_username_not_valid(credentials[:username])
+      raise_if_password_not_valid(credentials[:password])
+      raise_if_nickname_not_valid(credentials[:nickname])
+      @nickname_error || @username_error || @username2_error_error || @password_error
+    end
+
     def signup(params)
       # 2.2.2 (required)
       @nickname = params['nickname']
@@ -913,15 +923,7 @@ module CASServer
           # it splace in the authenticator queue
           auth.configure(auth_config.merge('auth_index' => auth_index))
 
-          raise_if_user_not_configured(credentials)
-          raise_if_username_different(credentials)
-          raise_if_user_already_exists(auth, credentials[:username])
-          raise_if_nickname_already_exists(auth, credentials[:nickname])
-          raise_if_nickname_already_exists(auth, credentials[:nickname])
-          raise_if_username_not_valid(credentials[:username])
-          raise_if_password_not_valid(credentials[:password])
-          raise_if_nickname_not_valid(credentials[:nickname])
-          if (@nickname_error || @username_error || @username2_error_error || @password_error )
+          if raise_if_user_not_configured(credentials) || raise_other_erros(auth, credentials)
             raise CASServer::AuthenticatorError.new( "Error while validating register form fields" )
           end
           credentials_are_valid = auth.create_user(credentials)
