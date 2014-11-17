@@ -1276,12 +1276,12 @@ end
       error = false
       if !@rpt = get_reset_password_ticket(@ticket)
         error = t.error.invalid_reset_password_ticket
-        $LOG.warn "Invalid reset password ticket '#{@rpt.ticket}'"
+        $LOG.warn "Invalid reset password ticket '#{@ticket}'"
       end
       if error || error = validate_reset_password_ticket(@rpt)
         @message = {:type => 'mistake', :message => error}
         status 500
-        return render @template_engine, :forgot_pwd
+        return render @template_engine, :forgot_pwd_success
       end
       @form_action = "#{@uri_path}/passwords/#{@ticket}"
       render @template_engine, :passwords
