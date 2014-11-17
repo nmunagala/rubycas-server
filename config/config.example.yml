@@ -546,7 +546,7 @@ mail:
   method: smtp
   host: smtp.sendgrid.net
   domain: navionics.com
-  username:
-  password:
+  username: adminnavio
+  password: dm25F34z
   port: 587
   authentification: plain
