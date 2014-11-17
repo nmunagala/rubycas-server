@@ -1283,7 +1283,7 @@ end
         status 500
         return render @template_engine, :forgot_pwd
       end
-      @form_action = "/passwords/#{@ticket}"
+      @form_action = "#{@uri_path}/passwords/#{@ticket}"
       render @template_engine, :passwords
     end
 
