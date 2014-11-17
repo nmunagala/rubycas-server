@@ -541,3 +541,12 @@ log:
 #allowed_service_ips:
 #  - 127.0.0.1
 #  - 192.168.0.0/24
+
+mail:
+  method: smtp
+  host: smtp.sendgrid.net
+  domain: navionics.com
+  username:
+  password:
+  port: 587
+  authentification: plain

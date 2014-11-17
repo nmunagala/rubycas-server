@@ -1246,11 +1246,23 @@ end
         end
 
         if @existing_user
-          rpt = generate_reset_password_ticket(@email)
-          Pony.mail :to => @email,
-                    :from => 'me@example.com',
+          @rpt = generate_reset_password_ticket(@email)
+          @base_url ||= "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}"
+          @reset_pwd_link = "#{@base_url}/passwords/#{@rpt.ticket}"
+          Pony.mail({ :to => @email,
+                    :from => "donotreply@navionics.com",
                     :subject => t.email.reset_password,
-                    :body => erb(:reset_pwd_email)
+                    :body => render(@template_engine, :reset_pwd_email, :layout => false),
+                    :via => settings.config[:mail][:method],
+                    :via_options => {
+                        :address        => settings.config[:mail][:host],
+                        :port           => settings.config[:mail][:port],
+                        :user_name      => settings.config[:mail][:username],
+                        :password       => settings.config[:mail][:password],
+                        :authentication => :plain,
+                        :domain         => settings.config[:mail][:domain]
+                    }
+          })
 
           @message = {:type => 'confirmation', :message => t.notice.instructions_sent}
           return render @template_engine, :forgot_pwd

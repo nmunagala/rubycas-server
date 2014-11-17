@@ -9,7 +9,18 @@ error:
   invalid_target_service: "Сервис, указанный вашим браузером, неверен. Свяжитесь с вашим системным администратором."
   unable_to_authenticate: "Клиент и сервер не могут провести проверку прав. Попробуйте войти позже."
   no_service_parameter_given: "Этот сервер не может выполнить этот запрос, поскольку не были указаны праметры сервиса."
-  no_user_found: "No user found with this email"
+  username_blank: "Адрес электронной почты не может быть пустым."
+  nickname_blank: "Имя пользователя не может быть пустым."
+  email_conf_blank: "Подтверждение электронной почты не может быть пустым."
+  pwd_blank: "Пароль не может быть пустым."
+  user_already_exists: "Адрес электронной почты уже был использован."
+  nickname_already_exists: "Имя пользователя уже было использовано."
+  email_diff: "Подтверждение электронной почты не совпадает с адресом электронной почты."
+  username_not_valid: "Аэрес электронной почты не соответствует электронной почте."
+  nickname_not_valid: "Имя пользователя не должно содержать '&', '?', '/', '\', ' '"
+  pwd_not_valid: "Пароль не должен содержать '&', '?', '/', '\', ' '"
+  pwd_too_short: "Пароль слишком короткий (минимум 6 символов)."
+  no_user_found: "Пользователь с таким адресом электронной почты не найден."
 
 notice:
   logged_in_as: "Вы авторизированы как '%s'."
@@ -17,18 +28,24 @@ notice:
   success_logged_out: "Вы успешно вышли."
   success_logged_in: "Вы успешно вошли."
   please_wait: "Подождите..."
-  instructions_sent: "Инструкции высланы на email"
+  instructions_sent: "Инструкции высланы на электронную почту."
+  reset_pwd_success: "Пароль успешно изменен."
 
 label:
   username: "Логин"
   password: "Пароль"
   central_login_title: "Центральный вход"
   forgot_password: "Забыл пароль"
+  show_password: "Показать пароль"
 
 button:
   login: "Войти"
   send_instructions: "Отправить инструкции"
-  save: "Save"
+  save: "Сохранить"
 
 email:
-  reset_password: "Reset password request"
+  reset_password: "Запрос на изменение пароля."
+  reset_password_link_before: "Кто-то, возможно Вы, запросил ссылку на изменение пароля.\n
+  Вот ссылка:\n"
+  reset_password_link_after: "\nЕсли Вы ее не запрашивали - проигнорируйте это сообщение, и не волнуйтесь - пароль
+  не будет изменен."
