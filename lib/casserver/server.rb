@@ -1248,7 +1248,7 @@ end
         if @existing_user
           @rpt = generate_reset_password_ticket(@email)
           @base_url ||= "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}"
-          @reset_pwd_link = "#{@base_url}/passwords/#{@rpt.ticket}"
+          @reset_pwd_link = "#{@base_url}#{@uri_path}/passwords/#{@rpt.ticket}"
           Pony.mail({ :to => @email,
                     :from => "donotreply@navionics.com",
                     :subject => t.email.reset_password,
