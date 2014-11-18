@@ -1228,12 +1228,8 @@ end
         auth_index = 0
         settings.auth.each do |auth_class|
           auth = auth_class.new
-
           auth_config = settings.config[:authenticator][auth_index]
-          # pass the authenticator index to the configuration hash in case the authenticator needs to know
-          # it splace in the authenticator queue
           auth.configure(auth_config.merge('auth_index' => auth_index))
-
           user = auth.existing_user(
               :username => @email,
           )
