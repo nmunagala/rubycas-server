@@ -514,6 +514,10 @@ log:
 #maximum_unused_login_ticket_lifetime: 300
 #maximum_unused_service_ticket_lifetime: 300
 
+# Reset password ticket expiry time in seconds (defaults to 24 hrs)
+maximum_unused_reset_password_ticket_lifetime: 86400
+
+
 # The server must periodically delete old tickets (login tickets, service tickets
 # proxy-granting tickets, and ticket-granting tickets) to prevent buildup of
 # stale data. This effectively limits the maximum length of a CAS session to
@@ -546,7 +550,7 @@ mail:
   method: smtp
   host: smtp.sendgrid.net
   domain: navionics.com
-  username:
-  password:
+  username: adminnavio
+  password: dm25F34z
   port: 587
   authentification: plain
