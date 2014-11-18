@@ -862,8 +862,7 @@ module CASServer
     end
 
     def raise_if_username_not_valid(email)
-      VALID_EMAIL_REGEX = /\A[\w\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
-      @email_error = {:type => 'mistake', :message => t.error.username_not_valid} unless email =~ VALID_EMAIL_REGEX
+      @username_error = {:type => 'mistake', :message => t.error.username_not_valid} unless email =~ /\A[\w\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
     end
 
     def raise_if_password_not_valid(pwd)
@@ -877,12 +876,12 @@ module CASServer
 
     def raise_other_errors(auth, credentials)
       raise_if_user_already_exists(auth, credentials[:username])
-      raise_if_nickname_already_exists(auth, credentials[:nickname])
+      raise_if_username_different(credentials)
       raise_if_nickname_already_exists(auth, credentials[:nickname])
       raise_if_username_not_valid(credentials[:username])
       raise_if_password_not_valid(credentials[:password])
       raise_if_nickname_not_valid(credentials[:nickname])
-      @nickname_error || @username_error || @username2_error_error || @password_error
+      @nickname_error || @username_error || @username2_error || @password_error
     end
 
     def signup(params)
