@@ -466,7 +466,7 @@ infoline: Powered by <a href="http://rubycas.github.com">RubyCAS-Server</a>
 
 log:
   file: /var/log/casserver.log
-  level: INFO
+  level: DEBUG
 
 
 # If you want full database logging, uncomment this next section.
