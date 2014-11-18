@@ -862,7 +862,9 @@ module CASServer
     end
 
     def raise_if_username_not_valid(email)
-      @email_error = {:type => 'mistake', :message => t.error.username_not_valid} if !(email =~ /\A\s*([-a-z0-9+._]{1,64})@((?:[-a-z0-9]+\.)+[a-z]{2,})\s*\z/i)
+      VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
+      verify_email = email.match VALID_EMAIL_REGEX
+      @email_error = {:type => 'mistake', :message => t.error.username_not_valid} if verify_email.nil?
     end
 
     def raise_if_password_not_valid(pwd)
