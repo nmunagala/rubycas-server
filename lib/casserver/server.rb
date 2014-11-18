@@ -1208,13 +1208,7 @@ end
       Utils::log_controller_action(self.class, params)
       #todo: process forgot password request
 
-      # 2.2.1 (optional)
-      @service = clean_service_url(params['service'])
-
-      # 2.2.2 (required)
       @email = params['username']
-      @lt = params['lt']
-
       @email.strip! if @email
 
       if @email && settings.config[:downcase_username]
