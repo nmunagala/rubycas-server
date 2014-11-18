@@ -29,6 +29,7 @@ module CASServer
       :maximum_unused_login_ticket_lifetime => 5.minutes,
       :maximum_unused_service_ticket_lifetime => 5.minutes, # CAS Protocol Spec, sec. 3.2.1 (recommended expiry time)
       :maximum_session_lifetime => 2.days, # all tickets are deleted after this period of time
+      :maximum_unused_reset_password_ticket_lifetime => 1.day,
       :log => {:file => 'casserver.log', :level => 'DEBUG'},
       :uri_path => ""
     )
@@ -1206,7 +1207,6 @@ end
 
     post "#{uri_path}/forgot_pwd" do
       Utils::log_controller_action(self.class, params)
-      #todo: process forgot password request
 
       @email = params['username']
       @email.strip! if @email
