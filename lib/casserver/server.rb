@@ -844,6 +844,7 @@ module CASServer
       @username_error = {:type => 'mistake', :message => t.error.username_blank} if is_empty? @email
       @username2_error = {:type => 'mistake', :message => t.error.email_conf_blank} if is_empty? @email2
       @password_error = {:type => 'mistake', :message => t.error.pwd_blank} if is_empty? @password
+      @nickname_error || @username_error || @username2_error || @password_error
     end
 
     def raise_if_username_different(credentials)
