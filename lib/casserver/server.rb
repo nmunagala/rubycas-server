@@ -29,7 +29,7 @@ module CASServer
       :maximum_unused_login_ticket_lifetime => 5.minutes,
       :maximum_unused_service_ticket_lifetime => 5.minutes, # CAS Protocol Spec, sec. 3.2.1 (recommended expiry time)
       :maximum_session_lifetime => 2.days, # all tickets are deleted after this period of time
-      :maximum_unused_reset_password_ticket_lifetime => 1.day,
+      :maximum_unused_reset_password_ticket_lifetime => 1.days,
       :log => {:file => 'casserver.log', :level => 'DEBUG'},
       :uri_path => ""
     )
@@ -1293,7 +1293,7 @@ end
         $LOG.warn "Invalid reset password ticket '#{@ticket}'"
       end
 
-      if !@password || !@password_confirm
+      unless @password && @password_confirm
         error = t.error.password_not_set
       end
 
@@ -1313,8 +1313,6 @@ end
         auth = auth_class.new
 
         auth_config = settings.config[:authenticator][auth_index]
-        # pass the authenticator index to the configuration hash in case the authenticator needs to know
-        # it splace in the authenticator queue
         auth.configure(auth_config.merge('auth_index' => auth_index))
 
         updated = auth.update_user_password(

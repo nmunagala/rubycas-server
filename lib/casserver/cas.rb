@@ -140,7 +140,7 @@ module CASServer::CAS
     elsif rpt.consumed?
       error = t.error.reset_password_ticket_already_used
       $LOG.warn "Reset password ticket '#{rpt.ticket}' previously used up"
-    elsif Time.now - rpt.created_on < settings.config[:maximum_unused_reset_password_ticket_lifetime]
+    elsif (Time.now - rpt.created_on) < settings.config[:maximum_unused_reset_password_ticket_lifetime]
       $LOG.info "Reset password ticket '#{rpt.ticket}' successfully validated"
     else
       error = t.error.reset_password_timeout
