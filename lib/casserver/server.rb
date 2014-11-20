@@ -993,13 +993,16 @@ module CASServer
 
       begin
         tgt = TicketGrantingTicket.find_by_ticket(params['tgt'])
-        user_attributes = {
+        if tgt.nil?
+          user_attributes = {}
+        else
+          user_attributes = {
             :email => tgt.username,
-        }
-        tgt.extra_attributes.each do |col|
-          user_attributes[col[0].to_sym] = col[1]
+          }
+          tgt.extra_attributes.each do |col|
+            user_attributes[col[0].to_sym] = col[1]
+          end
         end
-
         content_type :json
         user_attributes.to_json
       rescue CASServer::AuthenticatorError => e
