@@ -29,6 +29,14 @@ infoline:
 custom_views: lib/casserver/navionics_views
 log:
   file: "/var/log/casserver.log"
-  level: INFO
+  level: DEBUG
 db_log:
   file: "/var/log/casserver_db.log"
+mail:
+  method: smtp
+  host: smtp.sendgrid.net
+  domain: navionics.com
+  username: adminnavio
+  password: dm25F34z
+  port: 587
+  authentification: plain
