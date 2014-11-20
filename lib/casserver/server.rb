@@ -992,7 +992,7 @@ module CASServer
       Utils::log_controller_action(self.class, params)
 
       begin
-        tgt = TicketGrantingTicket.find_by_ticket(params['tgt'])
+        tgt = CASServer::Model::TicketGrantingTicket.find_by_ticket(params['tgt'])
         if tgt.nil?
           user_attributes = {}
         else
