@@ -1380,7 +1380,6 @@ end
 
       @ticket = params[:rpt]
       @password = params[:password]
-      @password_confirm = params[:password_confirm]
       error = false
       @rpt = get_reset_password_ticket(@ticket)
       unless @rpt
@@ -1388,12 +1387,8 @@ end
         $LOG.warn "Invalid reset password ticket '#{@ticket}'"
       end
 
-      unless @password && @password_confirm
+      unless @password
         error = t.error.password_not_set
-      end
-
-      if @password != @password_confirm
-        error = t.error.password_not_confirmed
       end
 
       if error || error = validate_reset_password_ticket(@rpt)
@@ -1403,7 +1398,11 @@ end
       end
 
       auth_index = 0
+      @username = @rpt.username
       @updated = false
+      extra_attributes = {}
+      successful_authenticator = nil
+      status 200
       settings.auth.each do |auth_class|
         auth = auth_class.new
 
@@ -1411,7 +1410,7 @@ end
         auth.configure(auth_config.merge('auth_index' => auth_index))
 
         updated = auth.update_user_password(
-            :username => @rpt.username,
+            :username => @username,
             :password => @password,
             :service => @service,
             :request => @env
@@ -1419,20 +1418,54 @@ end
 
         if updated
           @updated = updated
+          @authenticated = true
+          @authenticated_username = @username
+          extra_attributes.merge!(auth.extra_attributes) unless auth.extra_attributes.blank?
+          successful_authenticator = auth
           break
         end
 
         auth_index += 1
       end
 
-      unless @updated
+      if @updated
+        $LOG.info("Password for username '#{@username}' successfully updated.")
+        $LOG.debug("Authenticator provided additional user attributes: #{extra_attributes.inspect}") unless extra_attributes.blank?
+
+        # 3.6 (ticket-granting cookie)
+        tgt = generate_ticket_granting_ticket(@username, extra_attributes)
+        response.set_cookie('tgt', tgt.to_s)
+        @lt = generate_login_ticket.ticket
+
+        $LOG.debug("Ticket granting cookie '#{tgt.inspect}' granted to #{@username.inspect}")
+
+        if @service.blank?
+          $LOG.info("Successfully authenticated user '#{@username}' at '#{tgt.client_hostname}'. No service param was given, so we will not redirect.")
+          @message = {:type => 'confirmation', :message => t.notice.success_logged_in}
+        else
+          @st = generate_service_ticket(@service, @username, tgt)
+
+          begin
+            service_with_ticket = service_uri_with_ticket(@service, @st)
+
+            $LOG.info("Redirecting authenticated user '#{@username}' at '#{@st.client_hostname}' to service '#{@service}'")
+            redirect service_with_ticket, 303 # response code 303 means "See Other" (see Appendix B in CAS Protocol spec)
+          rescue URI::InvalidURIError
+            $LOG.error("The service '#{@service}' is not a valid URI!")
+            @message = {
+                :type => 'mistake',
+                :message => t.error.invalid_target_service
+            }
+          end
+        end
+      else
         @message = {:type => 'mistake', :message => t.error.no_user_found}
         status 500
         return render @template_engine, :forgot_pwd
       end
 
       @message = {:type => 'notice', :message => t.notice.reset_pwd_success}
-      render @template_engine, :forgot_pwd_success
+      render @template_engine, :passwords
     end
 
   end
