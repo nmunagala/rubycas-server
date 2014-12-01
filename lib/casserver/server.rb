@@ -1160,7 +1160,7 @@ end
 
           $LOG.debug("Authenticator provided additional user attributes: #{extra_attributes.inspect}") unless extra_attributes.blank?
           tgt = generate_ticket_granting_ticket(@username, extra_attributes)
-          response = {:tgt => tgt.ticket}
+          response = {:token => tgt.ticket}
 
         end
       rescue CASServer::AuthenticatorError => e
