@@ -1,21 +1,17 @@
- <div class="login-box-wrapper">
-    <div class="login-box-title">
-      <h3>Login</h3>
-    </div>
-    <%# coding: UTF-8 -%>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js"></script>
-    <div class="box login-user-box">
-      <form method="post" action="<%= @form_action || "login" %>" id="login-form"
-        onsubmit="submitbutton = document.getElementById('login-submit'); submitbutton.value='<%= t.notice.please_wait %>'; submitbutton.disabled=true; return true;"> 
-        <input type="text" id="username" name="username" placeholder="Email" size="64" tabindex="1" accesskey="u" />
-        <input type="password" id="password" name="password" placeholder="Password" size="64" tabindex="2" accesskey="p" autocomplete="off" />
-        <div id="login-submit">
-          <input type="hidden" id="lt" name="lt" value="<%= escape_html @lt %>" />
-          <input type="hidden" id="service" name="service" value="<%= escape_html @service %>" />
-           <div class="ac">
-             <button class="login-button login-btn-green" tabindex="4" type="submit">Log in</button>
-           </div> 
-        </div>
-      </form>
-    </div>
-</div>
+<%# coding: UTF-8 -%>
+ <form method="post" action="<%= @form_action || "login" %>" id="login-form">
+ <div class="form-title"><%= t.label.login %></div>
+
+ <div class="form-text">Use a <strong>Navionics account</strong> to sync data across devices and manage products.</div>
+
+ <div class="form-inputs-block">
+   <div class="form-input-line"><input class="form-input" type="text" name="username" placeholder="Username"/></div>
+   <div class="form-input-line"><input class="form-input" type="password" name="password" placeholder="Password"/></div>
+   <div class="login-forgot-password"><a href="/cas/forgot_pwd"><%= t.label.forgot_password %>?</a></div>
+ </div>
+
+   <input type="hidden" id="lt" name="lt" value="<%= escape_html @lt %>" />
+   <input type="hidden" id="service" name="service" value="<%= escape_html @service %>" />
+
+ <div class="form-button-block"><button type="submit" class="form-button button-secondary-style"><%= t.button.login %></button></div>
+ </form>

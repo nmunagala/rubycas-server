@@ -473,6 +473,7 @@ module CASServer
           if @service.blank?
             $LOG.info("Successfully authenticated user '#{@username}' at '#{tgt.client_hostname}'. No service param was given, so we will not redirect.")
             @message = {:type => 'confirmation', :message => t.notice.success_logged_in}
+            return render @template_engine, :loggedin
           else
             @st = generate_service_ticket(@service, @username, tgt)
             begin
@@ -1349,8 +1350,7 @@ end
                     }
           })
 
-          @message = {:type => 'confirmation', :message => t.notice.instructions_sent}
-          return render @template_engine, :forgot_pwd
+          return render @template_engine, :forgot_pwd_sent
         end
       @message = {:type => 'error', :message => t.error.no_user_found}
       render @template_engine, :forgot_pwd

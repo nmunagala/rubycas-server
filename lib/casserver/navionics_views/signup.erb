@@ -1,5 +1,7 @@
 <%# coding: UTF-8 -%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js"></script>
-  <div id="login-main-content">
-    <%= erb(:_signup_form, :layout => false) %>
-  </div>
+<div class="login-form">
+  <%= erb(:_signup_form, :layout => false) %>
+
+  <div class="login-reg-link-block">Or go back to <a href="/cas">Login</a></div>
+</div>

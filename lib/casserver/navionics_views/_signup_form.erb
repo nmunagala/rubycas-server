@@ -1,45 +1,28 @@
- <div class="login-box-wrapper">
-    <%# coding: UTF-8 -%>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js"></script>
-    <div>
-      <form method="post" action="<%= @form_action || "signup" %>" id="signup-form"
-        onsubmit="submitbutton = document.getElementById('signup-submit'); submitbutton.value='<%= t.notice.please_wait %>'; submitbutton.disabled=true; return true;">
-        <input type="text" id="nickname" name="nickname" placeholder="Nickname" size="64" tabindex="1" />
-        <input type="text" id="username" name="username" placeholder="Email" size="64" tabindex="2" />
-        <input type="text" id="username2" name="username2" placeholder="Confirm email" size="64" tabindex="3" />
-        <input type="password" id="password" name="password" placeholder="Password" size="64" tabindex="4" autocomplete="off" />
-        <input type="checkbox" name="show_pwd" value="show_pwd" onclick="showPassword('txtPassword','Password');">Show password<br>
-        <div id="signup-submit">
-          <input type="hidden" id="lt" name="lt" value="<%= escape_html @lt %>" />
-          <input type="hidden" id="service" name="service" value="<%= escape_html @service %>" />
-           <div>
-             <button tabindex="4" type="submit">Register</button>
-           </div> 
-        </div>
-        <% if @nickname_error %>
-            <div id="nickname_error">
-              <%= escape_html @nickname_error[:message] %>
-            </div>
-        <% end %>
-        <% if @username_error %>
-            <div id="username_error">
-              <%= escape_html @username_error[:message] %>
-            </div>
-        <% end %>
-        <% if @username2_error %>
-            <div id="username2_error">
-              <%= escape_html @username2_error[:message] %>
-            </div>
-        <% end %>
-        <% if @password_error %>
-            <div id="password_error">
-              <%= escape_html @password_error[:message] %>
-            </div>
-        <% end %>
-      </form>
-    </div>
-</div>
+<%# coding: UTF-8 -%>
 
+<form method="post" action="<%= @form_action || "signup" %>" id="signup-form">
+ <div class="form-title">Create an account</div>
+
+ <div class="reg-upload-ava clearfix">
+   <div class="reg-upload-ava-preview"></div>
+   <div class="reg-upload-ava-content">
+     <div class="reg-upload-ava-title">Upload a profile picture</div>
+     <div class="reg-upload-ava-uploader"><a href="#">Upload</a></div>
+   </div>
+ </div>
+
+ <div class="form-inputs-block">
+   <div class="form-input-line"><input class="form-input" type="email" placeholder="Email (username)"/></div>
+   <div class="form-input-line"><input class="form-input" type="email" placeholder="Confirm Email"/></div>
+   <div class="form-input-line"><input class="form-input" type="text" placeholder="Nickname"/></div>
+   <div class="form-input-line"><input class="form-input" type="password" id="password" placeholder="Password"/></div>
+   <div class="reg-hide-pass"><label><input type="checkbox" onclick="showPassword();"/> <%= t.label.show_password %></label></div>
+ </div>
+
+ <div class="reg-agree">By clicking Create Account you agree to our <a href="#">Privacy Policy</a></div>
+
+ <div class="form-button-block"><button type="submit" class="form-button button-secondary-style">Create Account</button></div>
+ </form>
 <script>
    function showPassword() {
        var pwd = document.getElementById("password");

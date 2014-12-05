@@ -28,7 +28,7 @@ notice:
   success_logged_out: "You have successfully logged out."
   success_logged_in: "You have successfully logged in."
   please_wait: "Please wait..."
-  instructions_sent: "Instructions sent to email"
+  instructions_sent: "Click on the link we just sent you to your email account to select a new password and automatically login."
   reset_pwd_success: "Password successfully changed"
 
 label:
@@ -37,11 +37,17 @@ label:
   central_login_title: "Central Login"
   forgot_password: "Forgot password"
   show_password: "Show password"
+  login: "Login"
+  reset_sent: "Rest link sent"
+  new_password: "Select a new password"
+  hide_password: "Hide password"
 
 button:
-  login: "LOGIN"
+  login: "Login"
   send_instructions: "Send instruction"
+  reset_password: "Reset password"
   save: "Save"
+  close: "Close"
 
 email:
   reset_password: "Reset password request"
