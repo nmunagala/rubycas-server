@@ -897,11 +897,13 @@ module CASServer
       @lt = params['lt']
 
       # Remove leading and trailing widespace from username.
-      @email.strip! if @email
+      @username.strip! if @username
+      @username2.strip! if @username2
 
-      if @email && settings.config[:downcase_username]
+      if @username && @username2 && settings.config[:downcase_username]
         $LOG.debug("Converting username #{@username.inspect} to lowercase because 'downcase_username' option is enabled.")
-        @email.downcase!
+        @username.downcase!
+        @username2.downcase!
       end
 
       credentials = {
