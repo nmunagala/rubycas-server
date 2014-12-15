@@ -467,8 +467,12 @@ module CASServer
                               :domain => "navionics.com",
                               :path => "/",
                               :expires => (Time.now + 1209600))
+          response.set_cookie("tgt", :value => tgt.to_s,
+                              :domain => "navionics.io",
+                              :path => "/",
+                              :expires => (Time.now + 1209600))
 
-          $LOG.debug("Ticket granting cookie '#{tgt.inspect}' granted to #{@username.inspect}")
+          $LOG.debug("Ticket granting cookies '#{tgt.inspect}' granted to #{@username.inspect}")
 
           if @service.blank?
             $LOG.info("Successfully authenticated user '#{@username}' at '#{tgt.client_hostname}'. No service param was given, so we will not redirect.")
