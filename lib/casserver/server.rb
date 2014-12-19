@@ -464,11 +464,11 @@ module CASServer
           # 3.6 (ticket-granting cookie)
           tgt = generate_ticket_granting_ticket(@username, extra_attributes)
           response.set_cookie("tgt", :value => tgt.to_s,
-                              :domain => "navionics.com",
+                              :domain => ".navionics.com",
                               :path => "/",
                               :expires => (Time.now + 1209600))
           response.set_cookie("tgt", :value => tgt.to_s,
-                              :domain => "navionics.io",
+                              :domain => ".navionics.io",
                               :path => "/",
                               :expires => (Time.now + 1209600))
 
