@@ -1374,7 +1374,8 @@ end
         status 500
         return render @template_engine, :forgot_pwd_success
       end
-      @form_action = "#{@uri_path}/passwords/#{@ticket}"
+
+      @form_action = "#{request.host}/passwords/#{@ticket}"
       render @template_engine, :passwords
     end
 
