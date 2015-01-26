@@ -315,11 +315,13 @@ module CASServer
         tgt, tgt_error = validate_ticket_granting_ticket(tgc)
       end
 
-      if tgt and !tgt_error
+      if tgt and (!tgt_error || tgt_error.nil?)
+        puts tgt.inspect
         @authenticated = true
         @authenticated_username = tgt.username
         @message = {:type => 'notice',
           :message => t.notice.logged_in_as(tgt.username)}
+        return render @template_engine, :loggedin
       elsif tgt_error
         $LOG.debug("Ticket granting cookie could not be validated: #{tgt_error}")
       elsif !tgt
