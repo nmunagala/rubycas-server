@@ -1305,6 +1305,13 @@ end
         $LOG.debug("No ticket granting ticket detected.")
       end
 
+      if @env['HTTP_HOST']
+        guessed_uri = "http#{@env['HTTPS'] && @env['HTTPS'] == 'on' ? 's' : ''}://#{@env['REQUEST_URI']}}"
+      else
+        guessed_uri = nil
+      end
+
+      @form_action = params['submitToURI'] || guessed_uri
 
       render @template_engine, :forgot_pwd
     end
@@ -1360,6 +1367,7 @@ end
 
           return render @template_engine, :forgot_pwd_sent
         end
+
       @message = {:type => 'error', :message => t.error.no_user_found}
       render @template_engine, :forgot_pwd
     end
