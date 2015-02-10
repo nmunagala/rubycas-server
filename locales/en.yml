@@ -38,7 +38,7 @@ label:
   forgot_password: "Forgot password"
   show_password: "Show password"
   login: "Login"
-  reset_sent: "Rest link sent"
+  reset_sent: "Reset link sent"
   new_password: "Select a new password"
   hide_password: "Hide password"
 
