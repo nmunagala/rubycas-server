@@ -277,7 +277,10 @@ module CASServer
     end
 
     before do
-      headers 'Access-Control-Allow-Origin' => '*'
+      headers 'Access-Control-Allow-Origin' => "#{request.scheme}://#{request.host}"
+      headers 'Access-Control-Allow-Origin' => "#{request.scheme}://#{request.referer}"
+      headers 'Access-Control-Allow-Origin' => "#{request.scheme}://#{request.host}:#{request.port}"
+      headers 'Access-Control-Allow-Origin' => "#{request.scheme}://#{request.referer}:#{request.port}"
       headers 'Access-Control-Allow-Credentials' => 'true'
       headers 'Access-Control-Allow-Headers' => 'Authorization,Accepts,Content-Type,X-CSRF-Token,X-Requested-With'
       headers 'Access-Control-Allow-Methods' => 'GET,POST,PUT,DELETE,OPTIONS'
