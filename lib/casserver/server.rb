@@ -277,7 +277,10 @@ module CASServer
     end
 
     before do
-      headers 'Access-Control-Allow-Origin' => '*'
+      #add header for cors for specific needs
+      headers 'Access-Control-Allow-Origin' => request.host[0..-2]
+      headers 'Access-Control-Allow-Origin' => request.referer[0..-2]
+      headers 'Access-Control-Allow-Credentials' => 'true'
       headers 'Access-Control-Allow-Headers' => 'Authorization,Accepts,Content-Type,X-CSRF-Token,X-Requested-With'
       headers 'Access-Control-Allow-Methods' => 'GET,POST,PUT,DELETE,OPTIONS'
       content_type :html, 'charset' => 'utf-8'
