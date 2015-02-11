@@ -1307,7 +1307,7 @@ end
       end
 
       if @env['HTTP_HOST']
-        guessed_uri = "http#{@env['HTTPS'] && @env['HTTPS'] == 'on' ? 's' : ''}://#{@env['REQUEST_URI']}}"
+        guessed_uri = @env['REQUEST_URI']
       else
         guessed_uri = nil
       end
