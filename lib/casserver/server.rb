@@ -277,6 +277,7 @@ module CASServer
     end
 
     before do
+      #add header for cors for specific needs
       headers 'Access-Control-Allow-Origin' => "#{request.scheme}://#{request.host}"
       headers 'Access-Control-Allow-Origin' => "#{request.scheme}://#{request.referer}"
       headers 'Access-Control-Allow-Origin' => "#{request.scheme}://#{request.host}:#{request.port}"
