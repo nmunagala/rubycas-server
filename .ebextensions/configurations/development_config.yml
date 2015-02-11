@@ -8,7 +8,7 @@ database:
   database: navionics_beta
   username: cas
   password: cas
-  host: 54.247.177.219
+  host: 54.228.195.83
   reconnect: true
 authenticator:
   class: CASServer::Authenticators::SQLEncrypted
@@ -17,7 +17,7 @@ authenticator:
     database: navionics_beta
     username: cas
     password: cas
-    host: 54.247.177.219
+    host: 54.228.195.83
   user_table: users
   username_column: email
   password: encrypted_password
