@@ -277,7 +277,8 @@ module CASServer
     end
 
     before do
-      headers 'Access-Control-Allow-Origin' => '*'
+      #add header for cors for specific needs
+      headers 'Access-Control-Allow-Origin' => request.env['HTTP_ORIGIN']
       headers 'Access-Control-Allow-Credentials' => 'true'
       headers 'Access-Control-Allow-Headers' => 'Authorization,Accepts,Content-Type,X-CSRF-Token,X-Requested-With'
       headers 'Access-Control-Allow-Methods' => 'GET,POST,PUT,DELETE,OPTIONS'
@@ -1306,6 +1307,13 @@ end
         $LOG.debug("No ticket granting ticket detected.")
       end
 
+      if @env['HTTP_HOST']
+        guessed_uri = @env['REQUEST_URI']
+      else
+        guessed_uri = nil
+      end
+
+      @form_action = params['submitToURI'] || guessed_uri
 
       render @template_engine, :forgot_pwd
     end
@@ -1361,6 +1369,7 @@ end
 
           return render @template_engine, :forgot_pwd_sent
         end
+
       @message = {:type => 'error', :message => t.error.no_user_found}
       render @template_engine, :forgot_pwd
     end
