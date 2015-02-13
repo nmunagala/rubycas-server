@@ -1,6 +1,7 @@
 # RubyCAS-Server
 [ ![Codeship Status for Navionics/rubycas-server](https://codeship.io/projects/69ae2dc0-4350-0132-d403-66ccbeb6bad7/status)](https://codeship.io/projects/44658)
 
+
 ## Copyright
 
 Portions contributed by Matt Zukowski are copyright (c) 2011 Urbacon Ltd.
