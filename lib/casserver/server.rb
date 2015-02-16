@@ -377,14 +377,8 @@ module CASServer
       # embed the login form in some external page (as an IFRAME, or otherwise).
       # The optional 'submitToURI' parameter can be given to explicitly set the
       # action for the form, otherwise the server will try to guess this for you.
+      @form_action = params['submitToURI'] || guessed_uri
       if params.has_key? 'onlyLoginForm'
-        if @env['HTTP_HOST']
-          guessed_login_uri = "http#{@env['HTTPS'] && @env['HTTPS'] == 'on' ? 's' : ''}://#{@env['REQUEST_URI']}/login}"
-        else
-          guessed_login_uri = nil
-        end
-
-        @form_action = params['submitToURI'] || guessed_login_uri
 
         if @form_action
           render @template_engine, :login
