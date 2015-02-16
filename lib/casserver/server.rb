@@ -417,6 +417,7 @@ module CASServer
         # generate another login ticket to allow for re-submitting the form
         @lt = generate_login_ticket.ticket
         status 500
+        @form_action = params['submitToURI'] || guessed_uri
         return render @template_engine, :login
       end
 
@@ -503,6 +504,8 @@ module CASServer
         @message = {:type => 'mistake', :message => e.to_s}
         status 401
       end
+
+      @form_action = params['submitToURI'] || guessed_uri
 
       render @template_engine, :login
     end
