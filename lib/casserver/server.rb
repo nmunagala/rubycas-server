@@ -1308,7 +1308,7 @@ end
       end
 
       if @env['HTTP_HOST']
-        guessed_uri = "#{@env['HTTP_HOST']}#{@env['REQUEST_PATH']}"
+        guessed_uri = "#{@env['HTTP_HOST']}#{@env['PATH_INFO']}"
       else
         guessed_uri = nil
       end
