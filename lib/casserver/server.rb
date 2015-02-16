@@ -1004,6 +1004,16 @@ module CASServer
       @base_url ||= "https://#{request.env['HTTP_HOST']}"
     end
 
+    def guessed_uri
+      if request.env['HTTP_HOST']
+        guessed_uri = "#{base_url}#{request.env['REQUEST_URI']}"
+      else
+        guessed_uri = nil
+      end
+
+      @guessed_uri = guessed_uri
+    end
+
  post "#{uri_path}/user_attributes" do
       Utils::log_controller_action(self.class, params)
 
@@ -1309,12 +1319,6 @@ end
         $LOG.debug("Ticket granting cookie could not be validated: #{tgt_error}")
       elsif !tgt
         $LOG.debug("No ticket granting ticket detected.")
-      end
-
-      if @env['HTTP_HOST']
-        guessed_uri = "#{base_url}#{@env['REQUEST_URI']}"
-      else
-        guessed_uri = nil
       end
 
       @form_action = params['submitToURI'] || guessed_uri
