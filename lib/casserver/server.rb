@@ -1001,7 +1001,7 @@ module CASServer
     end
 
     def base_url
-      @base_url ||= "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}"
+      @base_url ||= "#{request.env['X-Forwarded-Proto']}://#{request.env['HTTP_HOST']}"
     end
 
  post "#{uri_path}/user_attributes" do
