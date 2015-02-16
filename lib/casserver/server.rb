@@ -1000,6 +1000,10 @@ module CASServer
       render @template_engine, :signup
     end
 
+    def base_url
+      @base_url ||= "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}"
+    end
+
  post "#{uri_path}/user_attributes" do
       Utils::log_controller_action(self.class, params)
 
@@ -1308,7 +1312,7 @@ end
       end
 
       if @env['HTTP_HOST']
-        guessed_uri = "http#{@env['HTTPS'] && @env['HTTPS'] == 'on' ? 's' : ''}://#{@env['HTTP_HOST']}#{@env['REQUEST_URI']}"
+        guessed_uri = "#{base_url}#{@env['REQUEST_URI']}"
       else
         guessed_uri = nil
       end
