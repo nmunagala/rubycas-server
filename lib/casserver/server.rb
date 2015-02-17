@@ -1372,12 +1372,11 @@ end
                     }
           })
 
-          @form_action = params['submitToURI'] || guessed_uri
           return render @template_engine, :forgot_pwd_sent
         end
 
       @message = {:type => 'error', :message => t.error.no_user_found}
-
+      @form_action = params['submitToURI'] || guessed_uri
       render @template_engine, :forgot_pwd
     end
 
