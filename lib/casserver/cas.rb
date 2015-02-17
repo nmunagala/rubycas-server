@@ -312,7 +312,7 @@ module CASServer::CAS
 
     # This will choke with a URI::InvalidURIError if service URI is not properly URI-escaped...
     # This exception is handled further upstream (i.e. in the controller).
-    service_uri = URI.parse(service)
+    service_uri = URI.parse(URI.encode(service))
 
     if service.include? "?"
       if service_uri.query.empty?
