@@ -1372,10 +1372,12 @@ end
                     }
           })
 
+          @form_action = params['submitToURI'] || guessed_uri
           return render @template_engine, :forgot_pwd_sent
         end
 
       @message = {:type => 'error', :message => t.error.no_user_found}
+
       render @template_engine, :forgot_pwd
     end
 
@@ -1392,7 +1394,8 @@ end
         return render @template_engine, :forgot_pwd_success
       end
 
-      @form_action = "#{request.host}/passwords/#{@ticket}"
+      @form_action = params['submitToURI'] || guessed_uri
+
       render @template_engine, :passwords
     end
 
@@ -1418,6 +1421,7 @@ end
       if error || error = validate_reset_password_ticket(@rpt)
         @message = {:type => 'mistake', :message => error}
         status 500
+        @form_action = "#{base_url}#{uri_path}/forgot_pwd"
         return render @template_engine, :forgot_pwd
       end
 
@@ -1452,6 +1456,8 @@ end
         auth_index += 1
       end
 
+      @form_action = params['submitToURI'] || guessed_uri
+
       if @updated
         $LOG.info("Password for username '#{@username}' successfully updated.")
         $LOG.debug("Authenticator provided additional user attributes: #{extra_attributes.inspect}") unless extra_attributes.blank?
@@ -1485,6 +1491,7 @@ end
       else
         @message = {:type => 'mistake', :message => t.error.no_user_found}
         status 500
+        @form_action = "#{base_url}#{uri_path}/forgot_pwd"
         return render @template_engine, :forgot_pwd
       end
 
