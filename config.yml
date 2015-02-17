@@ -31,18 +31,18 @@
 
 server: webrick
 port: 443
-ssl_cert: /opt/nginx/conf/ssl/store.crt
+#ssl_cert: /opt/nginx/conf/ssl/store.crt
 
 # If your private key is in a separate file from the cert
 
-ssl_key: /opt/nginx/conf/ssl/store.key
+#ssl_key: /opt/nginx/conf/ssl/store.key
 
 # If you do not already have an SSL certificate and would like to automatically
 # generate one, run the "generate_ssl_certificate" rake task and use the following
 # settings:
 
-#  ssl_cert: ssl/cert.pem
-#  ssl_key: ssl/key.pem
+ssl_cert: ssl/cert.pem
+ssl_key: ssl/key.pem
 
 
 # By default the login page will be available at the root path

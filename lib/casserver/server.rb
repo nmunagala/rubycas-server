@@ -377,14 +377,8 @@ module CASServer
       # embed the login form in some external page (as an IFRAME, or otherwise).
       # The optional 'submitToURI' parameter can be given to explicitly set the
       # action for the form, otherwise the server will try to guess this for you.
+      @form_action = params['submitToURI'] || guessed_uri
       if params.has_key? 'onlyLoginForm'
-        if @env['HTTP_HOST']
-          guessed_login_uri = "http#{@env['HTTPS'] && @env['HTTPS'] == 'on' ? 's' : ''}://#{@env['REQUEST_URI']}/login}"
-        else
-          guessed_login_uri = nil
-        end
-
-        @form_action = params['submitToURI'] || guessed_login_uri
 
         if @form_action
           render @template_engine, :login
@@ -423,6 +417,7 @@ module CASServer
         # generate another login ticket to allow for re-submitting the form
         @lt = generate_login_ticket.ticket
         status 500
+        @form_action = params['submitToURI'] || guessed_uri
         return render @template_engine, :login
       end
 
@@ -509,6 +504,8 @@ module CASServer
         @message = {:type => 'mistake', :message => e.to_s}
         status 401
       end
+
+      @form_action = params['submitToURI'] || guessed_uri
 
       render @template_engine, :login
     end
@@ -1000,6 +997,20 @@ module CASServer
       render @template_engine, :signup
     end
 
+    def base_url
+      @base_url ||= "https://#{request.env['HTTP_HOST']}"
+    end
+
+    def guessed_uri
+      if request.env['HTTP_HOST']
+        guessed_uri = "#{base_url}#{request.env['REQUEST_URI']}"
+      else
+        guessed_uri = nil
+      end
+
+      @guessed_uri = guessed_uri
+    end
+
  post "#{uri_path}/user_attributes" do
       Utils::log_controller_action(self.class, params)
 
@@ -1305,12 +1316,6 @@ end
         $LOG.debug("Ticket granting cookie could not be validated: #{tgt_error}")
       elsif !tgt
         $LOG.debug("No ticket granting ticket detected.")
-      end
-
-      if @env['HTTP_HOST']
-        guessed_uri = @env['REQUEST_URI']
-      else
-        guessed_uri = nil
       end
 
       @form_action = params['submitToURI'] || guessed_uri
