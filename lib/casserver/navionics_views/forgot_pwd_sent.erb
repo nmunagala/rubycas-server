@@ -4,11 +4,11 @@
       <%= escape_html @message[:message] %>
     </div>
 <% end %>
-<div class="login-form">
+<div class="login-form" id="sent-block">
   <div class="form-title"><%= t.label.reset_sent %></div>
 
   <div class="form-text"><%= t.notice.instructions_sent %></div>
 
-  <div class="form-button-block"><button type="submit" class="form-button button-secondary-style"><%= t.button.close %></button></div>
+  <div class="form-button-block" id="sent-close-block"><button type="submit" class="form-button button-secondary-style" id="sent-close"><%= t.button.close %></button></div>
 </div>
 
