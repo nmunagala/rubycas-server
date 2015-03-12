@@ -151,7 +151,34 @@ class CASServer::Authenticators::SQLEncrypted < CASServer::Authenticators::SQL
     else
       return false
     end
+  end
 
+  def update_user_nickname(credentials)
+    read_standard_credentials(credentials)
+    raise_if_not_configured
+
+    username_column = @options[:username_column] || "username"
+    log_connection_pool_size
+    results = user_model.find(:all, :conditions => ["#{username_column} = ?", @username])
+    user_model.connection_pool.checkin(user_model.connection)
+
+    if results.size > 0
+      $LOG.warn("Multiple matches found for user '#{@username}'") if results.size > 1
+      user = results.first
+      user.nickname = credentials[:nickname]
+      unless @options[:extra_attributes].blank?
+        if results.size > 1
+          $LOG.warn("#{self.class}: Unable to extract extra_attributes because multiple matches were found for #{@username.inspect}")
+        else
+          extract_extra(user)
+          log_extra
+        end
+      end
+
+      return user.save()
+    else
+      return false
+    end
   end
 
 end
