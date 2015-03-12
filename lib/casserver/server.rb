@@ -846,11 +846,19 @@ module CASServer
       @email = credentials[:username]
       @email2 = credentials[:username2]
       @password = credentials[:password]
-      @nickname_error = {:type => 'mistake', :message => t.error.nickname_blank, :code => 'BLANK', :field => 'nickname'} if is_empty? @nickname
+      raise_if_nickname_blank(@nickname)
       @username_error = {:type => 'mistake', :message => t.error.username_blank, :code => 'BLANK', :field => 'email'} if is_empty? @email
       @username2_error = {:type => 'mistake', :message => t.error.email_conf_blank} if is_empty? @email2
-      @password_error = {:type => 'mistake', :message => t.error.pwd_blank, :code => 'BLANK', :field => 'password'} if is_empty? @password
+      raise_if_password_blank(@password)
       @nickname_error || @username_error || @username2_error || @password_error
+    end
+
+    def raise_if_nickname_blank(nickname)
+      @nickname_error = {:type => 'mistake', :message => t.error.nickname_blank, :code => 'BLANK', :field => 'nickname'} if is_empty? nickname
+    end
+
+    def raise_if_password_blank(pwd)
+      @password_error = {:type => 'mistake', :message => t.error.pwd_blank, :code => 'BLANK', :field => 'password'} if is_empty? pwd
     end
 
     def raise_if_username_different(credentials)
@@ -891,6 +899,19 @@ module CASServer
       raise_if_password_not_valid(credentials[:password])
       raise_if_nickname_not_valid(credentials[:nickname])
       @nickname_error || @username_error || @username2_error || @password_error
+    end
+
+    def raise_password_errors(credentials)
+      raise_if_password_blank(credentials[:password])
+      raise_if_password_not_valid(credentials[:password])
+      @password_error
+    end
+
+    def raise_nickname_errors(auth, credentials)
+      raise_if_nickname_blank(credentials[:nickname])
+      raise_if_nickname_not_valid(credentials[:nickname])
+      raise_if_nickname_already_exists(auth, credentials[:nickname])
+      @nickname_error
     end
 
     def signup(params)
@@ -1011,7 +1032,7 @@ module CASServer
       @guessed_uri = guessed_uri
     end
 
- post "#{uri_path}/user_attributes" do
+    post "#{uri_path}/user_attributes" do
       Utils::log_controller_action(self.class, params)
 
       begin
@@ -1020,7 +1041,7 @@ module CASServer
           user_attributes = {}
         else
           user_attributes = {
-            :email => tgt.username,
+              :email => tgt.username,
           }
           tgt.extra_attributes.each do |col|
             user_attributes[col[0].to_sym] = col[1]
@@ -1030,78 +1051,78 @@ module CASServer
         user_attributes.to_json
       rescue CASServer::AuthenticatorError => e
         $LOG.error(e)
-        @message = {:type => 'mistake', :message => e.to_s}
+        @message = { :type => 'mistake', :message => e.to_s }
         status 401
       end
 
     end
 
-post "#{uri_path}/rest_login" do
-  Utils::log_controller_action(self.class, params)
-  status 404
-  return unless request.user_agent == "NavionicsMobile server user_agent"
+    post "#{uri_path}/rest_login" do
+      Utils::log_controller_action(self.class, params)
+      status 404
+      return unless request.user_agent == "NavionicsMobile server user_agent"
 
-  @username = params['username']
-  @password = params['password']
+      @username = params['username']
+      @password = params['password']
 
-  # Remove leading and trailing widespace from username.
-  @username.strip! if @username
+      # Remove leading and trailing widespace from username.
+      @username.strip! if @username
 
-  if @username && settings.config[:downcase_username]
-    $LOG.debug("Converting username #{@username.inspect} to lowercase because 'downcase_username' option is enabled.")
-    @username.downcase!
-  end
-
-  $LOG.debug("Logging in with username: #{@username}, service: #{@service}, auth: #{settings.auth.inspect}")
-
-  credentials_are_valid = false
-  extra_attributes = {}
-  successful_authenticator = nil
-  status 200
-  message = "error authentication"
-  begin
-    auth_index = 0
-    settings.auth.each do |auth_class|
-      auth = auth_class.new
-
-      auth_config = settings.config[:authenticator][auth_index]
-      auth.configure(auth_config.merge('auth_index' => auth_index))
-
-      credentials_are_valid = auth.validate(
-      :username => @username,
-      :password => @password,
-      :service => @service,
-      :request => @env
-      )
-      if credentials_are_valid
-        @authenticated = true
-        @authenticated_username = @username
-        extra_attributes.merge!(auth.extra_attributes) unless auth.extra_attributes.blank?
-        successful_authenticator = auth
-        break
+      if @username && settings.config[:downcase_username]
+        $LOG.debug("Converting username #{@username.inspect} to lowercase because 'downcase_username' option is enabled.")
+        @username.downcase!
       end
 
-      auth_index += 1
+      $LOG.debug("Logging in with username: #{@username}, service: #{@service}, auth: #{settings.auth.inspect}")
+
+      credentials_are_valid    = false
+      extra_attributes         = {}
+      successful_authenticator = nil
+      status 200
+      message = "error authentication"
+      begin
+        auth_index = 0
+        settings.auth.each do |auth_class|
+          auth = auth_class.new
+
+          auth_config = settings.config[:authenticator][auth_index]
+          auth.configure(auth_config.merge('auth_index' => auth_index))
+
+          credentials_are_valid = auth.validate(
+              :username => @username,
+              :password => @password,
+              :service  => @service,
+              :request  => @env
+          )
+          if credentials_are_valid
+            @authenticated          = true
+            @authenticated_username = @username
+            extra_attributes.merge!(auth.extra_attributes) unless auth.extra_attributes.blank?
+            successful_authenticator = auth
+            break
+          end
+
+          auth_index += 1
+        end
+
+        if credentials_are_valid
+          $LOG.info("Credentials for username '#{@username}' successfully validated using #{successful_authenticator.class.name}.")
+
+          $LOG.debug("Authenticator provided additional user attributes: #{extra_attributes.inspect}") unless extra_attributes.blank?
+          message = "{\"Username\" : \"#{@username}\", \"Password\" : \"#{@password}\", \"extra_attributes\" : #{extra_attributes.to_json}}"
+        else
+          $LOG.warn("Invalid credentials given for user '#{@username}'")
+          message = { :type => 'mistake', :message => t.error.incorrect_username_or_password }
+          $LOG.warn("Rendering....#{@template_engine},  #{:login}")
+          status 401
+        end
+      rescue CASServer::AuthenticatorError => e
+        $LOG.error(e)
+        status 401
+      end
+
+      message
     end
-
-    if credentials_are_valid
-      $LOG.info("Credentials for username '#{@username}' successfully validated using #{successful_authenticator.class.name}.")
-
-      $LOG.debug("Authenticator provided additional user attributes: #{extra_attributes.inspect}") unless extra_attributes.blank?
-      message =  "{\"Username\" : \"#{@username}\", \"Password\" : \"#{@password}\", \"extra_attributes\" : #{extra_attributes.to_json}}"
-    else
-      $LOG.warn("Invalid credentials given for user '#{@username}'")
-      message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
-      $LOG.warn("Rendering....#{@template_engine},  #{:login}")
-      status 401
-    end
-  rescue CASServer::AuthenticatorError => e
-    $LOG.error(e)
-    status 401
-  end
-
-  message
-end
 
     post "#{uri_path}/rest_signup" do
       Utils::log_controller_action(self.class, params)
@@ -1498,6 +1519,116 @@ end
       render @template_engine, :passwords
     end
 
+    def get_user_attributes_from_tgt(tgt)
+      if tgt.nil?
+        user_attributes = {}
+      else
+        user_attributes = {
+            :email => tgt.username,
+        }
+        tgt.extra_attributes.each do |col|
+          user_attributes[col[0].to_sym] = col[1]
+        end
+      end
+      content_type :json
+      user_attributes.to_json
+    end
+
+    def reset_cred(cred)
+      tgt = CASServer::Model::TicketGrantingTicket.find_by_ticket(params['tgt'])
+      auth_index = 0
+      @username = tgt.username
+      @updated = false
+      extra_attributes = {}
+      successful_authenticator = nil
+      status 200
+      settings.auth.each do |auth_class|
+        auth = auth_class.new
+
+        auth_config = settings.config[:authenticator][auth_index]
+        auth.configure(auth_config.merge('auth_index' => auth_index))
+
+        case cred
+          when :password
+            if raise_password_errors({:password => @password})
+              puts @password_error.inspect
+
+              if @password_error
+                response[@password_error[:field]] = @password_error[:code]
+              end
+
+              unless response.empty?
+                status 401
+                return response.to_json
+              end
+            end
+            updated = auth.update_user_password(
+                :username => @username,
+                :password => @password,
+                :service => @service,
+                :request => @env
+            )
+          when :nickname
+            if raise_nickname_errors(auth, {:nickname => @nickname})
+              puts @nickname_error.inspect
+
+              if @nickname_error
+                response[@nickname_error[:field]] = @nickname_error[:code]
+              end
+
+              unless response.empty?
+                status 401
+                return response.to_json
+              end
+            end
+            updated = auth.update_user_nickname(
+                :username => @username,
+                :nickname => @nickname,
+                :service => @service,
+                :request => @env
+            )
+            auth.extra_attributes[:nickname] = @nickname if updated
+          else
+            updated = false
+        end
+
+        if updated
+          @updated = updated
+          @authenticated = true
+          @authenticated_username = @username
+
+          extra_attributes.merge!(auth.extra_attributes) unless auth.extra_attributes.blank?
+          successful_authenticator = auth
+          break
+        end
+
+        auth_index += 1
+      end
+
+      tgt.extra_attributes = extra_attributes
+      tgt.save!
+      get_user_attributes_from_tgt(tgt)
+    end
+
+    post "#{uri_path}/reset_pwd" do
+      Utils::log_controller_action(self.class, params)
+      status 404
+      return unless request.user_agent == "NavionicsMobile server user_agent"
+
+      @password = params['value']
+
+      reset_cred(:password)
+    end
+
+    post "#{uri_path}/reset_nickname" do
+      Utils::log_controller_action(self.class, params)
+      status 404
+      return unless request.user_agent == "NavionicsMobile server user_agent"
+
+      @nickname = params['value']
+
+      reset_cred(:nickname)
+    end
   end
 
 end
