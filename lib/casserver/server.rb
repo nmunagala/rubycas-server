@@ -821,6 +821,7 @@ module CASServer
           render t.error.invalid_submit_to_uri
         end
       else
+        @form_action = params['submitToURI'] || guessed_uri
         render @template_engine, :signup
       end
 
@@ -1002,7 +1003,7 @@ module CASServer
             end
           end
         else
-          @form_action = "#{request.host}/cas/signup"
+          @form_action = params['submitToURI'] || guessed_uri
           $LOG.warn("Impossibile to create account for user '#{@username}'")
           @message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
           $LOG.warn("Rendering....#{@template_engine},  #{:signup}")
