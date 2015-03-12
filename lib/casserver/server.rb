@@ -1542,6 +1542,7 @@ module CASServer
       extra_attributes = {}
       successful_authenticator = nil
       status 200
+      result = {}
       settings.auth.each do |auth_class|
         auth = auth_class.new
 
@@ -1554,12 +1555,12 @@ module CASServer
               puts @password_error.inspect
 
               if @password_error
-                response[@password_error[:field]] = @password_error[:code]
+                result[@password_error[:field]] = @password_error[:code]
               end
 
-              unless response.empty?
+              unless result.empty?
                 status 401
-                return response.to_json
+                return result.to_json
               end
             end
             updated = auth.update_user_password(
@@ -1573,12 +1574,12 @@ module CASServer
               puts @nickname_error.inspect
 
               if @nickname_error
-                response[@nickname_error[:field]] = @nickname_error[:code]
+                result[@nickname_error[:field]] = @nickname_error[:code]
               end
 
-              unless response.empty?
+              unless result.empty?
                 status 401
-                return response.to_json
+                return result.to_json
               end
             end
             updated = auth.update_user_nickname(
