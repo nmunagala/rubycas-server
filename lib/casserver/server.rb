@@ -812,7 +812,7 @@ module CASServer
           guessed_login_uri = nil
         end
 
-        @form_action = params['submitToURI'] || guessed_uri
+        @form_action = params['submitToURI'] || guessed_login_uri
 
         if @form_action
           render @template_engine, :signup
@@ -1015,7 +1015,7 @@ module CASServer
         @lt = generate_login_ticket.ticket
         status 401
       end
-
+      @form_action = params['submitToURI'] || guessed_uri
       render @template_engine, :signup
     end
 
