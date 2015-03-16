@@ -812,7 +812,7 @@ module CASServer
           guessed_login_uri = nil
         end
 
-        @form_action = params['submitToURI'] || guessed_login_uri
+        @form_action = params['submitToURI'] || guessed_uri
 
         if @form_action
           render @template_engine, :signup
