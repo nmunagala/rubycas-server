@@ -1631,6 +1631,10 @@ module CASServer
 
       reset_cred(:nickname)
     end
+
+    def get_path
+      "#{base_url}#{@uri_path}"
+    end
   end
 
 end
