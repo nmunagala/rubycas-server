@@ -1110,6 +1110,7 @@ module CASServer
           $LOG.info("Credentials for username '#{@username}' successfully validated using #{successful_authenticator.class.name}.")
 
           $LOG.debug("Authenticator provided additional user attributes: #{extra_attributes.inspect}") unless extra_attributes.blank?
+
           message = "{\"Username\" : \"#{@username}\", \"Password\" : \"#{@password}\", \"extra_attributes\" : #{extra_attributes.to_json}}"
         else
           $LOG.warn("Invalid credentials given for user '#{@username}'")
@@ -1191,6 +1192,7 @@ module CASServer
           if credentials_are_valid
             @authenticated = true
             @authenticated_username = @username
+
             extra_attributes.merge!(auth.extra_attributes) unless auth.extra_attributes.blank?
             successful_authenticator = auth
             break
@@ -1203,8 +1205,9 @@ module CASServer
           $LOG.info("Credentials for username '#{@username}' successfully validated using #{successful_authenticator.class.name}.")
 
           $LOG.debug("Authenticator provided additional user attributes: #{extra_attributes.inspect}") unless extra_attributes.blank?
+
           tgt = generate_ticket_granting_ticket(@username, extra_attributes)
-          response = {:token => tgt.ticket}
+          response = {:token => tgt.ticket, :extra_attributes => tgt.extra_attributes}
 
         end
       rescue CASServer::AuthenticatorError => e

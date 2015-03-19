@@ -93,6 +93,10 @@ class CASServer::Authenticators::SQLEncrypted < CASServer::Authenticators::SQL
                                  :encrypted_password => encrypted_pwd, :salt => salt,
                                  :token => token, :token_expires_at => token_expires_at})
 
+    unless results.nil? && @options[:extra_attributes].blank?
+      extract_extra(results)
+      log_extra
+    end
     return results.nil? ? false : results.attributes['id'] > 0
   end
 
