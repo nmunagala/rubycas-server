@@ -1612,7 +1612,7 @@ module CASServer
 
       tgt.extra_attributes = extra_attributes
       tgt.save!
-      get_user_attributes_from_tgt(tgt)
+      [:extra_attributes => get_user_attributes_from_tgt(tgt)]
     end
 
     post "#{uri_path}/reset_pwd" do
@@ -1622,7 +1622,7 @@ module CASServer
 
       @password = params['value']
 
-      reset_cred(:password)
+      reset_cred(:password).to_json
     end
 
     post "#{uri_path}/reset_nickname" do
@@ -1632,7 +1632,7 @@ module CASServer
 
       @nickname = params['value']
 
-      reset_cred(:nickname)
+      reset_cred(:nickname).to_json
     end
 
     def get_path
