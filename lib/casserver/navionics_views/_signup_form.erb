@@ -23,7 +23,7 @@
       <label><input type="checkbox" onclick="showPassword();"/> <%= t.label.show_password %></label></div>
   </div>
 
-  <div class="reg-agree">By clicking Create Account you agree to our <a href="#">Privacy Policy</a></div>
+  <div class="reg-agree">By clicking Create Account you agree to our <span id="privacy_policy">Privacy Policy</span></div>
 
   <input type="hidden" id="lt" name="lt" value="<%= escape_html @lt %>"/>
   <input type="hidden" id="service" name="service" value="<%= escape_html @service %>"/>
