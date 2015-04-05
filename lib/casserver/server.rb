@@ -1402,6 +1402,7 @@ module CASServer
 
       @message = {:type => 'error', :message => t.error.no_user_found}
       @form_action = params['submitToURI'] || guessed_uri
+      status 401
       render @template_engine, :forgot_pwd
     end
 
