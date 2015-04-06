@@ -1006,6 +1006,7 @@ module CASServer
           @form_action = params['submitToURI'] || guessed_uri
           $LOG.warn("Impossibile to create account for user '#{@username}'")
           @message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
+
           $LOG.warn("Rendering....#{@template_engine},  #{:signup}")
           status 401
         end
@@ -1013,6 +1014,8 @@ module CASServer
         $LOG.error(e)
         # generate another login ticket to allow for re-submitting the form
         @lt = generate_login_ticket.ticket
+        @message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
+        puts @message.inspect
         status 401
       end
       @form_action = params['submitToURI'] || guessed_uri

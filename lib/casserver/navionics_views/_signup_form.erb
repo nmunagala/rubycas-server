@@ -12,13 +12,13 @@
   </div>
 
   <div class="form-inputs-block">
-    <div class="form-input-line"><input class="form-input" type="email" name="username" placeholder="Email (username)"/>
+    <div class="form-input-line"><input class="form-input" type="email" name="username" placeholder="Email (username)" value="<%=escape_html @username %>"/>
     </div>
-    <div class="form-input-line"><input class="form-input" type="email" name="username2" placeholder="Confirm Email"/>
+    <div class="form-input-line"><input class="form-input" type="email" name="username2" placeholder="Confirm Email" value="<%=escape_html @username2 %>"/>
     </div>
-    <div class="form-input-line"><input class="form-input" type="text" name="nickname" placeholder="Nickname"/></div>
+    <div class="form-input-line"><input class="form-input" type="text" name="nickname" placeholder="Nickname" value="<%=escape_html @nickname %>"/></div>
     <div class="form-input-line">
-      <input class="form-input" type="password" id="password" name="password" placeholder="Password"/></div>
+      <input class="form-input" type="password" id="password" name="password" placeholder="Password" value="<%=escape_html @password %>"/></div>
     <div class="reg-hide-pass">
       <label><input type="checkbox" onclick="showPassword();"/> <%= t.label.show_password %></label></div>
   </div>
