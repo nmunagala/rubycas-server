@@ -27,6 +27,7 @@ theme: navionics
 organization: Navionics
 infoline:
 custom_views: lib/casserver/navionics_views
+account_url: https://store-dev.navionics.com/my_account
 log:
   file: "/var/log/casserver.log"
   level: DEBUG

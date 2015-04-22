@@ -1642,6 +1642,11 @@ module CASServer
     def get_path
       "#{base_url}#{@uri_path}"
     end
+
+
+    def get_account_url
+      settings.config[:account_url]
+    end
   end
 
 end

@@ -1,16 +1,12 @@
 <div class="login-form">
   <div class="profile-info clearfix">
-    <div class="reg-upload-ava-preview"><img src="" alt=""/></div>
-    <div class="reg-upload-ava-content">
-      <div class="profile-info-name"></div>
-    </div>
   </div>
 
-  <div class="form-text">
-    <div><strong>Last activity:</strong><a href="#">see tracks</a></div>
+  <div class="form-button-block">
+    <button type="submit" class="form-button button-secondary-style">
+      <span id="account"><a href="<%= get_account_url %>">Account</a></span>
+    </button>
   </div>
-
-  <div class="form-button-block"><button type="submit" class="form-button button-secondary-style"><span id="account">Account</span></button></div>
 
   <div class="login-reg-link-block">Tired of being here? <a href="<%= get_path %>/logout">Logout</a></div>
 </div>
