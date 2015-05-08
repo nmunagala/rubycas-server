@@ -884,7 +884,8 @@ module CASServer
     end
 
     def raise_if_password_not_valid(pwd)
-      @password_error = {:type => 'mistake', :message => t.error.pwd_too_short, :code => 'TOO_SHORT', :field => 'password'} if pwd.length < 6
+      pwd_min_length = 6
+      @password_error = {:type => 'mistake', :message => t.error.pwd_too_short, :code => 'TOO_SHORT_MIN_'+pwd_min_length.to_s, :field => 'password'} if pwd.length < pwd_min_length
       @password_error = {:type => 'mistake', :message => t.error.pwd_not_valid, :code => 'NOT_VALID', :field => 'password'} if pwd.include? "?& \/"
     end
 
