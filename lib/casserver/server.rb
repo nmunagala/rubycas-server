@@ -1582,7 +1582,11 @@ module CASServer
     end
 
     def reset_cred(cred)
-      tgt = CASServer::Model::TicketGrantingTicket.find_by_ticket(params['tgt'])
+      if params['tgt']
+        tgt = CASServer::Model::TicketGrantingTicket.find_by_ticket(params['tgt'])
+      else
+        tgt = CASServer::Model::TicketGrantingTicket.find_by_token(params['mobile_token'])
+      end
       auth_index = 0
       @username = tgt.username
       @updated = false
