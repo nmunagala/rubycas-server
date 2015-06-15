@@ -1040,8 +1040,44 @@ module CASServer
     post "#{uri_path}/user_attributes" do
       Utils::log_controller_action(self.class, params)
 
+      @ticket = params['tgt']
+      @id = params['user_id']
+      @token = params['mobile_token']
+      @nickname = params['nickname']
+      @email = params['email']
+
+      @ticket.strip! if @ticket
+      @nickname.strip! if @nickname
+      @id = @id.strip!.to_i if @id
+      @token.strip! if @token
+      @email.strip! if @nickname
+
+      field = "ticket"
+      value = @ticket if @ticket
+
+      if @email
+        field = "username"
+        value = @email
+      end
+
+      if @nickname
+        field = "nickname"
+        value = @nickname
+      end
+
+      if @id
+        field = "user_id"
+        value = @id
+      end
+
+      if @token
+        field = "token"
+        value = @token
+      end
+
       begin
-        tgt = CASServer::Model::TicketGrantingTicket.find_by_ticket(params['tgt'])
+        tgt = CASServer::Model::TicketGrantingTicket.send(:"find_last_by_#{field}", value)
+
         if tgt.nil?
           user_attributes = {}
         else
@@ -1111,6 +1147,8 @@ module CASServer
         end
 
         if credentials_are_valid
+          tgt = generate_ticket_granting_ticket(@username, extra_attributes)
+
           $LOG.info("Credentials for username '#{@username}' successfully validated using #{successful_authenticator.class.name}.")
 
           $LOG.debug("Authenticator provided additional user attributes: #{extra_attributes.inspect}") unless extra_attributes.blank?
