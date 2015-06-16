@@ -34,6 +34,9 @@ module CASServer::CAS
     tgt.ticket = "TGC-" + String.random
     tgt.username = username
     tgt.extra_attributes = extra_attributes
+    tgt.user_id = extra_attributes['id'] if extra_attributes['id']
+    tgt.nickname = extra_attributes['nickname'] if extra_attributes['nickname']
+    tgt.token = extra_attributes['token'] if extra_attributes['token']
     tgt.client_hostname = @env['HTTP_X_FORWARDED_FOR'] || @env['REMOTE_HOST'] || @env['REMOTE_ADDR']
     tgt.save!
     $LOG.debug("Generated ticket granting ticket '#{tgt.ticket}' for user" +
