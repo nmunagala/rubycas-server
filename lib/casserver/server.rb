@@ -1584,9 +1584,15 @@ module CASServer
     def reset_cred(cred)
       if params['tgt']
         tgt = CASServer::Model::TicketGrantingTicket.find_by_ticket(params['tgt'])
-      else
+      elsif params['mobile_token']
         tgt = CASServer::Model::TicketGrantingTicket.find_by_token(params['mobile_token'])
       end
+
+      if tgt.empty?
+        status 404
+        return result.to_json
+      end
+
       auth_index = 0
       @username = tgt.username
       @updated = false
@@ -1685,7 +1691,6 @@ module CASServer
     def get_path
       "#{base_url}#{@uri_path}"
     end
-
 
     def get_account_url
       settings.config[:account_url]
