@@ -1588,9 +1588,9 @@ module CASServer
         tgt = CASServer::Model::TicketGrantingTicket.find_by_token(params['mobile_token'])
       end
 
-      if tgt.empty?
+      unless tgt
         status 404
-        return result.to_json
+        return {}.to_json
       end
 
       auth_index = 0
