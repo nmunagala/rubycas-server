@@ -5,7 +5,7 @@ gem "sinatra-r18n", "~> 1.1.9"
 gem "activerecord-mysql-adapter"
 gem "mysql2"
 gem "pony", "~> 1.11"
-gem "rake"
+gem "rake", "~> 10.4.2"
 gem "appraisal"
 
 # Gems for authenticators
