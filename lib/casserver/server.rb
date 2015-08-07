@@ -1646,7 +1646,6 @@ module CASServer
                 :request => @env
             )
             auth.extra_attributes[:nickname] = @nickname if updated
-            tgt_update_nickname(params['tgt'], credentials[:nickname])
           else
             updated = false
         end
@@ -1687,6 +1686,8 @@ module CASServer
       @nickname = params['value']
 
       reset_cred(:nickname)
+      tgt_update_nickname(params, credentials[:nickname])
+
     end
 
     def get_path
@@ -1697,8 +1698,12 @@ module CASServer
       settings.config[:account_url]
     end
 
-    def tgt_update_nickname(ticket, nick)
-      tgt = TicketGrantingTicket.find_by_ticket(ticket)
+    def tgt_update_nickname(params, nick)
+      if params['tgt']
+        tgt = CASServer::Model::TicketGrantingTicket.find_by_ticket(params['tgt'])
+      elsif params['mobile_token']
+        tgt = CASServer::Model::TicketGrantingTicket.find_by_token(params['mobile_token'])
+      end
       tgt.extra_attributes[:nickname] = nick
       tgt.save!
       $LOG.debug("Updating nickname on TGT '#{ticket}' for user '#{tgt.username}'")
