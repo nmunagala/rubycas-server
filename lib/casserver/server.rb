@@ -1646,6 +1646,7 @@ module CASServer
                 :request => @env
             )
             auth.extra_attributes[:nickname] = @nickname if updated
+            tgt_update_nickname(params['tgt'], credentials[:nickname])
           else
             updated = false
         end
@@ -1694,6 +1695,13 @@ module CASServer
 
     def get_account_url
       settings.config[:account_url]
+    end
+
+    def tgt_update_nickname(ticket, nick)
+      tgt = TicketGrantingTicket.find_by_ticket(ticket)
+      tgt.extra_attributes[:nickname] = nick
+      tgt.save!
+      $LOG.debug("Updating nickname on TGT '#{ticket}' for user '#{tgt.username}'")
     end
   end
 
