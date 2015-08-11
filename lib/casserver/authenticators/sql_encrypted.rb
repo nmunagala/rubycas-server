@@ -151,6 +151,7 @@ class CASServer::Authenticators::SQLEncrypted < CASServer::Authenticators::SQL
       end
       user.encrypted_password = encrypted_pwd
       user.salt = salt
+
       return user.save()
     else
       return false

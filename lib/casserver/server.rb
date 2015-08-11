@@ -1645,7 +1645,10 @@ module CASServer
                 :service => @service,
                 :request => @env
             )
-            auth.extra_attributes[:nickname] = @nickname if updated
+            if updated
+              auth.extra_attributes[:nickname] = @nickname
+              tgt.nickname = @nickname
+            end
           else
             updated = false
         end
@@ -1695,6 +1698,7 @@ module CASServer
     def get_account_url
       settings.config[:account_url]
     end
+
   end
 
 end
