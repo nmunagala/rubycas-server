@@ -1647,7 +1647,7 @@ module CASServer
                 :request => @env
             )
             if updated
-              auth.extra_attributes[:nickname] = @nickname
+              extra_attributes[:nickname] = @nickname
               tgt.nickname = @nickname
             end
           else
