@@ -4,6 +4,7 @@ require 'casserver/base'
 require 'casserver/registration/registration_server'
 require 'pony'
 
+
 module CASServer
   class Server < CASServer::Base
     if ENV['CONFIG_FILE']
@@ -1646,7 +1647,7 @@ module CASServer
                 :request => @env
             )
             if updated
-              auth.extra_attributes[:nickname] = @nickname
+              extra_attributes[:nickname] = @nickname
               tgt.nickname = @nickname
             end
           else
