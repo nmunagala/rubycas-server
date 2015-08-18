@@ -4,6 +4,7 @@ require 'casserver/base'
 require 'casserver/registration/registration_server'
 require 'pony'
 
+
 module CASServer
   class Server < CASServer::Base
     if ENV['CONFIG_FILE']
