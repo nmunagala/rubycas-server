@@ -1051,7 +1051,7 @@ module CASServer
       @nickname.strip! if @nickname
       @id = @id.strip!.to_i if @id
       @token.strip! if @token
-      @email.strip! if @nickname
+      @email.strip! if @email
 
       field = "ticket"
       value = @ticket if @ticket
