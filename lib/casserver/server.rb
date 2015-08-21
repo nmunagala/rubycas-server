@@ -1051,7 +1051,7 @@ module CASServer
       @nickname.strip! if @nickname
       @id = @id.strip!.to_i if @id
       @token.strip! if @token
-      @email.strip! if @nickname
+      @email.strip! if @email
 
       field = "ticket"
       value = @ticket if @ticket
@@ -1584,9 +1584,9 @@ module CASServer
 
     def reset_cred(cred)
       if params['tgt']
-        tgt = CASServer::Model::TicketGrantingTicket.find_by_ticket(params['tgt'])
+        tgt = CASServer::Model::TicketGrantingTicket.find_last_by_ticket(params['tgt'])
       elsif params['mobile_token']
-        tgt = CASServer::Model::TicketGrantingTicket.find_by_token(params['mobile_token'])
+        tgt = CASServer::Model::TicketGrantingTicket.find_last_by_token(params['mobile_token'])
       end
 
       unless tgt
@@ -1658,9 +1658,11 @@ module CASServer
           @updated = updated
           @authenticated = true
           @authenticated_username = @username
-
           extra_attributes.merge!(auth.extra_attributes) unless auth.extra_attributes.blank?
           successful_authenticator = auth
+          tgt.nickname = @nickname
+          tgt.extra_attributes = extra_attributes
+          tgt.save!
           break
         end
 
