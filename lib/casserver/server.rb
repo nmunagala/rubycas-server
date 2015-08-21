@@ -1598,7 +1598,6 @@ module CASServer
       @username = tgt.username
       @updated = false
       extra_attributes = {}
-      successful_authenticator = nil
       status 200
       result = {}
       settings.auth.each do |auth_class|
@@ -1659,7 +1658,6 @@ module CASServer
           @authenticated = true
           @authenticated_username = @username
           extra_attributes.merge!(auth.extra_attributes) unless auth.extra_attributes.blank?
-          successful_authenticator = auth
           tgt.nickname = @nickname
           tgt.extra_attributes = extra_attributes
           tgt.save!
