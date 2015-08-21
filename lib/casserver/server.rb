@@ -1668,9 +1668,6 @@ module CASServer
 
         auth_index += 1
       end
-
-      tgt.extra_attributes = extra_attributes
-      tgt.save!
       get_user_attributes_from_tgt(tgt)
     end
 
