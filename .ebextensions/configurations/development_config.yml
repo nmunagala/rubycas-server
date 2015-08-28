@@ -5,19 +5,19 @@ bind_address: 0.0.0.0
 database:
   pool: 10
   adapter: mysql2
-  database: navionics_beta
+  database: navionics_production
   username: cas
   password: cas
-  host: 54.228.195.83
+  host: 54.86.238.250
   reconnect: true
 authenticator:
   class: CASServer::Authenticators::SQLEncrypted
   database:
     adapter: mysql2
-    database: navionics_beta
+    database: navionics_production
     username: cas
     password: cas
-    host: 54.228.195.83
+    host: 54.86.238.250
   user_table: users
   username_column: email
   password: encrypted_password
