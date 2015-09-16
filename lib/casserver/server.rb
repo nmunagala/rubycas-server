@@ -877,7 +877,7 @@ module CASServer
     def raise_if_nickname_already_exists(auth, nickname)
       results = auth.find_user_by_nickname(nickname)
       @nickname_error = {:type => 'mistake', :message => t.error.nickname_already_exists, :code => 'ALREADY_EXISTS', :field => 'nickname'} if
-          results
+      results
     end
 
     def raise_if_username_not_valid(email)
@@ -885,13 +885,15 @@ module CASServer
     end
 
     def raise_if_password_not_valid(pwd)
+      validation = pwd =~ regex = /[#{config[:not_admitted_chars].gsub(/./){|char| "\\#{char}"}}]/
       pwd_min_length = 6
       @password_error = {:type => 'mistake', :message => t.error.pwd_too_short, :code => 'TOO_SHORT_MIN_'+pwd_min_length.to_s, :field => 'password'} if pwd.length < pwd_min_length
-      @password_error = {:type => 'mistake', :message => t.error.pwd_not_valid, :code => 'NOT_VALID', :field => 'password'} if pwd.include? "?& \/"
+      @password_error = {:type => 'mistake', :message => t.error.pwd_not_valid, :code => 'NOT_VALID', :field => 'password'} unless validation.nil?
     end
 
     def raise_if_nickname_not_valid(nick)
-      @nickname_error = {:type => 'mistake', :message => t.error.nick_not_valid, :code => 'NOT_VALID', :field => 'nickname'} if nick.include? "?& \/"
+      validation = nick =~ regex = /[#{config[:not_admitted_chars].gsub(/./){|char| "\\#{char}"}}]/
+      @nickname_error = {:type => 'mistake', :message => t.error.nick_not_valid, :code => 'NOT_VALID', :field => 'nickname'} unless validation.nil?
     end
 
     def raise_other_errors(auth, credentials)
