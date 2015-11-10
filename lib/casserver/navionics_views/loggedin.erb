@@ -1,12 +1,52 @@
-<div class="login-form">
-  <div class="profile-info clearfix">
-  </div>
+<%# coding: UTF-8 -%>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="authenticity_token" name="csrf-param" />
+    <title>NavionicsWebApi v2</title>
+    <link rel="stylesheet" href="//webapiv2.navionics.com/dist/webapi/webapi.min.css">
+    <script type="text/javascript" src="//webapiv2.navionics.com/dist/webapi/webapi.min.no-dep.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <style type="text/css">
+    html, body,{
+        margin: 0;
+    }
+    .test_map_div {
+        width: 700px;
+        height: 700px;
+        border: 1px solid #000000;
+    }
+    </style>
+</head>
+<body data-root="//webapiv2.navionics.com/dist/webapi/images"> 
+    <div class="login-form">
+        <div class="profile-info clearfix">
+        </div>
 
-  <div class="form-button-block">
-    <button type="submit" class="form-button button-secondary-style">
-      <span id="account"><a href="<%= get_account_url %>">Account</a></span>
-    </button>
-  </div>
+        <div class="form-button-block">
+            <button type="submit" class="form-button button-secondary-style">
+                <span id="account"><a href="<%= get_account_url %>">Account</a></span>
+            </button>
+        </div>
 
-  <div class="login-reg-link-block">Tired of being here? <a href="<%= get_path %>/logout">Logout</a></div>
-</div>
+        <div class="login-reg-link-block">Tired of being here? <a href="<%= get_path %>/logout">Logout</a></div>
+    </div>
+    <div id="site-header"></div>
+    <div id="site-footer"></div>
+    <script type="text/javascript">
+    (function () {
+        headerObject = new JNC.Views.Header({
+        });
+
+        footer = new JNC.Views.Footer({
+            url: '//www-beta.navionics.com/sites/all/components/footer.php',
+            targetTagId: 'site-footer'
+        });
+        headerObject.render();
+        footer.render();
+        JNC.$('#responce').html("Language of header: " + headerObject.getCurrentLang() + " - Language of footer: " + footer.getCurrentLang());
+    })();
+    </script>
+</body>
+</html>
