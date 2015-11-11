@@ -19,14 +19,14 @@
     }
     </style>
 </head>
-<body data-root="//webapiv2.navionics.com/dist/webapi/images"> 
+<body data-root="//webapiv2.navionics.com/dist/webapi/images">
+    <div id="site-header"></div>
     <% if @message %>
     <div class="messagebox <%= escape_html @message[:type] %>">
         <%= escape_html @message[:message] %>
     </div>
     <% end %>
     <%= erb(:_forgot_pwd_form, :layout => false) %>
-    <div id="site-header"></div>
     <div id="site-footer"></div>
     <script type="text/javascript">
     (function () {

@@ -19,7 +19,8 @@
     }
     </style>
 </head>
-<body data-root="//webapiv2.navionics.com/dist/webapi/images"> 
+<body data-root="//webapiv2.navionics.com/dist/webapi/images">
+    <div id="site-header"></div>
     <% if @message %>
     <div class="messagebox <%= escape_html @message[:type] %>">
         <%= escape_html @message[:message] %>
@@ -32,7 +33,6 @@
 
         <div class="form-button-block" id="sent-close-block"><button type="submit" class="form-button button-secondary-style" id="sent-close"><%= t.button.close %></button></div>
     </div>
-    <div id="site-header"></div>
     <div id="site-footer"></div>
     <script type="text/javascript">
     (function () {
