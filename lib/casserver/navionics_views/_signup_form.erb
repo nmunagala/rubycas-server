@@ -3,14 +3,6 @@
 <form method="post" action="<%= @form_action || "signup" %>" id="signup-form">
   <div class="form-title">Create an account</div>
 
-  <div class="reg-upload-ava clearfix">
-    <div class="reg-upload-ava-preview"></div>
-    <div class="reg-upload-ava-content">
-      <div class="reg-upload-ava-title">Upload a profile picture</div>
-      <div class="reg-upload-ava-uploader"><a href="#">Upload</a></div>
-    </div>
-  </div>
-
   <div class="form-inputs-block">
     <div class="form-input-line"><input class="form-input" type="email" name="username" placeholder="Email (username)" value="<%=escape_html @username %>"/>
     </div>
