@@ -284,6 +284,8 @@ module CASServer
       headers 'Access-Control-Allow-Headers' => 'Authorization,Accepts,Content-Type,X-CSRF-Token,X-Requested-With'
       headers 'Access-Control-Allow-Methods' => 'GET,POST,PUT,DELETE,OPTIONS'
       content_type :html, 'charset' => 'utf-8'
+      request.env['HTTP_ACCEPT_LANGUAGE'] = request.cookies['lang'] if request.cookies['lang']
+      $LOG.info("request.env['HTTP_ACCEPT_LANGUAGE']: #{request.env['HTTP_ACCEPT_LANGUAGE']}.")
       @theme = settings.config[:theme]
       @organization = settings.config[:organization]
       @uri_path = settings.config[:uri_path]
