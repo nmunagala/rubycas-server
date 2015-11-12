@@ -15,7 +15,7 @@ $gemspec = Gem::Specification.new do |s|
     "Gemfile", "rubycas-server.gemspec"
   ].map{|p| Dir[p]}.flatten
 
-  s.test_files = `git ls-files -- spec`.split("\n")
+#  s.test_files = `git ls-files -- spec`.split("\n")
 
   s.executables = ["rubycas-server"]
   s.bindir = "bin"
@@ -32,16 +32,16 @@ $gemspec = Gem::Specification.new do |s|
   s.add_dependency("sinatra-r18n", '~> 1.1.0')
   s.add_dependency("crypt-isaac", "~> 0.9.1")
 
-  s.add_development_dependency("rack-test")
-  s.add_development_dependency("capybara", '1.1.2')
-  s.add_development_dependency("rspec")
-  s.add_development_dependency("rspec-core")
+ # s.add_development_dependency("rack-test")
+ # s.add_development_dependency("capybara", '1.1.2')
+ # s.add_development_dependency("rspec")
+ # s.add_development_dependency("rspec-core")
   s.add_development_dependency("rake", "0.8.7")
   s.add_development_dependency("sqlite3", "~> 1.3.1")
   s.add_development_dependency("appraisal", "~> 0.4.1")
-  s.add_development_dependency("guard", "~> 1.4.0")
-  s.add_development_dependency("guard-rspec", "2.0.0")
-  s.add_development_dependency("webmock", "~> 1.8")
+ # s.add_development_dependency("guard", "~> 1.4.0")
+ # s.add_development_dependency("guard-rspec", "2.0.0")
+ # s.add_development_dependency("webmock", "~> 1.8")
   s.add_development_dependency("nokogiri", "~> 1.3")
 
   # pull in os specific FS monitoring lib for guard
