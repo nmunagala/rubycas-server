@@ -32,6 +32,7 @@ notice:
   reset_pwd_success: "Password successfully changed"
   want_logout: "Tired of being here?"
   want_login: "Don't have an account yet?"
+  use_navionics: "Use a <strong>Navionics account</strong> to sync data across devices and manage products"
 
 label:
   account: "Account"

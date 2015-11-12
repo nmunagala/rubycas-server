@@ -32,6 +32,7 @@ notice:
   reset_pwd_success: "Password cambiata con successo"
   want_logout: "Vuoi disconnetterti?"
   want_login: "Non hai ancora un account?"
+  use_navionics: "Usa l'<strong>account Navionics</strong> per sincronizzare i dati tra i tuoi device e gestire i prodotti."
 
 label:
   account: "Account"
