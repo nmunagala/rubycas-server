@@ -33,10 +33,12 @@ notice:
   want_logout: "Vuoi disconnetterti?"
   want_login: "Non hai ancora un account?"
   use_navionics: "Usa l'<strong>account Navionics</strong> per sincronizzare i dati tra i tuoi device e gestire i prodotti."
+  privacy_policy: "By clicking Create Account you agree to our"
 
 label:
   account: "Account"
   create_account: "Crea account"
+  create_an_account: "Crea un account"
   username: "Nome utente"
   password: "Password"
   central_login_title: "Accesso centralizzato"
@@ -59,6 +61,7 @@ email:
   reset_password: "Richiesta di reset password"
   reset_password_link_before: "Qualcuno ha richesto che ti sia inviato un collegamento per cambiare la password.\n
   Ecco il collegamento:\n"
-  reset_password_link_after: "\nSe non sei stato tu a richiederla ignora questa email e non preoccuparti - la tua password non è stata cambiata."
+  reset_password_link_after: "\nSe non sei stato tu a richiederla ignora questa email e non preoccuparti - la tua
+  password non è stata cambiata."
   forgot_pwd_before: "Ti sarà inviata un'email con un link con cui potrai fare il reset della tua password"
   forgot_pwd_cancel: "O torna a"
