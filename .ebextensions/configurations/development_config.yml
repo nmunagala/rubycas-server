@@ -23,7 +23,7 @@ authenticator:
   password: encrypted_password
   encrypt_function: user.encrypted_password == Digest::SHA1.hexdigest("--#{user.salt}--#{@password}--")
   extra_attributes: id, token, nickname
-#  not_admitted_chars: "?/\&"
+  not_admitted_chars: "?/\\&"
 theme: navionics
 organization: Navionics
 infoline:
