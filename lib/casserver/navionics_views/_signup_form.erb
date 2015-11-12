@@ -15,13 +15,13 @@
       <label><input type="checkbox" onclick="showPassword();"/> <%= t.label.show_password %></label></div>
   </div>
 
-  <div class="reg-agree">By clicking Create Account you agree to our <span id="privacy_policy">Privacy Policy</span></div>
+  <div class="reg-agree"<%= t.notice.privacy_policy %> <span id="privacy_policy">Privacy Policy</span></div>
 
   <input type="hidden" id="lt" name="lt" value="<%= escape_html @lt %>"/>
   <input type="hidden" id="service" name="service" value="<%= escape_html @service %>"/>
 
   <div class="form-button-block">
-    <button type="submit" class="form-button button-secondary-style">Create Account</button>
+    <button type="submit" class="form-button button-secondary-style"><%= t.label.create_account%></button>
   </div>
 </form>
 <script>

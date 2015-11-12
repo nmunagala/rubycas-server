@@ -385,7 +385,7 @@ module CASServer
       if params.has_key? 'onlyLoginForm'
 
         if @form_action
-          render @template_engine, :login
+          render @template_engine, :login_form
         else
           status 500
           render t.error.invalid_submit_to_uri
@@ -819,7 +819,7 @@ module CASServer
         @form_action = params['submitToURI'] || guessed_login_uri
 
         if @form_action
-          render @template_engine, :signup
+          render @template_engine, :signup_form
         else
           status 500
           render t.error.invalid_submit_to_uri

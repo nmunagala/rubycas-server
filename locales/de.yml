@@ -32,10 +32,13 @@ notice:
   reset_pwd_success: "Password successfully changed"
   want_logout: "Tired of being here?"
   want_login: "Don't have an account yet?"
+  use_navionics: "Use a <strong>Navionics account</strong> to sync data across devices and manage products"
+  privacy_policy: "By clicking Create Account you agree to our"
 
 label:
   account: "Account"
   create_account: "Create account"
+  create_an_account: "Create an account"
   username: "Benutzername"
   password: "Passwort"
   central_login_title: "Zentrales Login"
