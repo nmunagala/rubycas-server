@@ -285,6 +285,7 @@ module CASServer
       headers 'Access-Control-Allow-Methods' => 'GET,POST,PUT,DELETE,OPTIONS'
       content_type :html, 'charset' => 'utf-8'
       request.env['HTTP_ACCEPT_LANGUAGE'] = request.cookies['lang'] if request.cookies['lang']
+      request.env['HTTP_ACCEPT_LANGUAGE'] = clean_service_url(params['lang']) unless clean_service_url(params['lang']) == request.cookies['lang']
       $LOG.info("request.env['HTTP_ACCEPT_LANGUAGE']: #{request.env['HTTP_ACCEPT_LANGUAGE']}.")
       @theme = settings.config[:theme]
       @organization = settings.config[:organization]
