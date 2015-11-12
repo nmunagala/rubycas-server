@@ -7,5 +7,5 @@
 </div>
 <div class="login-form">
     <%= erb(:_login_form, :layout => false) %>
-    <div class="login-reg-link-block">Don't have an account yet?<br><a href="<%= get_path %>/signup">Create account</a></div>
+    <div class="login-reg-link-block"><%= t.notice.want_login%><br><a href="<%= get_path %>/signup"><%= t.label.create_account%></a></div>
 </div>

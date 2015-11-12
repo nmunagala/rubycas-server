@@ -20,6 +20,7 @@ error:
   nickname_not_valid: "Nickname should not contain '&', '?', '/', '\', ' '"
   pwd_not_valid: "Password should not contain '&', '?', '/', '\', ' '"
   pwd_too_short: "Password is too short (minimum is 6 characters)"
+  no_user_found: "No user found with this email"
 
 notice:
   logged_in_as: "Sie sind derzeit angemeldet als '%1'. Sollten dies nicht Sie sein, melden Sie sich bitte unten an."
@@ -27,13 +28,37 @@ notice:
   success_logged_out: "Sie haben sich erfolgreich vom Central Authentication Service abgemeldet."
   success_logged_in: "Sie haben sich erfolgreich am Central Authentication Service angemeldet."
   please_wait: "Bitte warten ..."
+  instructions_sent: "Click on the link we just sent you to your email account to select a new password and automatically login."
+  reset_pwd_success: "Password successfully changed"
+  want_logout: "Tired of being here?"
+  want_login: "Don't have an account yet?"
 
 label:
+  account: "Account"
+  create_account: "Create account"
   username: "Benutzername"
   password: "Passwort"
   central_login_title: "Zentrales Login"
+  forgot_password: "Forgot password"
   show_password: "Show password"
+  login: "Login"
+  logout: "Logout"
+  reset_sent: "Reset link sent"
+  new_password: "Select a new password"
+  hide_password: "Hide password"
 
 button:
   login: "ANMELDEN"
+  send_instructions: "Send instruction"
+  reset_password: "Reset password"
+  save: "Save"
+  close: "Close"
 
+email:
+  reset_password: "Reset password request"
+  reset_password_link_before: "Someone, hopefully you, has requested that we send you a link to change your password.\n
+  Here's the link:\n"
+  reset_password_link_after: "\nIf you didn't request this, ignore this email, and don't worry - your password hasn't
+  been changed."
+  forgot_pwd_before: "We will send you an email with a link to reset your password"
+  forgot_pwd_cancel: "Or go back to"
