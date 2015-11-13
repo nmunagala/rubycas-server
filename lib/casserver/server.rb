@@ -290,6 +290,8 @@ module CASServer
       @infoline = settings.config[:infoline]
       @custom_views = settings.config[:custom_views]
       @template_engine = settings.config[:template_engine] || :erb
+      session[:locale] = request.cookies['lang'] if request.cookies['lang']
+      session[:locale] = clean_service_url(params['lang']) if clean_service_url(params['lang']) and !(clean_service_url(params['lang']) == request.cookies['lang'])
       if @template_engine != :erb
         require @template_engine
         @template_engine = @template_engine.to_sym
@@ -308,10 +310,6 @@ module CASServer
       headers['Pragma'] = 'no-cache'
       headers['Cache-Control'] = 'no-store'
       headers['Expires'] = (Time.now - 1.year).rfc2822
-      
-      request.env['HTTP_ACCEPT_LANGUAGE'] = request.cookies['lang'] if request.cookies['lang']
-      request.env['HTTP_ACCEPT_LANGUAGE'] = clean_service_url(params['lang']) unless clean_service_url(params['lang']) == request.cookies['lang']
-      $LOG.info("request.env['HTTP_ACCEPT_LANGUAGE']: #{request.env['HTTP_ACCEPT_LANGUAGE']}.")
       # optional params
       @service = clean_service_url(params['service'])
       @renew = params['renew']
