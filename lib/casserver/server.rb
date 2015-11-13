@@ -1035,7 +1035,7 @@ module CASServer
 
     def guessed_uri
       if request.env['HTTP_HOST']
-        guessed_uri = "#{base_url}#{request.env['REQUEST_URI']}"
+        guessed_uri = "#{base_url}#{request.env['PATH_INFO']}"
       else
         guessed_uri = nil
       end
