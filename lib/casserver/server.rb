@@ -284,9 +284,6 @@ module CASServer
       headers 'Access-Control-Allow-Headers' => 'Authorization,Accepts,Content-Type,X-CSRF-Token,X-Requested-With'
       headers 'Access-Control-Allow-Methods' => 'GET,POST,PUT,DELETE,OPTIONS'
       content_type :html, 'charset' => 'utf-8'
-      request.env['HTTP_ACCEPT_LANGUAGE'] = request.cookies['lang'] if request.cookies['lang']
-      request.env['HTTP_ACCEPT_LANGUAGE'] = clean_service_url(params['lang']) unless clean_service_url(params['lang']) == request.cookies['lang']
-      $LOG.info("request.env['HTTP_ACCEPT_LANGUAGE']: #{request.env['HTTP_ACCEPT_LANGUAGE']}.")
       @theme = settings.config[:theme]
       @organization = settings.config[:organization]
       @uri_path = settings.config[:uri_path]
@@ -311,7 +308,11 @@ module CASServer
       headers['Pragma'] = 'no-cache'
       headers['Cache-Control'] = 'no-store'
       headers['Expires'] = (Time.now - 1.year).rfc2822
-
+      
+      request.env['HTTP_ACCEPT_LANGUAGE'] = request.cookies['lang'] if request.cookies['lang']
+      request.env['HTTP_ACCEPT_LANGUAGE'] = clean_service_url(params['lang']) unless clean_service_url(params['lang']) == request.cookies['lang']
+      $LOG.info("request.env['HTTP_ACCEPT_LANGUAGE']: #{request.env['HTTP_ACCEPT_LANGUAGE']}.")
+      
       # optional params
       @service = clean_service_url(params['service'])
       @renew = params['renew']
