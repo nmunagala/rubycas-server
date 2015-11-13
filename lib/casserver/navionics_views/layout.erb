@@ -43,13 +43,16 @@
         .page-row-expanded {
             height: 100%;
         }
-
+        .body-container {
+            display: none;
+        }
     </style>
       <link rel="stylesheet" href="//webapiv2.navionics.com/dist/webapi/webapi.min.css">
       <script type="text/javascript" src="//webapi-dev.navionics.io/dist/webapi/webapi.min.no-dep.js"></script>
       <script type="text/javascript" src="//code.jquery.com/jquery-1.11.2.min.js"></script>
   </head>
   <body onload="if (document.getElementById('username')) document.getElementById('username').focus()", data-root="//webapiv2.navionics.com/dist/webapi/images">
+    <div id="body-container" class="body-container">
     <div id="site-header" class="page-row"></div>
     <div id="site-content-wrapper" class="page-row  page-row-expanded">
     <div class="card">    
@@ -57,6 +60,7 @@
     </div>
     </div>
     <div id="site-footer" class="page-row"></div>
+    </div>
     <script type="text/javascript">
     (function () {
         headerObject = new JNC.Views.Header();
@@ -64,6 +68,9 @@
         headerObject.render();
         footer.render();
     })();
+    $(window).load(function(){ 
+        $("#body-container").show(); 
+    });
     </script>
   </body>
 </html>
