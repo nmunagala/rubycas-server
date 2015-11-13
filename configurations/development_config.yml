@@ -30,10 +30,10 @@ infoline:
 custom_views: lib/casserver/navionics_views
 account_url: https://store-dev.navionics.com/my_account
 log:
-  file: "/var/log/casserver.log"
+  file: "log/casserver.log"
   level: DEBUG
 db_log:
-  file: "/var/log/casserver_db.log"
+  file: "log/casserver_db.log"
 mail:
   method: smtp
   host: smtp.sendgrid.net
