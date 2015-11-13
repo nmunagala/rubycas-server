@@ -312,7 +312,6 @@ module CASServer
       request.env['HTTP_ACCEPT_LANGUAGE'] = request.cookies['lang'] if request.cookies['lang']
       request.env['HTTP_ACCEPT_LANGUAGE'] = clean_service_url(params['lang']) unless clean_service_url(params['lang']) == request.cookies['lang']
       $LOG.info("request.env['HTTP_ACCEPT_LANGUAGE']: #{request.env['HTTP_ACCEPT_LANGUAGE']}.")
-      
       # optional params
       @service = clean_service_url(params['service'])
       @renew = params['renew']
@@ -1031,7 +1030,8 @@ module CASServer
     end
 
     def base_url
-      @base_url ||= "https://#{request.env['HTTP_HOST']}"
+      uri = URI.parse(request.env['REQUEST_URI'])
+      @base_url ||= "#{uri.scheme}://#{request.env['HTTP_HOST']}"
     end
 
     def guessed_uri
