@@ -39,6 +39,7 @@ label:
   account: "Account"
   create_account: "Crea account"
   create_an_account: "Crea un account"
+  privacy_policy: "Privacy policy"
   username: "Nome utente"
   password: "Password"
   central_login_title: "Accesso centralizzato"
