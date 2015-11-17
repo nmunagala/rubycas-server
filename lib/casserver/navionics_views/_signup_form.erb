@@ -15,7 +15,7 @@
       <label><input type="checkbox" onclick="showPassword();"/> <%= t.label.show_password %></label></div>
   </div>
 
-  <div class="reg-agree"<%= t.notice.privacy_policy %> <span id="privacy_policy"><%= t.label.privacy_policy %></span></div>
+  <div class="reg-agree"<%= t.notice.privacy_policy %> <span id="privacy_policy"><a href="<%= privacy_policy_link%>"><%= t.label.privacy_policy %></a></span></div>
 
   <input type="hidden" id="lt" name="lt" value="<%= escape_html @lt %>"/>
   <input type="hidden" id="service" name="service" value="<%= escape_html @service %>"/>

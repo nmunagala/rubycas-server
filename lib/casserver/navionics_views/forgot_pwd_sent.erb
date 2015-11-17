@@ -8,5 +8,10 @@
 
     <div class="form-text"><%= t.notice.instructions_sent %></div>
 
-    <div class="form-button-block" id="sent-close-block"><button type="submit" class="form-button button-secondary-style" id="sent-close"><%= t.button.close %></button></div>
+    <div class="form-button-block" id="sent-close-block">
+      <a href="<%= get_path %>"><%= t.label.login %></a>
+      <form method="post" action="<%= @form_action || "/cas" %>" id="pwd-sent">
+        <button type="submit" class="form-button button-secondary-style" id="sent-close"><%= t.button.close %></button>
+      </form>
+    </div>
 </div>

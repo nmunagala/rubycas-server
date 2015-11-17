@@ -1701,6 +1701,10 @@ module CASServer
       settings.config[:account_url]
     end
 
+    def privacy_policy_link
+      lang = session[:locale] || "en"
+      "http://www.navionics.com/#{lang}/privacy-policy"
+    end
   end
 
 end
