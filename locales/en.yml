@@ -51,6 +51,9 @@ label:
   new_password: "Select a new password"
   hide_password: "Hide password"
 
+placeholder:
+  new_password: "New password"
+
 button:
   login: "Login"
   send_instructions: "Send instruction"
