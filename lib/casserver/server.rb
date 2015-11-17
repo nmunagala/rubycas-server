@@ -1567,6 +1567,7 @@ module CASServer
         return render @template_engine, :forgot_pwd
       end
 
+      @form_action = "#{base_url}#{uri_path}/login"
       @message = {:type => 'notice', :message => t.notice.reset_pwd_success}
       render @template_engine, :passwords
     end
