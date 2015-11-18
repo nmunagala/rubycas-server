@@ -1534,7 +1534,6 @@ module CASServer
         $LOG.info("Password for username '#{@username}' successfully updated.")
         $LOG.debug("Authenticator provided additional user attributes: #{extra_attributes.inspect}") unless extra_attributes.blank?
         $LOG.debug("Going back to : #{@service}")
-        @form_action = @service
         # 3.6 (ticket-granting cookie)
         tgt = generate_ticket_granting_ticket(@username, extra_attributes)
         response.set_cookie('tgt', tgt.to_s)
