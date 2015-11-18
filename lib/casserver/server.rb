@@ -1564,7 +1564,6 @@ module CASServer
       else
         @message = {:type => 'mistake', :message => t.error.no_user_found}
         status 500
-        @form_action = "#{base_url}#{uri_path}/forgot_pwd"
         return render @template_engine, :forgot_pwd
       end
 
