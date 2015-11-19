@@ -1,0 +1,39 @@
+server: passenger
+port: 80
+uri_path: "/cas"
+bind_address: 0.0.0.0
+database:
+    adapter: sqlite3
+    database: db/db_dev_db.sqlite3
+    pool: 5
+    timeout: 5000
+  reconnect: true
+authenticator:
+  class: CASServer::Authenticators::SQLEncrypted
+  database:
+    adapter: sqlite3
+    database: db/db_local_db.sqlite3
+  user_table: users
+  username_column: email
+  password: encrypted_password
+  encrypt_function: user.encrypted_password == Digest::SHA1.hexdigest("--#{user.salt}--#{@password}--")
+  extra_attributes: id, token, nickname
+  not_admitted_chars: "?/\\&"
+theme: navionics
+organization: Navionics
+infoline:
+custom_views: lib/casserver/navionics_views
+account_url: https://store-mirror.navionics.com/my_account
+log:
+  file: "log/casserver.log"
+  level: INFO
+db_log:
+  file: "log/casserver_db.log"
+mail:
+  method: smtp
+  host: smtp.sendgrid.net
+  domain: navionics.com
+  username: adminnavio
+  password: dm25F34z
+  port: 587
+  authentification: plain
