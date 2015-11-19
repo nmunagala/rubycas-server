@@ -5,34 +5,35 @@ bind_address: 0.0.0.0
 database:
   pool: 10
   adapter: mysql2
-  database: navionics_beta
+  database: navionics_production
   username: cas
   password: cas
-  host: 54.228.195.83
+  host: ec2-52-7-135-163.compute-1.amazonaws.com
   reconnect: true
 authenticator:
   class: CASServer::Authenticators::SQLEncrypted
   database:
     adapter: mysql2
-    database: navionics_beta
+    database: navionics_production
     username: cas
     password: cas
-    host: 54.228.195.83
+    host: ec2-52-7-135-163.compute-1.amazonaws.com
   user_table: users
   username_column: email
   password: encrypted_password
   encrypt_function: user.encrypted_password == Digest::SHA1.hexdigest("--#{user.salt}--#{@password}--")
   extra_attributes: id, token, nickname
+  not_admitted_chars: "?/\\&"
 theme: navionics
 organization: Navionics
 infoline:
 custom_views: lib/casserver/navionics_views
 account_url: https://store-dev.navionics.com/my_account
 log:
-  file: "/var/log/casserver.log"
+  file: "log/casserver.log"
   level: DEBUG
 db_log:
-  file: "/var/log/casserver_db.log"
+  file: "log/casserver_db.log"
 mail:
   method: smtp
   host: smtp.sendgrid.net

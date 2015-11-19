@@ -1,14 +1,16 @@
-<%# coding: UTF-8 -%>
 <% if @message %>
-    <div class="messagebox <%= escape_html @message[:type] %>">
-      <%= escape_html @message[:message] %>
-    </div>
+<div class="messagebox <%= escape_html @message[:type] %>">
+    <%= escape_html @message[:message] %>
+</div>
 <% end %>
 <div class="login-form" id="sent-block">
-  <div class="form-title"><%= t.label.reset_sent %></div>
+    <div class="form-title"><%= t.label.reset_sent %></div>
 
-  <div class="form-text"><%= t.notice.instructions_sent %></div>
+    <div class="form-text"><%= t.notice.instructions_sent %></div>
 
-  <div class="form-button-block" id="sent-close-block"><button type="submit" class="form-button button-secondary-style" id="sent-close"><%= t.button.close %></button></div>
+    <div class="form-button-block" id="sent-close-block">
+      <form method="get" action="<%= @form_action || "login" %>" id="pwd-sent">
+        <button type="submit" class="form-button button-secondary-style" id="sent-close"><%= t.button.close %></button>
+      </form>
+    </div>
 </div>
-

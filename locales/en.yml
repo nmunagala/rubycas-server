@@ -30,17 +30,33 @@ notice:
   please_wait: "Please wait..."
   instructions_sent: "Click on the link we just sent you to your email account to select a new password and automatically login."
   reset_pwd_success: "Password successfully changed"
+  want_logout: "Tired of being here?"
+  want_login: "Don't have an account yet?"
+  use_navionics: "Use a <strong>Navionics account</strong> to sync data across devices and manage products"
+  privacy_policy: "By clicking Create Account you agree to our"
 
 label:
+  account: "Account"
+  create_account: "Create account"
+  create_an_account: "Create an account"
+  privacy_policy: "Privacy policy"
   username: "Username"
   password: "Password"
   central_login_title: "Central Login"
   forgot_password: "Forgot password"
   show_password: "Show password"
   login: "Login"
+  logout: "Logout"
   reset_sent: "Reset link sent"
   new_password: "Select a new password"
   hide_password: "Hide password"
+
+placeholder:
+  new_password: "New password"
+  email: "Email (username)"
+  confirm_email: "Confirm Email"
+  nickname: "Nickname"
+  password: "Password"
 
 button:
   login: "Login"
@@ -55,3 +71,5 @@ email:
   Here's the link:\n"
   reset_password_link_after: "\nIf you didn't request this, ignore this email, and don't worry - your password hasn't
   been changed."
+  forgot_pwd_before: "We will send you an email with a link to reset your password"
+  forgot_pwd_cancel: "Or go back to"
