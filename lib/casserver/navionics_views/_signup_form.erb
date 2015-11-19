@@ -4,18 +4,18 @@
   <div class="form-title"><%= t.label.create_an_account %></div>
 
   <div class="form-inputs-block">
-    <div class="form-input-line"><input class="form-input" type="email" name="username" placeholder="Email (username)" value="<%=escape_html @username %>"/>
+    <div class="form-input-line"><input class="form-input" type="email" id="username" name="username" placeholder="<%= t.placeholder.email %>" value="<%=escape_html @username %>"/>
     </div>
-    <div class="form-input-line"><input class="form-input" type="email" name="username2" placeholder="Confirm Email" value="<%=escape_html @username2 %>"/>
+    <div class="form-input-line"><input class="form-input" type="email" id="username2" name="username2" placeholder="<%= t.placeholder.confirm_email %>" value="<%=escape_html @username2 %>"/>
     </div>
-    <div class="form-input-line"><input class="form-input" type="text" name="nickname" placeholder="Nickname" value="<%=escape_html @nickname %>"/></div>
+    <div class="form-input-line"><input class="form-input" type="text" id="nickname" name="nickname" placeholder="<%= t.placeholder.nickname %>" value="<%=escape_html @nickname %>"/></div>
     <div class="form-input-line">
-      <input class="form-input" type="password" id="password" name="password" placeholder="Password" value="<%=escape_html @password %>"/></div>
+      <input class="form-input" type="password" id="password" id="password" name="password" placeholder="<%= t.placeholder.password %>" value="<%=escape_html @password %>"/></div>
     <div class="reg-hide-pass">
       <label><input type="checkbox" onclick="showPassword();"/> <%= t.label.show_password %></label></div>
   </div>
 
-  <div class="reg-agree"<%= t.notice.privacy_policy %> <span id="privacy_policy"><%= t.label.privacy_policy %></span></div>
+  <div class="reg-agree"<%= t.notice.privacy_policy %> <span id="privacy_policy"><a href="<%= privacy_policy_link%>"><%= t.label.privacy_policy %></a></span></div>
 
   <input type="hidden" id="lt" name="lt" value="<%= escape_html @lt %>"/>
   <input type="hidden" id="service" name="service" value="<%= escape_html @service %>"/>

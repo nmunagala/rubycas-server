@@ -51,6 +51,13 @@ label:
   new_password: "Select a new password"
   hide_password: "Hide password"
 
+placeholder:
+  new_password: "New password"
+  email: "Email (username)"
+  confirm_email: "Confirm Email"
+  nickname: "Nickname"
+  password: "Password"
+
 button:
   login: "SE CONNECTER"
   send_instructions: "Send instruction"

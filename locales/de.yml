@@ -46,6 +46,13 @@ label:
   new_password: "Wählen Sie ein neues Passwort"
   hide_password: "Kennwort ausblenden"
 
+placeholder:
+  new_password: "New password"
+  email: "Email (username)"
+  confirm_email: "Confirm Email"
+  nickname: "Nickname"
+  password: "Password"
+
 button:
   login: "ANMELDEN"
   send_instructions: "Send Anweisung"

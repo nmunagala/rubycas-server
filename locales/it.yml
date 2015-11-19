@@ -45,11 +45,18 @@ label:
   central_login_title: "Accesso centralizzato"
   forgot_password: "Password dimenticata"
   show_password: "Mostra password"
-  login: "Login"
-  logout: "Logout"
+  login: "Accedi"
+  logout: "Esci"
   reset_sent: "Il link per cambiare la password è stato mandato"
   new_password: "Scegli una nuova password"
   hide_password: "Nascondi la password"
+
+placeholder:
+  new_password: "Nuova password"
+  email: "Email (nome utente)"
+  confirm_email: "Conferma email"
+  nickname: "Nickname"
+  password: "Password"
 
 button:
   login: "ACCEDI"
@@ -59,10 +66,10 @@ button:
   close: "Chiudi"
 
 email:
-  reset_password: "Richiesta di reset password"
+  reset_password: "Richiesta di cambio password"
   reset_password_link_before: "Qualcuno ha richesto che ti sia inviato un collegamento per cambiare la password.\n
   Ecco il collegamento:\n"
-  reset_password_link_after: "\nSe non sei stato tu a richiederla ignora questa email e non preoccuparti - la tua
+  reset_password_link_after: "\nSe non sei stato tu a richiederla, ignora questa email e non preoccuparti - la tua
   password non è stata cambiata."
-  forgot_pwd_before: "Ti sarà inviata un'email con un link con cui potrai fare il reset della tua password"
+  forgot_pwd_before: "Ti verrà inviata un'email con un collegamento con cui potrai fare il cambio della tua password"
   forgot_pwd_cancel: "O torna a"

@@ -886,14 +886,16 @@ module CASServer
     end
 
     def raise_if_password_not_valid(pwd)
-      validation = pwd =~ regex = /[#{config[:not_admitted_chars].gsub(/./){|char| "\\#{char}"}}]/
+      #validation = pwd =~ regex = /[#{config[:not_admitted_chars].gsub(/./){|char| "\\#{char}"}}]/
+      validation = pwd =~ regex = /[#{"?/\\&".gsub(/./){|char| "\\#{char}"}}]/
       pwd_min_length = 6
       @password_error = {:type => 'mistake', :message => t.error.pwd_too_short, :code => 'TOO_SHORT_MIN_'+pwd_min_length.to_s, :field => 'password'} if pwd.length < pwd_min_length
       @password_error = {:type => 'mistake', :message => t.error.pwd_not_valid, :code => 'NOT_VALID', :field => 'password'} unless validation.nil?
     end
 
     def raise_if_nickname_not_valid(nick)
-      validation = nick =~ regex = /[#{config[:not_admitted_chars].gsub(/./){|char| "\\#{char}"}}]/
+      #validation = nick =~ regex = /[#{config[:not_admitted_chars].gsub(/./){|char| "\\#{char}"}}]/
+      validation = nick =~ regex = /[#{"?/\\&".gsub(/./){|char| "\\#{char}"}}]/
       @nickname_error = {:type => 'mistake', :message => t.error.nick_not_valid, :code => 'NOT_VALID', :field => 'nickname'} unless validation.nil?
     end
 
@@ -1533,7 +1535,7 @@ module CASServer
       if @updated
         $LOG.info("Password for username '#{@username}' successfully updated.")
         $LOG.debug("Authenticator provided additional user attributes: #{extra_attributes.inspect}") unless extra_attributes.blank?
-
+        $LOG.debug("Going back to : #{@service}")
         # 3.6 (ticket-granting cookie)
         tgt = generate_ticket_granting_ticket(@username, extra_attributes)
         response.set_cookie('tgt', tgt.to_s)
@@ -1563,7 +1565,6 @@ module CASServer
       else
         @message = {:type => 'mistake', :message => t.error.no_user_found}
         status 500
-        @form_action = "#{base_url}#{uri_path}/forgot_pwd"
         return render @template_engine, :forgot_pwd
       end
 
@@ -1701,6 +1702,10 @@ module CASServer
       settings.config[:account_url]
     end
 
+    def privacy_policy_link
+      lang = session[:locale] || "en"
+      "http://www.navionics.com/#{lang}/privacy-policy"
+    end
   end
 
 end
