@@ -9,6 +9,7 @@ Provides single sign-on authentication for web applications, implementing the se
 ## Vagrant Installation
 
 Is possible to run this project using Vagrant, coreos and docker locally in easy way.
+
 1. `git clone git@github.com:rubycas/rubycas-server.git`
 2. `cd rubycas-server`
 3. `cd coreos-vagrant`
