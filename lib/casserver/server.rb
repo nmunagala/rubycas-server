@@ -1431,7 +1431,7 @@ module CASServer
         if @existing_user
           @rpt = generate_reset_password_ticket(@email)
           @base_url ||= "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}"
-          @reset_pwd_link = "#{@base_url}#{@uri_path}/passwords/#{@rpt.ticket}?service=#{@service}"
+          @reset_pwd_link = "#{@base_url}#{@uri_path}/passwords/#{@rpt.ticket}?service=#{params['service']}"
           Pony.mail({ :to => @email,
                     :from => "donotreply@navionics.com",
                     :subject => t.email.reset_password,
