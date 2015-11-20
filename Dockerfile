@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.17
+FROM ubuntu:14.04
 
 # Install packages for building ruby
 RUN apt-get update
@@ -13,6 +13,8 @@ RUN gem update --system
 RUN gem install bundler
 
 ADD . /home/core/sinatra-dev
+RUN cd /home/core/sinatra-dev; git checkout development
+RUN cd /home/core/sinatra-dev; mv configurations/dev_config.yml config.yml
 RUN cd /home/core/sinatra-dev; bundle install
 RUN cd /home/core/sinatra-dev; sed -i 's/port\: 80/port: 8080/g' config.yml
 EXPOSE 8080
