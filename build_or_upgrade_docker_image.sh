@@ -1,21 +1,48 @@
-#development cas install script
+#!/bin/bash
 
-DIRECTORY=/home/core/cas-dev/sinatra/
+args=$(getopt -l "env:" -o "s:h" -- "$@")
+
+eval set -- "$args"
+
+while [ $# -ge 1 ]; do
+        case "$1" in
+                -e|--env)
+                        env="$2"
+                        shift
+                        ;;
+                -h)
+                        echo "Build rubycas environment"
+                        echo "-e --env use this environment to build rubycas (local|dev|production)"
+                        exit 0
+                        ;;
+        esac
+        shift
+done
+
+echo "env: $env"
+
+DIRECTORY=/home/core/cas-$env/sinatra/
 if [ -d "$DIRECTORY" ]; then
-	cd /home/core/cas-dev/sinatra/
+	cd $DIRECTORY
 	git reset --hard HEAD
 	git clean -f
 	git pull
 else
-	git clone https://github.com/Navionics/rubycas-server.git /home/core/cas-dev/sinatra
-	cd /home/core/cas-dev/sinatra/
-	git checkout development
+	git clone https://github.com/Navionics/rubycas-server.git $DIRECTORY
+	cd $DIRECTORY
+    case "$env" in
+        ("local") git checkout development ;;
+        ("dev") git checkout development ;;
+        ("production") git checkout master;;
+        (*) git checkout development ;;
+    esac
 fi
 # cd in repository just to be sure
-cd /home/core/cas-dev/sinatra/
-cp ../Dockerfile /home/core/cas-dev/sinatra/
-docker build -t navionics/cas-dev:V4 .
-docker stop rubycas-dev
-docker rm rubycas-dev
-docker create --name rubycas-dev -p 8080:8080 navionics/cas-dev:V4
-docker start rubycas-dev
+cd $DIRECTORY
+cp ../Dockerfile $DIRECTORY
+img_name=rubycas-$env
+docker build -t navionics/$img_name:V4 .
+docker stop $img_name
+docker rm $img_name
+docker create --name $img_name -p 8080:8080 navionics/$img_name:V4
+docker start $img_name
