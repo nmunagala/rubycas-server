@@ -900,7 +900,7 @@ module CASServer
     end
 
     def raise_other_errors(auth, credentials)
-      #raise_if_user_not_configured(credentials)
+      raise_if_user_not_configured(credentials)
       raise_if_user_already_exists(auth, credentials[:username])
       raise_if_username_different(credentials)
       raise_if_nickname_already_exists(auth, credentials[:nickname])
@@ -1222,7 +1222,7 @@ module CASServer
           auth_config = settings.config[:authenticator][auth_index]
           auth.configure(auth_config.merge('auth_index' => auth_index))
 
-          if raise_if_user_not_configured || raise_other_errors(auth, credentials)
+          if raise_other_errors(auth, credentials)
             puts @password_error.inspect
             puts @username_error.inspect
             puts @username2_error.inspect
