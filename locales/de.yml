@@ -1,4 +1,8 @@
 error:
+  no_login_ticket: "Your login request did not include a login ticket. There may be a problem with the authentication system."
+  login_ticket_already_used: "The login ticket you provided has already been used up. Please try logging in again."
+  login_timeout: "You took too long to enter your credentials. Please try again."
+  invalid_login_ticket: "The login ticket you provided is invalid. There may be a problem with the authentication system."
   login_ticket_needs_post_request: "Für die Generierung Eines Log-Tickets, POST-is a Anfrage erforderlich Wir."
   incorrect_username_or_password: "Falscher Benutzername oder Passwort."
   invalid_submit_to_uri: "Der CAS Login-URI Könnte Nicht erraten Werden Bitte Ergänzen Sie Ihre Anfrage um EINEN submitToURI Parameter.."
@@ -35,6 +39,7 @@ label:
   account: "Konto"
   create_account: "Konto erstellen"
   create_an_account: "Erstellen Sie ein Konto"
+  privacy_policy: "Privacy policy"
   username: "Benutzername"
   password: "Passwort"
   central_login_title: "Zentrales Login"
@@ -61,6 +66,7 @@ button:
   close: "Schließen"
 
 email:
+  reset_password: "Reset password request"
   reset_password_link_before: "Jemand, hoffentlich, hat beantragt, dass wir einen Link Ihr Passwort ändern versenden zu können. \ n Hier ist der Link: \ n: "
   reset_password_link_after: "\ nWenn Sie nicht angefordert haben diese, diese E-Mail ignorieren und keine Sorge - vergessen hat nicht wurde geändert.: "
   forgot_pwd_before: "Wir werden Ihnen eine Email mit einem Link zum Zurücksetzen des Passworts"
