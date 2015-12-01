@@ -419,7 +419,8 @@ module CASServer
         # generate another login ticket to allow for re-submitting the form
         @lt = generate_login_ticket.ticket
         status 500
-        @form_action = params['submitToURI'] || guessed_uri
+        @form_action = generate_form_action_with_service(params['submitToURI'] || guessed_uri, @service)
+        $LOG.debug("@form_action #{@form_action}")
         return render @template_engine, :login
       end
 
@@ -493,7 +494,9 @@ module CASServer
               }
             end
           end
-        else      
+        else
+          @form_action = generate_form_action_with_service(params['submitToURI'] || guessed_uri, @service)
+          $LOG.info("Form action '#{@form_action}'")
           $LOG.warn("Invalid credentials given for user '#{@username}'")
           @message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
           $LOG.warn("Rendering....#{@template_engine},  #{:login}")
@@ -1027,6 +1030,11 @@ module CASServer
       end
       @form_action = params['submitToURI'] || guessed_uri
       render @template_engine, :signup
+    end
+
+    def generate_form_action_with_service(uri, service)
+      service_uri = URI.parse(URI.encode(service))
+      "#{uri}?service=#{service_uri}"
     end
 
     def base_url
