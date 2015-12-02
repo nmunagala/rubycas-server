@@ -1706,6 +1706,10 @@ module CASServer
       "#{base_url}#{@uri_path}"
     end
 
+    def get_forgot_pwd_path(service)
+      service.nil? ? "#{get_path}/forgot_pwd" : "#{get_path}/forgot_pwd?service=#{service}"
+    end
+
     def get_account_url
       settings.config[:account_url]
     end
