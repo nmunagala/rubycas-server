@@ -7,7 +7,7 @@
  <div class="form-inputs-block">
    <div class="form-input-line"><input class="form-input" type="text" name="username" placeholder="<%= t.label.login %>"/></div>
    <div class="form-input-line"><input class="form-input" type="password" name="password" placeholder="<%= t.label.password %>"/></div>
-   <div class="login-forgot-password"><a href="<%= get_path %>/forgot_pwd"><%= t.label.forgot_password %>?</a></div>
+   <div class="login-forgot-password"><a href="<%= get_forgot_pwd_path @service %>"><%= t.label.forgot_password %>?</a></div>
  </div>
 
    <input type="hidden" id="lt" name="lt" value="<%= escape_html @lt %>" />
