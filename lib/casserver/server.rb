@@ -1033,8 +1033,7 @@ module CASServer
     end
 
     def generate_form_action_with_service(uri, service)
-      service_uri = URI.parse(URI.encode(service))
-      "#{uri}?service=#{service_uri}"
+      service.nil? ? "#{uri}" : "#{uri}?service=#{URI.parse(URI.encode(service))}"
     end
 
     def base_url
