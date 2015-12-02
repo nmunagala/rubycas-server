@@ -1399,7 +1399,7 @@ module CASServer
         $LOG.debug("No ticket granting ticket detected.")
       end
 
-      @form_action = params['submitToURI'] || guessed_uri
+      @form_action = generate_form_action_with_service(params['submitToURI'] || guessed_uri, @service)
 
       render @template_engine, :forgot_pwd
     end
@@ -1457,7 +1457,7 @@ module CASServer
         end
 
       @message = {:type => 'error', :message => t.error.no_user_found}
-      @form_action = params['submitToURI'] || guessed_uri
+      @form_action = generate_form_action_with_service(params['submitToURI'] || guessed_uri, @service)
       status 401
       render @template_engine, :forgot_pwd
     end
@@ -1476,7 +1476,7 @@ module CASServer
         return render @template_engine, :forgot_pwd_success
       end
 
-      @form_action = params['submitToURI'] || guessed_uri
+      @form_action = generate_form_action_with_service(params['submitToURI'] || guessed_uri, @service)
 
       render @template_engine, :passwords
     end
