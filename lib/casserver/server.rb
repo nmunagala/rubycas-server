@@ -966,9 +966,9 @@ module CASServer
           # it splace in the authenticator queue
           auth.configure(auth_config.merge('auth_index' => auth_index))
 
-          if raise_if_user_not_configured(credentials) || raise_other_errors(auth, credentials)
-            raise CASServer::AuthenticatorError.new( "Error while validating register form fields" )
-          end
+          @message = raise_if_user_not_configured(credentials) || raise_other_errors(auth, credentials)
+          raise CASServer::AuthenticatorError.new( "Error while validating register form fields" ) if @message
+
           credentials_are_valid = auth.create_user(credentials)
 
           if credentials_are_valid
@@ -1024,7 +1024,7 @@ module CASServer
         $LOG.error(e)
         # generate another login ticket to allow for re-submitting the form
         @lt = generate_login_ticket.ticket
-        @message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
+        #@message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
         puts @message.inspect
         status 401
       end
@@ -1702,12 +1702,18 @@ module CASServer
       reset_cred(:nickname)
     end
 
-    def get_path
+    def get_path(service = nil)
+      service.nil? ? "#{base_url}#{@uri_path}" : "#{base_url}#{@uri_path}?service=#{service}"
       "#{base_url}#{@uri_path}"
     end
 
-    def get_forgot_pwd_path(service)
+    def get_forgot_pwd_path(service = nil)
+      $LOG.info("get_forgot_pwd_path back to -> '#{service}'")
       service.nil? ? "#{get_path}/forgot_pwd" : "#{get_path}/forgot_pwd?service=#{service}"
+    end
+
+    def get_signup_path(service = nil)
+      service.nil? ? "#{get_path}/signup" : "#{get_path}/signup?service=#{service}"
     end
 
     def get_account_url
