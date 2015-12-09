@@ -5,7 +5,7 @@
  <div class="form-text"><%= t.notice.use_navionics%></div>
 
  <div class="form-inputs-block">
-   <div class="form-input-line"><input class="form-input" type="text" name="username" placeholder="<%= t.label.login %>"/></div>
+   <div class="form-input-line"><input class="form-input" type="text" name="username" placeholder="Email (<%= t.label.login %>)"/></div>
    <div class="form-input-line"><input class="form-input" type="password" name="password" placeholder="<%= t.label.password %>"/></div>
    <div class="login-forgot-password"><a href="<%= get_forgot_pwd_path @service %>"><%= t.label.forgot_password %>?</a></div>
  </div>
