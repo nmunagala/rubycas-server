@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><bound box="7283587,-469647,7303112,-450078"><modify><node lat="7283671" lon="-460201" timestamp="2013-10-11T06:18:41Z" username="billj1"><tag k="OBJCOD" v="UWTROC"/><tag k="VALSOU" v=" "/><tag k="OBJNAM" v=" "/><tag k="INFORM" v="Danger rock also at 1/2 tide just covers do not go near at any state of the tide"/><tag k="DUNITS" v="3"/>
+            
+            
+            
+            
+            
+        </node>
+</modify><create><node lat="7285077" lon="-452608" timestamp="2011-06-21T20:29:29Z" username="unknown"><tag k="OBJCOD" v="ACHBRT"/><tag k="OBJNAM" v="FLINT BAY"/>
+            
+            
+        </node>
+</create><create><node lat="7286947" lon="-454748" timestamp="2015-03-04T20:48:28Z" username="tterryted"><tag k="OBJCOD" v="UWTROC"/><tag k="WATLEV" v="4"/><tag k="VALSOU" v=" "/><tag k="OBJNAM" v=" "/><tag k="INFORM" v=" "/><tag k="DUNITS" v="1"/></node>
+</create></bound>

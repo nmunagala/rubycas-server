@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><bound box="7185967,-469647,7205490,-450078"><create><node lat="7186574" lon="-464555" timestamp="2012-02-06T20:49:22Z" username="unknown"><tag k="OBJCOD" v="WRECKS"/><tag k="OBJNAM" v="Albatross"/><tag k="INFORM" v="23metres"/><tag k="DUNITS" v="1"/><tag k="CATWRK" v="1"/>
+            
+            
+            
+            
+            
+        </node>
+</create><modify><node lat="7186628" lon="-464552" timestamp="2012-02-06T20:51:02Z" username="unknown"><tag k="OBJCOD" v="WRECKS"/>
+            
+        </node>
+</modify><create><node lat="7197047" lon="-468683" timestamp="2012-01-07T19:44:15Z" username="unknown"><tag k="OBJCOD" v="WRECKS"/><tag k="OBJNAM" v="John hodgkins"/><tag k="DUNITS" v="1"/><tag k="CATWRK" v="1"/>
+            
+            
+            
+            
+        </node>
+</create></bound>
