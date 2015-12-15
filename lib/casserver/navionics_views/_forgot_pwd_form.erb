@@ -1,18 +1,18 @@
 <%# coding: UTF-8 -%>
 
-<div class="login-form">
-  <div class="form-title"><%= t.label.forgot_password %></div>
   <form method="post" action="<%= @form_action || "forgot_pwd" %>" id="forgot-pwd-form">
-    <div class="form-text"><%= t.email.forgot_pwd_before %></div>
 
-    <div class="form-inputs-block">
-      <div class="form-input-line"><input class="form-input" type="email" name="username" placeholder="Email (<%= t.label.login %>)"/></div>
+    <div class="jnc-cas-title"><%= t.label.forgot_password %></div>
+    <div class="jnc-cas-descr"><%= t.email.forgot_pwd_before %></div>
+    <div class="jnc-cas-field">
+      <div class="jnc-cas-field-title">Email</div>
+      <input type="email" class="jnc-form-control jnc-cas-field-input">
     </div>
-
-    <input type="hidden" id="lt" name="lt" value="<%= escape_html @lt %>"/>
-    <input type="hidden" id="service" name="service" value="<%= escape_html @service %>"/>
-
-    <div class="form-button-block"><button type="submit" class="form-button button-secondary-style"><%= t.button.reset_password %></button></div>
+    <div class="jnc-cas-footer">
+      <div class="jnc-grid jnc-grid-row">
+        <div class="jnc-grid-col jnc-grid-col-6">
+          <a href="#" onclick="document.forms[0].submit();return false;" class="jnc-simple-btn jnc-simple-btn-light-blue jnc-cas-btn"><%= t.button.reset_password %></a>
+        </div>
+      </div>
+    </div>
   </form>
-  <div class="login-reg-link-block"><%= t.email.forgot_pwd_cancel%> <a href="/cas"><%= t.label.login %></a></div>
-</div>
