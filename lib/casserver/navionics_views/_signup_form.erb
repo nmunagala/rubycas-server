@@ -5,15 +5,15 @@
 
   <div class="jnc-cas-field">
     <div class="jnc-cas-field-title"><%= t.placeholder.email %></div>
-      <input id="username" type="email" class="jnc-form-control jnc-cas-field-input" value="<%=escape_html @username %>">
+      <input id="username" name="username" type="email" class="jnc-form-control jnc-cas-field-input" value="<%=escape_html @username %>">
   </div>
   <div class="jnc-cas-field">
     <div class="jnc-cas-field-title"><%= t.placeholder.nickname %></div>
-      <input id="nickname" type="text" class="jnc-form-control jnc-cas-field-input" value="<%=escape_html @nickname %>">
+      <input id="nickname" name="nickname" type="text" class="jnc-form-control jnc-cas-field-input" value="<%=escape_html @nickname %>">
   </div>
   <div class="jnc-cas-field">
     <div class="jnc-cas-field-title"><%= t.placeholder.password %></div>
-      <input id="password" type="password" class="jnc-form-control jnc-cas-field-input" value="<%=escape_html @password %>">
+      <input id="password" name="password" type="password" class="jnc-form-control jnc-cas-field-input" value="<%=escape_html @password %>">
     <div class="reg-hide-pass">
       <label><input type="checkbox" onclick="showPassword();"/> <%= t.label.show_password %></label>
     </div>
@@ -32,7 +32,6 @@
       </div>
     </div>
   </div>
-  <div class="login-reg-link-block"><%= t.email.forgot_pwd_cancel%> <a href="<%= get_path %>"><%= t.label.login %></a></div>
 </form>
 <script>
     function showPassword() {
