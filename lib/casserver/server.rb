@@ -768,6 +768,23 @@ module CASServer
       @renew = params['renew']
       @gateway = params['gateway'] == 'true' || params['gateway'] == '1'
 
+      if tgc = request.cookies['tgt']
+        tgt, tgt_error = validate_ticket_granting_ticket(tgc)
+      end
+
+      if tgt and (!tgt_error || tgt_error.nil?)
+        puts tgt.inspect
+        @authenticated = true
+        @authenticated_username = tgt.username
+        @message = {:type => 'notice',
+                    :message => t.notice.logged_in_as(tgt.username)}
+        return render @template_engine, :loggedin
+      elsif tgt_error
+        $LOG.debug("Ticket granting cookie could not be validated: #{tgt_error}")
+      elsif !tgt
+        $LOG.debug("No ticket granting ticket detected.")
+      end
+
       begin
         if @service
           if @renew
@@ -816,8 +833,9 @@ module CASServer
         else
           guessed_login_uri = nil
         end
+        @form_action = params['submitToURI'] || guessed_uri, @service
 
-        @form_action = params['submitToURI'] || guessed_login_uri
+      #  @form_action = params['submitToURI'] || guessed_login_uri
 
         if @form_action
           render @template_engine, :signup_form
@@ -1028,8 +1046,8 @@ module CASServer
         puts @message.inspect
         status 401
       end
-      @form_action = params['submitToURI'] || guessed_uri
-      render @template_engine, :signup
+      @form_action = params['submitToURI'] || guessed_uri, @service
+      render @template_engine, :created_account
     end
 
     def generate_form_action_with_service(uri, service)
