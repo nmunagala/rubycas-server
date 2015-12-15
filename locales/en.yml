@@ -37,8 +37,8 @@ notice:
 
 label:
   account: "Account"
-  create_account: "Create Account"
-  create_an_account: "Create account"
+  create_account: "Create account"
+  create_an_account: "Create New Account"
   privacy_policy: "Privacy Policy"
   username: "Nickname"
   password: "Password"
