@@ -1,27 +1,33 @@
 <%# coding: UTF-8 -%>
 
 <form method="post" action="<%= @form_action || "signup" %>" id="signup-form">
-  <div class="form-title"><%= t.label.create_an_account %></div>
+  <div class="jnc-cas-title"><%= t.label.create_an_account %></div>
 
-  <div class="form-inputs-block">
-    <div class="form-input-line"><input class="form-input" type="email" id="username" name="username" placeholder="<%= t.placeholder.email %>" value="<%=escape_html @username %>"/>
-    </div>
-    <div class="form-input-line"><input class="form-input" type="email" id="username2" name="username2" placeholder="<%= t.placeholder.confirm_email %>" value="<%=escape_html @username2 %>"/>
-    </div>
-    <div class="form-input-line"><input class="form-input" type="text" id="nickname" name="nickname" placeholder="<%= t.placeholder.nickname %>" value="<%=escape_html @nickname %>"/></div>
-    <div class="form-input-line">
-      <input class="form-input" type="password" id="password" id="password" name="password" placeholder="<%= t.placeholder.password %>" value="<%=escape_html @password %>"/></div>
+  <div class="jnc-cas-field">
+    <div class="jnc-cas-field-title"><%= t.placeholder.email %></div>
+    <div class="jnc-form-control jnc-cas-field-input-line"><input class="jnc-form-control jnc-cas-field-input" type="email" id="username" name="username" value="<%=escape_html @username %>"/></div>
+    <div class="jnc-cas-field-title"><%= t.placeholder.nickname %></div>
+    <div class="jnc-form-control jnc-cas-field-input-line"><input class="jnc-form-control jnc-cas-field-input" type="text" id="nickname" name="nickname" value="<%=escape_html @nickname %>"/></div>
+    <div class="jnc-cas-field-title"><%= t.placeholder.password %></div>
+    <div class="jnc-form-control jnc-cas-field-input-line">
+      <input class="jnc-form-control jnc-cas-field-input" type="password" id="password" id="password" name="password" value="<%=escape_html @password %>"/></div>
     <div class="reg-hide-pass">
       <label><input type="checkbox" onclick="showPassword();"/> <%= t.label.show_password %></label></div>
   </div>
-
-  <div class="reg-agree"><%= t.notice.privacy_policy %> <span id="privacy_policy"><a href="<%= privacy_policy_link%>" target="_blank"><%= t.label.privacy_policy %></a></span></div>
+  <div class="jnc-cas-field">
+    <div class="jnc-cas-field-link jnc-cas-field-link-small jnc-text-center"><a href="<%= privacy_policy_link%>" class="jnc-link"><%= t.label.privacy_policy %></a></div>
+  </div>
 
   <input type="hidden" id="lt" name="lt" value="<%= escape_html @lt %>"/>
   <input type="hidden" id="service" name="service" value="<%= escape_html @service %>"/>
 
-  <div class="form-button-block">
-    <button type="submit" class="form-button button-secondary-style"><%= t.label.create_account%></button>
+
+  <div class="jnc-cas-footer">
+    <div class="jnc-grid jnc-grid-row">
+      <div class="jnc-grid-col jnc-grid-col-6">
+        <a href="#" class="jnc-simple-btn jnc-simple-btn-light-blue jnc-cas-btn"><%= t.label.create_account%></a>
+      </div>
+    </div>
   </div>
 </form>
 <script>
