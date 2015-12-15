@@ -1017,7 +1017,7 @@ module CASServer
           $LOG.warn("Impossibile to create account for user '#{@username}'")
           @message = {:type => 'mistake', :message => t.error.incorrect_username_or_password}
 
-          $LOG.warn("Rendering....#{@template_engine},  #{:created_account}")
+          $LOG.warn("Rendering....#{@template_engine},  #{:signup}")
           status 401
         end
       rescue CASServer::AuthenticatorError => e
