@@ -70,4 +70,4 @@ email:
   reset_password_link_before: "\nSomeone, hopefully you, has requested that we send you a link to change your password.\nHere's the link:"
   reset_password_link_after: "\nIf you didn't request this, ignore this email, and don't worry - your password hasn't been changed."
   forgot_pwd_before: "An email to reset your password was sent to the address you provided. Please check your email account."
-  forgot_pwd_cancel: "or go back to"
+  forgot_pwd_cancel: "back to Login"
