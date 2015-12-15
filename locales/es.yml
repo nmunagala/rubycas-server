@@ -50,6 +50,7 @@ label:
   new_password: "Seleccionar una nueva contraseña"
   hide_password: "Ocultar contraseña"
   privacy_policy: "Política de Privacidad"
+  account_created: "You have successfully created an account"
 
 placeholder:
   new_password: "Nueva contraseña"

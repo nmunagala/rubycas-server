@@ -46,6 +46,7 @@ label:
   new_password: "Wählen Sie ein neues Passwort"
   hide_password: "Kennwort ausblenden"
   privacy_policy: "Datenschutzbestimmungen zu"
+  account_created: "You have successfully created an account"
 
 placeholder:
   new_password: "Neues Passwort"

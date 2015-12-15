@@ -50,6 +50,7 @@ label:
   reset_sent: "Reset link sent"
   new_password: "Select a new password"
   hide_password: "Hide password"
+  account_created: "You have successfully created an account"
 
 placeholder:
   new_password: "New password"
@@ -70,4 +71,4 @@ email:
   reset_password_link_before: "\nSomeone, hopefully you, has requested that we send you a link to change your password.\nHere's the link:"
   reset_password_link_after: "\nIf you didn't request this, ignore this email, and don't worry - your password hasn't been changed."
   forgot_pwd_before: "An email to reset your password was sent to the address you provided. Please check your email account."
-  forgot_pwd_cancel: "or go back to"
+  forgot_pwd_cancel: "back to Login"
