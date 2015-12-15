@@ -850,7 +850,7 @@ module CASServer
     def raise_if_user_not_configured(credentials)
       @nickname = credentials[:nickname]
       @email = credentials[:username]
-      @email2 = credentials[:username2]
+      @email2 = credentials[:username]
       @password = credentials[:password]
       raise_if_nickname_blank(@nickname)
       @username_error = {:type => 'mistake', :message => t.error.username_blank, :code => 'BLANK', :field => 'email'} if is_empty? @email
@@ -869,7 +869,7 @@ module CASServer
 
     def raise_if_username_different(credentials)
       email = credentials[:username]
-      email2 = credentials[:username2]
+      email2 = credentials[:username]
       @username_error = {:type => 'mistake', :message => t.error.email_diff} if email != email2
     end
 
@@ -929,7 +929,7 @@ module CASServer
       # 2.2.2 (required)
       @nickname = params['nickname']
       @username = params['username']
-      @username2 = params['username2']
+      @username2 = params['username']
       @password = params['password']
       @lt = params['lt']
 
