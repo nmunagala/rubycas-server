@@ -3,9 +3,7 @@
     <%= escape_html @message[:message] %>
 </div>
 <% end %>
-<div id="login-main-content">
-</div>
 <div class="login-form">
     <%= erb(:_login_form, :layout => false) %>
-    <div class="login-reg-link-block"><%= t.notice.want_login%><br><a href="<%= get_path %>/signup"><%= t.label.create_account%></a></div>
+    <div class="login-reg-link-block"><%= t.notice.want_login%><br><a href="<%= get_signup_path(@service) %>"><%= t.label.create_account%></a></div>
 </div>
