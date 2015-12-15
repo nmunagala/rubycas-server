@@ -47,6 +47,7 @@ label:
   show_password: "Affichez mot de passe"
   login: "Connexion"
   logout: "Logout"
+  continue: "Continue"
   reset_sent: "Reset link sent"
   new_password: "Select a new password"
   hide_password: "Hide password"

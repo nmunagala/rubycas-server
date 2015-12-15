@@ -47,6 +47,7 @@ label:
   show_password: "Mostra password"
   login: "Accedi"
   logout: "Esci"
+  continue: "Continua"
   reset_sent: "Il link per cambiare la password è stato mandato"
   new_password: "Scegli una nuova password"
   hide_password: "Nascondi la password"
