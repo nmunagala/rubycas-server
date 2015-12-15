@@ -3,8 +3,5 @@
     <%= escape_html @message[:message] %>
 </div>
 <% end %>
-<div class="jnc-cas-title">
-    <%= erb(:_signup_form, :layout => false) %>
+<%= erb(:_signup_form, :layout => false) %>
 
-    <div class="login-reg-link-block"><%= t.email.forgot_pwd_cancel%> <a href="<%= get_path %>"><%= t.label.login %></a></div>
-</div>

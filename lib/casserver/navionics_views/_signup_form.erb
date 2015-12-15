@@ -5,14 +5,18 @@
 
   <div class="jnc-cas-field">
     <div class="jnc-cas-field-title"><%= t.placeholder.email %></div>
-    <div class="jnc-form-control jnc-cas-field-input-line"><input class="jnc-form-control jnc-cas-field-input" type="email" id="username" name="username" value="<%=escape_html @username %>"/></div>
+      <input id="username" type="email" class="jnc-form-control jnc-cas-field-input" value="<%=escape_html @username %>">
+  </div>
+  <div class="jnc-cas-field">
     <div class="jnc-cas-field-title"><%= t.placeholder.nickname %></div>
-    <div class="jnc-form-control jnc-cas-field-input-line"><input class="jnc-form-control jnc-cas-field-input" type="text" id="nickname" name="nickname" value="<%=escape_html @nickname %>"/></div>
+      <input id="nickname" type="text" class="jnc-form-control jnc-cas-field-input" value="<%=escape_html @nickname %>">
+  </div>
+  <div class="jnc-cas-field">
     <div class="jnc-cas-field-title"><%= t.placeholder.password %></div>
-    <div class="jnc-form-control jnc-cas-field-input-line">
-      <input class="jnc-form-control jnc-cas-field-input" type="password" id="password" id="password" name="password" value="<%=escape_html @password %>"/></div>
+      <input id="password" type="password" class="jnc-form-control jnc-cas-field-input" value="<%=escape_html @password %>">
     <div class="reg-hide-pass">
-      <label><input type="checkbox" onclick="showPassword();"/> <%= t.label.show_password %></label></div>
+      <label><input type="checkbox" onclick="showPassword();"/> <%= t.label.show_password %></label>
+    </div>
   </div>
   <div class="jnc-cas-field">
     <div class="jnc-cas-field-link jnc-cas-field-link-small jnc-text-center"><a href="<%= privacy_policy_link%>" class="jnc-link"><%= t.label.privacy_policy %></a></div>
@@ -21,14 +25,14 @@
   <input type="hidden" id="lt" name="lt" value="<%= escape_html @lt %>"/>
   <input type="hidden" id="service" name="service" value="<%= escape_html @service %>"/>
 
-
   <div class="jnc-cas-footer">
     <div class="jnc-grid jnc-grid-row">
       <div class="jnc-grid-col jnc-grid-col-6">
-        <a href="#" class="jnc-simple-btn jnc-simple-btn-light-blue jnc-cas-btn"><%= t.label.create_account%></a>
+        <a href="#"  onclick="document.forms[0].submit();return false;" class="jnc-simple-btn jnc-simple-btn-light-blue jnc-cas-btn"><%= t.label.create_account%></a>
       </div>
     </div>
   </div>
+  <div class="login-reg-link-block"><%= t.email.forgot_pwd_cancel%> <a href="<%= get_path %>"><%= t.label.login %></a></div>
 </form>
 <script>
     function showPassword() {
