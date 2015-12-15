@@ -16,9 +16,9 @@ error:
   user_already_exists: "Email address has already been taken"
   nickname_already_exists: "Nickname has already been taken"
   email_diff: "Email confirmation does not match Email address"
-  username_not_valid: "Email address does not look like an email"
-  nickname_not_valid: "Nickname should not contain '&', '?', '/', '\', ' '"
-  pwd_not_valid: "Password should not contain '&', '?', '/', '\', ' '"
+  username_not_valid: "does not look like an email"
+  nickname_not_valid: "should not contain '&', '?', '/', '\\', ' '"
+  pwd_not_valid: "should not contain '&', '?', '/', '\\', ' '"
   pwd_too_short: "Password is too short (minimum is 6 characters)"
   no_user_found: "No user found with this email"
 
@@ -29,7 +29,7 @@ notice:
   success_logged_in: "You have successfully logged in."
   please_wait: "Please wait..."
   instructions_sent: "Click on the link we just sent you to your email account to select a new password and automatically login."
-  reset_pwd_success: "Password successfully changed"
+  reset_pwd_success: "Your password has been successfully changed!"
   want_logout: "Tired of being here?"
   want_login: "Don't have an account yet?"
   use_navionics: "Use a <strong>Navionics account</strong> to sync data across devices and manage products"
@@ -37,15 +37,15 @@ notice:
 
 label:
   account: "Account"
-  create_account: "Create account"
-  create_an_account: "Create an account"
-  privacy_policy: "Privacy policy"
-  username: "Username"
+  create_account: "Create Account"
+  create_an_account: "Create account"
+  privacy_policy: "Privacy Policy"
+  username: "Nickname"
   password: "Password"
   central_login_title: "Central Login"
-  forgot_password: "Forgot password"
+  forgot_password: "Forgot password?"
   show_password: "Show password"
-  login: "Login"
+  login: "Log in"
   logout: "Logout"
   reset_sent: "Reset link sent"
   new_password: "Select a new password"
@@ -53,23 +53,21 @@ label:
 
 placeholder:
   new_password: "New password"
-  email: "Email (username)"
-  confirm_email: "Confirm Email"
+  email: "Email address"
+  confirm_email: "Confirm email"
   nickname: "Nickname"
   password: "Password"
 
 button:
-  login: "Login"
+  login: "Log in"
   send_instructions: "Send instruction"
-  reset_password: "Reset password"
+  reset_password: "Change password"
   save: "Save"
-  close: "Close"
+  close: "Cancel"
 
 email:
-  reset_password: "Reset password request"
-  reset_password_link_before: "Someone, hopefully you, has requested that we send you a link to change your password.\n
-  Here's the link:\n"
-  reset_password_link_after: "\nIf you didn't request this, ignore this email, and don't worry - your password hasn't
-  been changed."
-  forgot_pwd_before: "We will send you an email with a link to reset your password"
-  forgot_pwd_cancel: "Or go back to"
+  reset_password: Change your password
+  reset_password_link_before: "\nSomeone, hopefully you, has requested that we send you a link to change your password.\nHere's the link:"
+  reset_password_link_after: "\nIf you didn't request this, ignore this email, and don't worry - your password hasn't been changed."
+  forgot_pwd_before: "An email to reset your password was sent to the address you provided. Please check your email account."
+  forgot_pwd_cancel: "or go back to"

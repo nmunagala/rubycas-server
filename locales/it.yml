@@ -16,9 +16,9 @@ error:
   user_already_exists: "L'indirizzo email specificato esiste già"
   nickname_already_exists: "Il nickname specificato esiste già"
   email_diff: "Email confirmation does not match Email address"
-  username_not_valid: "Email address does not look like an email"
-  nickname_not_valid: "IL nickname nondeve contenere i caratteri '&', '?', '/', '\', ' '"
-  pwd_not_valid: "La password non deve contenere i caratteri '&', '?', '/', '\', ' '"
+  username_not_valid: "does not look like an email"
+  nickname_not_valid: "non può contenere '&', '?', '/', '\\', ' '"
+  pwd_not_valid: "non può contenere '&', '?', '/', '\\', ' '"
   pwd_too_short: "La password è troppo corta (minimo 6 caratteri)"
   no_user_found: "Non esiste un utente associato a questa email"
 
@@ -29,7 +29,7 @@ notice:
   success_logged_in: "Accesso eseguito con successo."
   please_wait: "Attendere prego..."
   instructions_sent: "Apri il link che ti abbiamo mandato per email per scegliere una nuova password e accedere automaticamente al sistema."
-  reset_pwd_success: "Password cambiata con successo"
+  reset_pwd_success: "Password cambiata con successo."
   want_logout: "Vuoi disconnetterti?"
   want_login: "Non hai ancora un account?"
   use_navionics: "Usa l'<strong>account Navionics</strong> per sincronizzare i dati tra i tuoi device e gestire i prodotti."
@@ -38,12 +38,12 @@ notice:
 label:
   account: "Account"
   create_account: "Crea account"
-  create_an_account: "Crea un account"
-  privacy_policy: "Privacy policy"
+  create_an_account: "Crea account"
+  privacy_policy: "Informativa sulla Privacy"
   username: "Nome utente"
   password: "Password"
   central_login_title: "Accesso centralizzato"
-  forgot_password: "Password dimenticata"
+  forgot_password: "Hai dimenticato la Password?"
   show_password: "Mostra password"
   login: "Accedi"
   logout: "Esci"
@@ -53,23 +53,21 @@ label:
 
 placeholder:
   new_password: "Nuova password"
-  email: "Email (nome utente)"
+  email: "Indirizzo email"
   confirm_email: "Conferma email"
   nickname: "Nickname"
   password: "Password"
 
 button:
-  login: "ACCEDI"
+  login: "Accedi"
   send_instructions: "Manda le istruzioni"
-  reset_password: "Cambia la password"
+  reset_password: "Cambia password"
   save: "Salva"
-  close: "Chiudi"
+  close: "Annulla"
 
 email:
-  reset_password: "Richiesta di cambio password"
-  reset_password_link_before: "Qualcuno ha richesto che ti sia inviato un collegamento per cambiare la password.\n
-  Ecco il collegamento:\n"
-  reset_password_link_after: "\nSe non sei stato tu a richiederla, ignora questa email e non preoccuparti - la tua
-  password non è stata cambiata."
-  forgot_pwd_before: "Ti verrà inviata un'email con un collegamento con cui potrai fare il cambio della tua password"
-  forgot_pwd_cancel: "O torna a"
+  reset_password: Cambia password
+  reset_password_link_before: "\nQualcuno, crediamo tu, ci ha richiesto il link per cambiare la password.\nEcco il link:"
+  reset_password_link_after: "\nSe non hai inviato tu la richiesta, ignora questa email. E non preoccuparti, la tua password non è stata modificata."
+  forgot_pwd_before: "Riceverai un'email per impostare una nuova password."
+  forgot_pwd_cancel: "o ritorna all'"
