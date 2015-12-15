@@ -42,7 +42,6 @@ label:
   privacy_policy: "Privacy policy"
   username: "Username"
   password: "Password"
-  central_login_title: "Central Login"
   forgot_password: "Forgot password"
   show_password: "Show password"
   login: "Login"
