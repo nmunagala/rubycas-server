@@ -50,6 +50,7 @@ label:
   reset_sent: "Il link per cambiare la password è stato mandato"
   new_password: "Scegli una nuova password"
   hide_password: "Nascondi la password"
+  account_created: "You have successfully created an account"
 
 placeholder:
   new_password: "Nuova password"
