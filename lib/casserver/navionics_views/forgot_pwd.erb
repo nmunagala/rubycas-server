@@ -1,7 +1,6 @@
-<div id="site-header"></div>
 <% if @message %>
 <div class="messagebox <%= escape_html @message[:type] %>">
     <%= escape_html @message[:message] %>
 </div>
 <% end %>
-<%= erb(:_forgot_pwd_form, :layout => false) %>
+  <%= erb(:_forgot_pwd_form, :layout => false) %>
