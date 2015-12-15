@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><bound box="6990743,-469647,7010264,-450078"><create><node lat="6992039" lon="-457574" timestamp="2013-02-03T11:15:02Z" username="aussi"><tag k="OBJCOD" v="psgiio"/><tag k="catser" v="3"/><tag k="zipcde" v="LL57 4HN"/><tag k="websit" v="www.dickies.co.uk"/><tag k="telnum" v="+44 1248 363400"/><tag k="strnam" v="Port Penrhyn"/><tag k="stanam" v="Wales"/><tag k="county" v="Wales"/><tag k="citynm" v="Bangor"/><tag k="brands" v="Navionics"/><tag k="OBJNAM" v="A M Dickie &amp; Sons"/><tag k="NATION" v="GB"/><tag k="INFORM" v=" "/>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            
+            
+        </node>
+</create><modify><node lat="6992178" lon="-461604" timestamp="2014-12-03T21:36:49Z" username="October"><tag k="OBJCOD" v="BOYSPP"/><tag k="OBJNAM" v="Beaumaris buoy"/><tag k="INFORM" v=""/>
+            
+            
+            
+        
+            
+            
+        
+            
+            
+        </node>
+</modify><delete><node lat="6992198" lon="-458901" timestamp="2010-12-10T17:36:35Z"><tag k="OBJCOD" v="psgiio"/><tag k="catser" v="3"/>
+            
+            
+        </node>
+</delete><delete><node lat="6992365" lon="-458953" timestamp="2010-12-10T17:35:38Z"><tag k="OBJCOD" v="psgiio"/><tag k="catser" v="22"/>
+            
+            
+        </node>
+</delete><delete><node lat="6992365" lon="-458953" timestamp="2013-01-29T19:30:06Z" username="aussi"><tag k="OBJCOD" v="psgiio"/><tag k="catser" v="41"/>
+            
+            
+        </node>
+</delete><delete><node lat="6992365" lon="-458953" timestamp="2013-01-29T19:30:16Z" username="aussi"><tag k="OBJCOD" v="psgiio"/><tag k="catser" v="3"/>
+            
+            
+        </node>
+</delete><create><node lat="6992367" lon="-457543" timestamp="2013-02-03T11:12:35Z" username="aussi"><tag k="OBJCOD" v="psgiio"/><tag k="catser" v="22"/><tag k="zipcde" v="LL57 4HN"/><tag k="websit" v="http://www.dickies.co.uk"/><tag k="telnum" v="+44 1248 363400"/><tag k="strnam" v="Port Penrhyn"/><tag k="stanam" v="Wales"/><tag k="e_mail" v="boatsales@dickies.co.uk"/><tag k="county" v="Wales"/><tag k="citynm" v="Bangor"/><tag k="brands" v="Beneteau"/><tag k="OBJNAM" v="Dickies Yacht Sales Ll North Wales"/><tag k="NATION" v="GB"/><tag k="INFORM" v=" "/>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        
+            
+            
+            
+            
+            
+            
+        </node>
+</create><create><node lat="6992560" lon="-458448" timestamp="2012-01-16T13:24:15Z" average_rating="0" rating_count="0" reviews_count="0" username="cloughie"><tag k="OBJCOD" v="SMACRA"/><tag k="ofsety" v="0"/><tag k="ofsetx" v="0"/><tag k="monvhf" v="9"/><tag k="TELNUM" v="+44 1248 35 25 25"/><tag k="SRVLST" v="168;36;31;47;126"/><tag k="OBJNAM" v="Bangor"/><tag k="CATSMC" v="1"/>
+            
+            
+            
+            
+            
+            
+            
+            
+        </node>
+</create><modify><node lat="6993938" lon="-458009" timestamp="2014-12-02T08:13:41Z" average_rating="0" rating_count="0" reviews_count="0" username="starman5"><tag k="OBJCOD" v="SMACRA"/><tag k="ofsety" v="-386"/><tag k="ofsetx" v="-242"/><tag k="CATSMC" v="1"/>
+            
+            
+            
+            
+        </node>
+</modify><create><node lat="6996210" lon="-456865" timestamp="2013-11-23T02:43:38Z" username="Carl_riley"><tag k="OBJCOD" v="psgiio"/><tag k="catser" v="3"/><tag k="zipcde" v=" "/><tag k="websit" v=" "/><tag k="telnum" v=" "/><tag k="strnam" v=" "/><tag k="citynm" v=" "/><tag k="OBJNAM" v="ABC Boat Chandlers Repairs and Storage."/><tag k="INFORM" v=" "/>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        </node>
+</create><delete><node lat="6997432" lon="-454967" timestamp="2012-09-17T20:50:28Z" username="jerry098"><tag k="OBJCOD" v="SMACRA"/><tag k="ofsety" v="362"/><tag k="ofsetx" v="-1208"/><tag k="numvhf" v="16"/><tag k="SRVLST" v=""/><tag k="OBJNAM" v="Menai Bridge - harbourmaster"/><tag k="CATSMC" v="1"/>
+            
+            
+            
+            
+            
+            
+            
+        </node>
+</delete><create><node lat="6997557" lon="-455635" timestamp="2014-01-26T00:03:51Z" average_rating="5" rating_count="1" reviews_count="1" username="cloughie"><tag k="OBJCOD" v="ACHBRT"/><tag k="OBJNAM" v="Derek and Jean"/><tag k="INFORM" v="Live here."/>
+            
+            
+            
+        </node>
+</create><create><node lat="7000558" lon="-450080" timestamp="2015-05-17T08:25:29Z" username="cmalbany"><tag k="OBJCOD" v="BCNLAT"/><tag k="OBJNAM" v="Swatch 4"/><tag k="COLOUR" v="4"/><tag k="BCNSHP" v="5"/></node>
+</create><modify><node lat="7001913" lon="-451763" timestamp="2015-07-18T07:09:50Z" username="Ralphb"><tag k="OBJCOD" v="BOYLAT"/></node>
+</modify><create><node lat="7004671" lon="-450352" timestamp="2014-09-06T13:54:29Z" username="RToffshore"><tag k="OBJCOD" v="WRECKS"/><tag k="VALSOU" v=" "/><tag k="OBJNAM" v="hoveringham"/><tag k="INFORM" v="dredger"/><tag k="DUNITS" v="3"/><tag k="CATWRK" v="5"/>
+            
+            
+            
+            
+            
+            
+        </node>
+</create><delete><node lat="7005181" lon="-468426" timestamp="2014-04-07T14:49:14Z" username="Apriliajim"><tag k="OBJCOD" v="WRECKS"/>
+            
+        </node>
+</delete></bound>

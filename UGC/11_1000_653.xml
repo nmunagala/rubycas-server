@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><bound box="7205490,-469647,7225014,-450078"><create><node lat="7216741" lon="-454413" timestamp="2012-03-26T22:40:06Z" username="Mark_C"><tag k="OBJCOD" v="BOYCAR"/><tag k="OBJNAM" v="King William Banks"/><tag k="INFORM" v="Q(3) W 10s"/><tag k="COLOUR" v="2;6;2"/><tag k="CATCAM" v="2"/><tag k="BOYSHP" v="4"/>
+            
+            
+            
+            
+            
+            
+            <slave>
+                <tag k="OBJCOD" v="TOPMAR"/>
+                <tag k="TOPSHP" v="11"/>
+            </slave>
+            <slave>
+                <tag k="OBJCOD" v="LIGHTS"/>
+                <tag k="COLOUR" v="12"/>
+            </slave>
+        </node>
+</create></bound>
