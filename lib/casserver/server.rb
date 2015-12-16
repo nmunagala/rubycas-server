@@ -1489,6 +1489,8 @@ module CASServer
     end
 
     get "#{uri_path}/passwords/:rpt" do
+      $LOG.warn "passwords'"
+
       @ticket = params[:rpt]
       @service = params[:service]
       error = false
@@ -1504,7 +1506,7 @@ module CASServer
 
       @form_action = generate_form_action_with_service(params['submitToURI'] || guessed_uri, @service)
 
-      render @template_engine, :passwords
+      return render @template_engine, :passwords
     end
 
     post "#{uri_path}/passwords/:rpt" do
