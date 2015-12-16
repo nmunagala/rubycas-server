@@ -1046,8 +1046,12 @@ module CASServer
         puts @message.inspect
         status 401
       end
-      @form_action = params['submitToURI'] || guessed_uri, @service
-      render @template_engine, :created_account
+      #@form_action = params['submitToURI'] || (guessed_uri, @service)
+      if @authenticated
+        render(@template_engine, :created_account)
+      else
+        render(@template_engine, :signup)
+      end
     end
 
     def generate_form_action_with_service(uri, service)
