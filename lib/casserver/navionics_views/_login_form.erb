@@ -15,7 +15,7 @@
    <div class="jnc-cas-footer">
      <div class="jnc-grid jnc-grid-row">
        <div class="jnc-grid-col jnc-grid-col-6">
-         <a href="/cas/signup" class="jnc-simple-btn jnc-simple-btn-light-blue jnc-cas-btn"><%= t.label.create_account %></a>
+         <a href="<%= get_signup_path @service %>" class="jnc-simple-btn jnc-simple-btn-light-blue jnc-cas-btn"><%= t.label.create_account %></a>
        </div>
        <div class="jnc-grid-col jnc-grid-col-6">
          <a href="#" onclick="document.forms[0].submit();return false;" class="jnc-simple-btn jnc-simple-btn-light-blue jnc-cas-btn"><%= t.button.login %></a>
