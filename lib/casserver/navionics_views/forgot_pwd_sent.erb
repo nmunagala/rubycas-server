@@ -3,14 +3,11 @@
     <%= escape_html @message[:message] %>
 </div>
 <% end %>
-<div class="login-form" id="sent-block">
-    <div class="form-title"><%= t.label.reset_sent %></div>
-
-    <div class="form-text"><%= t.notice.instructions_sent %></div>
+  <div class="jnc-cas-title"><%= t.label.reset_sent %></div>
+  <div class="jnc-cas-descr"><%= t.notice.instructions_sent %></div>
 
     <div class="form-button-block" id="sent-close-block">
       <form method="get" action="<%= @form_action || "login" %>" id="pwd-sent">
-        <button type="submit" class="form-button button-secondary-style" id="sent-close"><%= t.button.close %></button>
+        <a href="#" onclick="document.forms[0].submit();return false;" id="sent-close" class="jnc-simple-btn jnc-simple-btn-light-blue jnc-cas-btn"><%= t.button.close %></a>
       </form>
     </div>
-</div>
