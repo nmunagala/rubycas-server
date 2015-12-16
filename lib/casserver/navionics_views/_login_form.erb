@@ -18,7 +18,7 @@
          <a href="<%= get_signup_path @service %>" class="jnc-simple-btn jnc-simple-btn-light-blue jnc-cas-btn"><%= t.label.create_account %></a>
        </div>
        <div class="jnc-grid-col jnc-grid-col-6">
-         <a href="#" onclick="document.forms[0].submit();return false;" class="jnc-simple-btn jnc-simple-btn-light-blue jnc-cas-btn"><%= t.button.login %></a>
+         <a id="login_btn" input type="submit" href="#" onclick="document.forms[0].submit();return false;" class="jnc-simple-btn jnc-simple-btn-light-blue jnc-cas-btn"><%= t.button.login %></a>
        </div>
      </div>
    </div>
@@ -28,3 +28,4 @@
      <div class="jnc-cas-field-link jnc-cas-field-link-small jnc-text-center"></div>
    </div>
  </form>
+

@@ -78,6 +78,13 @@
             $footer.css('margin-top', -footerHeight);
             $contentInner.css('padding-bottom', footerHeight);
         });
+
+        $(document).on("keyup", function (event) {
+          if(event.keyCode == 13){
+            login_btn.click();
+          }
+        });
+
     });
 
     function showPassword() {
