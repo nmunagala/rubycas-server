@@ -1088,7 +1088,7 @@ module CASServer
 
       @ticket.strip! if @ticket
       @nickname.strip! if @nickname
-      @id = @id.strip!.to_i if @id
+      @id.strip! if @id
       @token.strip! if @token
       @email.strip! if @email
 
