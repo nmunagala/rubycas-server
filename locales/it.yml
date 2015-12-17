@@ -36,6 +36,7 @@ notice:
   privacy_policy: "By clicking Create Account you agree to our"
 
 label:
+  email: "Email"
   account: "Account"
   create_account: "Crea account"
   create_an_account: "Crea un Nuovo Account"

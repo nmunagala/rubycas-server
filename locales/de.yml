@@ -32,6 +32,7 @@ notice:
   privacy_policy: "Mit einem Klick erstellen stimmen Sie unseren"
 
 label:
+  email: "Email"
   account: "Konto"
   create_account: "Konto erstellen"
   create_an_account: "Konto erstellen"
