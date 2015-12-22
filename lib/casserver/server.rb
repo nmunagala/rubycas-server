@@ -1205,7 +1205,7 @@ module CASServer
         status 401
       end
 
-      message
+      message.to_json
     end
 
     post "#{uri_path}/rest_signup" do
